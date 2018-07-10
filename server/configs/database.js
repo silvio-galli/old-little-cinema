@@ -1,7 +1,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const dbName = 'fullstack-country';
+const dbName = 'old-little-cinema';
 const mongoUri = process.env.MONGODB_URI || `mongodb://localhost/${dbName}`;
 
 // connect to the database
