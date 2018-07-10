@@ -13,6 +13,7 @@ const config = require("./configs/index");
 var User = require('./models/user');
 var authRoutes = require('./routes/auth');
 var countriesRoutes = require('./routes/countries');
+var moviesRoutes = require('./routes/movies');
 var usersRoutes = require('./routes/users');
 
 require('./configs/database');
@@ -21,7 +22,7 @@ require('./configs/cloudinary');
 
 const app = express();
 
-app.use(cors());
+app.use( cors() );
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -64,6 +65,7 @@ passport.use(strategy);
 app.use('/api', authRoutes);
 app.use('/api/countries', countriesRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/movies', moviesRoutes);
 
 
 // For any routes that starts with "/api", catch 404 and forward to error handler
