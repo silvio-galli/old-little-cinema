@@ -7,7 +7,9 @@ const movieSchema = new mongoose.Schema({
     required: [true, 'The movie title is required']
   },
   originalTitle: String ,
-  director: String,
+  director: {
+    type: [ String ]
+  },
   plot: String,
   poster: String,
   cast: {

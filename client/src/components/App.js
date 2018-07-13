@@ -1,51 +1,82 @@
 import React, { Component } from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
 import Home from './Home';
-import Countries from './Countries';
-import AddCountry from './AddCountry';
-import Secret from './Secret';
+// import Countries from './Countries';
+// import AddCountry from './AddCountry';
+import Admin from './Admin';
 import Login from './Login';
 import Signup from './Signup';
 import api from '../api';
 import logo from '../logo.svg';
 import './App.css';
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink, Container } from 'reactstrap';
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      countries: []
+      isOpen: false
     }
     api.loadUser();
   }
-
+  
   handleLogoutClick(e) {
     api.logout()
   }
-
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+  
   render() {                
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React Countries</h1>
-          <Link to="/">Home</Link> 
-          <Link to="/countries">Countries</Link> 
-          <Link to="/add-country">Add country</Link> 
-          {!api.isLoggedIn() && <Link to="/signup">Signup</Link> }
-          {!api.isLoggedIn() && <Link to="/login">Login</Link> }
-          {api.isLoggedIn() && <Link to="/" onClick={(e) => this.handleLogoutClick(e)}>Logout</Link> }
-          <Link to="/secret">Secret</Link> 
-        </header>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/countries" component={Countries} />
-          <Route path="/add-country" component={AddCountry} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/login" component={Login} />
-          <Route path="/secret" component={Secret} />
-          <Route render={() => <h2>404</h2>} />
-        </Switch>        
+      <Navbar color="light" light expand="md">
+          <NavbarBrand href="/">
+          <img src={logo} className="App-logo" alt="logo" style={{height: 35}} />
+          Old Little Cinema
+          </NavbarBrand>
+          <NavbarToggler onClick={this.toggle.bind(this)} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/">Home</NavLink>
+              </NavItem>
+              <NavItem>
+                {!api.isLoggedIn() && <NavLink href="/signup">Signup</NavLink> }
+              </NavItem>
+              <NavItem>
+                {!api.isLoggedIn() && <NavLink href="/login">Login</NavLink> }
+              </NavItem>
+              <NavItem>
+                {api.isLoggedIn() && <NavLink href="/" onClick={(e) => this.handleLogoutClick(e)}>Logout</NavLink> }
+              </NavItem>
+              <NavItem>
+                <NavLink href="/admin">Admin</NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+        <Container>
+
+          <Switch>
+            <Route path="/" exact component={Home} />
+            {/* <Route path="/countries" component={Countries} /> */}
+            {/* <Route path="/add-country" component={AddCountry} /> */}
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" component={Login} />
+            <Route path="/admin" component={Admin} />
+            <Route render={() => <h2>404</h2>} />
+          </Switch>        
+        </Container>
       </div>
     );
   }

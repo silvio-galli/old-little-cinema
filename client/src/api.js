@@ -12,16 +12,16 @@ const errHandler = err => {
 export default {
   service: service,
   
-  getCountries() {
+  getMovies() {
     return service
-      .get('/countries')
+      .get('/movies')
       .then(res => res.data)
       .catch(errHandler);
   },
 
-  postCountries(data) {
+  postMovies(data) {
     return service
-      .post('/countries', data)
+      .post('/movies', data)
       .then(res => res.data)
       .catch(errHandler);
   },
@@ -65,7 +65,7 @@ export default {
     if (!userData) return false;
     const user = JSON.parse(userData);
     if (user.token && user.name) {
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
+      // axios.defaults.headers.common['Authorization'] = 'Bearer ' + user.token;
       return user;
     }
     return false;
