@@ -39,11 +39,13 @@ class Movie extends Component {
   }
 
   addMovie() {
+    this.props.onAdd(this.state.movieDetails);
     api.postMovies( this.state.movieDetails )
     .then( newLocalMovie => {
       console.log( "New Movie added to local database", newLocalMovie );
     })
     .catch( err => { throw err })
+
   }
 
   render() {
@@ -52,7 +54,7 @@ class Movie extends Component {
         <img src={`https://image.tmdb.org/t/p/w500${this.props.movie.poster_path}`} alt="" />
         <br />
 
-        { this.props.tmdb && <Button onClick={this.addMovie.bind(this)} color="success" className="mt-2" type="submit">Add Movie</Button> }
+        { <Button onClick={this.addMovie.bind(this)} color="success" className="mt-2" type="submit">Add Movie</Button> }
         <h6><b>Title:</b> { this.props.movie.title }</h6>
         {
           this.state.movieDetails  && <MovieDetails details={this.state.movieDetails} />

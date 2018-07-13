@@ -42,6 +42,12 @@ class Admin extends Component {
     .catch( err => { throw err })
   }
 
+  handleAddMovie( newMovie ) {
+    this.setState({
+      localMovies: [...this.state.localMovies, newMovie]
+    })
+  }
+
   render() {
     console.log("SEARCH FOR -->", this.state.searchFor)               
     return (
@@ -53,7 +59,7 @@ class Admin extends Component {
             <h2>tmdb.org</h2>
             {/* call the movie component for every object in the list */}
             { 
-              this.state.movieDbMovies.map( movie => <Movie key={movie.id} movie={movie}  /> )
+              this.state.movieDbMovies.map( movie => <Movie key={movie.id} movie={movie} onAdd={this.handleAddMovie.bind(this)}  /> )
             }
           </div>
           <div className="col-md-4 local-db-list">
