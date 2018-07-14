@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import movieDbApi from '../movieDbApi';
+import tmdbApi from '../tmdbApi';
 import MovieDetails from './MovieDetails';
 import api from '../api';
 import { Button } from 'reactstrap';
+import loading from '../animated-loading.gif';
 
 class Movie extends Component {
   constructor(props){
@@ -16,22 +17,24 @@ class Movie extends Component {
   // to get the details of all movies
   // uncomment this below
   componentDidMount() {
-    movieDbApi.getMovieDetails(this.state.movieId)
+    tmdbApi.getMovieDetails(this.state.movieId)
     .then(response => {
       console.log( "MOVIE DETAILS -->", response )
       this.setState({
         movieDetails: {
-          movieDbId: response.id,
+          tmdb_id: response.id,
           title: response.title,
-          originalTitle: response.original_title,
+          tagline: response.tagline,
+          original_title: response.original_title,
+          original_language: response.original_language,
           director: response.credits.crew.filter(member => member.job === 'Director').map( el => el.name),
-          plot: response.overview,
-          poster: `https://image.tmdb.org/t/p/w500${response.poster_path}`,
+          overview: response.overview,
+          poster_path: `https://image.tmdb.org/t/p/w500${response.poster_path}`,
           cast: response.credits.cast.map(el => el.name).slice(0,10),
           genres: response.genres.map(genre => genre.name),
-          productionCountries: response.production_countries.map(country => country.name),
-          releaseDate: response.release_date,
-          length: response.runtime
+          production_countries: response.production_countries.map(country => country.name),
+          release_date: response.release_date,
+          runtime: response.runtime
         }
       })
     })
@@ -57,7 +60,7 @@ class Movie extends Component {
         { <Button onClick={this.addMovie.bind(this)} color="success" className="mt-2" type="submit">Add Movie</Button> }
         <h6><b>Title:</b> { this.props.movie.title }</h6>
         {
-          this.state.movieDetails  && <MovieDetails details={this.state.movieDetails} />
+          this.state.movieDetails && <MovieDetails details={this.state.movieDetails} />
         }
       </div>
     )

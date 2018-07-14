@@ -10,8 +10,8 @@ class MovieDetails extends Component {
           <p><b>Director</b>: { this.props.details.director.join(', ') }</p>
           <p><b>Stars</b>: { this.props.details.cast.join(', ') }</p>
           <p className="run-time">
-            ({ this.props.details.productionCountries.join(', ') }, {this.props.details.length} min) | 
-            <span><b>Release:</b> {this.props.details.releaseDate}</span>
+            ({ this.props.details.production_countries.join(', ') }, {this.props.details.runtime} min) | 
+            <span><b>Release:</b> {this.props.details.release_date}</span>
           </p>
         </div>
       </div>

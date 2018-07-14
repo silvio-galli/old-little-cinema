@@ -6,6 +6,7 @@ import Home from './Home';
 import Admin from './Admin';
 import Login from './Login';
 import Signup from './Signup';
+import MoviePage from './MoviePage';
 import api from '../api';
 import logo from '../logo.svg';
 import './App.css';
@@ -73,7 +74,8 @@ class App extends Component {
             {/* <Route path="/add-country" component={AddCountry} /> */}
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-            <Route path="/admin" component={Admin} />
+            <Route path="/admin" exact component={Admin} />
+            <Route path="/admin/movies/:movieId" component={MoviePage} />
             <Route render={() => <h2>404</h2>} />
           </Switch>        
         </Container>

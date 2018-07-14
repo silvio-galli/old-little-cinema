@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import movieDbApi from '../movieDbApi';
+import tmdbApi from '../tmdbApi';
 import api from '../api';
 import Movie from './Movie';
 import LocalMovie from './LocalMovie';
@@ -9,9 +9,10 @@ class Admin extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchFor: '',
-      movieDbMovies: [],
-      localMovies: []
+      searchFor: 'XRQZ',
+      tmdbMovies: [],
+      localMovies: [],
+      filteredMovies: []
     }
   }
 
@@ -25,18 +26,29 @@ class Admin extends Component {
     .catch( err => { throw err })
   }
 
+  comp
+
   handleChange(e) {
+    let word = e.target.value !== '' ? e.target.value : '$_$'
     this.setState({
-      searchFor: e.target.value
+      searchFor: word
+    })
+    this.filterMovies(this.state.searchFor)
+  }
+
+  filterMovies(word) {
+    let filtered = this.state.localMovies.filter( movie => movie.title.toUpperCase().includes(word.toUpperCase()) );
+    this.setState({
+      filteredMovies: filtered
     })
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    movieDbApi.getMovies( this.state.searchFor )
+    tmdbApi.getMovies( this.state.searchFor )
     .then( response => {
       this.setState({
-        movieDbMovies: [...response.results]
+        tmdbMovies: [...response.results]
       })
     })
     .catch( err => { throw err })
@@ -44,28 +56,30 @@ class Admin extends Component {
 
   handleAddMovie( newMovie ) {
     this.setState({
-      localMovies: [...this.state.localMovies, newMovie]
+      localMovies: [...this.state.localMovies, newMovie],
+      filteredMovies: [...this.state.filteredMovies, newMovie]
     })
   }
 
   render() {
-    console.log("SEARCH FOR -->", this.state.searchFor)               
+    console.log("SEARCH FOR -->", this.state.searchFor);
+    
     return (
       <div className="page-wrapper">
         <h2>Admin</h2>
         <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
-        <div class="row">
+        <div className="row">
           <div className="col-md-4 movieDb-list">
             <h2>tmdb.org</h2>
             {/* call the movie component for every object in the list */}
             { 
-              this.state.movieDbMovies.map( movie => <Movie key={movie.id} movie={movie} onAdd={this.handleAddMovie.bind(this)}  /> )
+              this.state.tmdbMovies.map( movie => <Movie key={movie.id} movie={movie} onAdd={this.handleAddMovie.bind(this)}  /> )
             }
           </div>
           <div className="col-md-4 local-db-list">
             <h2>Local db</h2>
             { 
-              this.state.localMovies.map( movie => <LocalMovie key={movie.id} movie={movie} /> )
+              this.state.filteredMovies.map( movie => <LocalMovie key={movie.id} movie={movie} /> )
             }
           </div>
         </div>

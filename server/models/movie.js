@@ -1,28 +1,34 @@
 const mongoose = require('mongoose');
 
 const movieSchema = new mongoose.Schema({
-  movieDbId: Number,
+  tmdb_id: Number,
+  imdb_id: String,
   title: {
     type: String,
     required: [true, 'The movie title is required']
   },
-  originalTitle: String ,
+  tagline: String,
+  original_title: String ,
+  original_language: String,
   director: {
     type: [ String ]
   },
-  plot: String,
-  poster: String,
+  overview: String,
+  poster_path: String,
   cast: {
     type: [ String ]
   },
   genres: {
     type: [ String ]
   },
-  productionCountries: {
+  production_countries: {
     type: [ String ]
   },
-  releaseDate: String,
-  length: Number
+  release_date: String,
+  runtime: Number,
+  external_links: {
+    type: [String]
+  }
   },
   {
   timestamps: {

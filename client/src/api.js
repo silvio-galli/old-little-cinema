@@ -19,6 +19,13 @@ export default {
       .catch(errHandler);
   },
 
+  getMovie(movieId) {
+    return service
+      .get('/movies/' + movieId)
+      .then(res => res.data)
+      .catch(errHandler);
+  },
+
   postMovies(data) {
     return service
       .post('/movies', data)

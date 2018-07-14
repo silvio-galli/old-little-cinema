@@ -23,9 +23,8 @@ router.get('/:movieId', (req, res, next) => {
 
 // create one movie into the local database
 router.post('/', (req, res, next) => {
-  let { movieDbId, title, originalTitle, director, plot, poster, cast, genres, productionCountries, releaseDate,
-    length } = req.body;
-  Movie.findOne({movieDbId}, (err, movie) => {
+  let { tmdb_id, imdb_id, title, original_title, director, overview, poster_path, cast, genres, production_countries, release_date, runtime, tagline, original_language } = req.body;
+  Movie.findOne({tmdb_id}, (err, movie) => {
     if (movie) {
       res.json({
         success: false,
@@ -33,7 +32,7 @@ router.post('/', (req, res, next) => {
       });
       return
     } else {
-      Movie.create({ movieDbId, title, originalTitle, director, plot, poster, cast, genres, productionCountries, releaseDate, length })
+      Movie.create({ tmdb_id, imdb_id, title, original_title, director, overview, poster_path, cast, genres, production_countries, release_date, runtime, tagline, original_language })
       .then( newMovie => {
         res.json({
           success: true,

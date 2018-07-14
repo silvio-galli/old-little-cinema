@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import  { Link }  from  'react-router-dom'
 import api from '../api';
 import { Button } from 'reactstrap';
 
@@ -46,21 +47,25 @@ class LocalMovie extends Component {
 
   render() {
     return (
-      <div className="movie border rounded my-3 p-2" id={this.props.movie.id}>
-        <img src={this.props.movie.poster} alt="" />
-        <br />
-        <h6><b>Title:</b> { this.props.movie.title }</h6>
-        <div className="movie-details">
+      <div className="movie border rounded my-3 p-1" id={this.props.movie.id}>
+        <img src={this.props.movie.poster_path} alt="" />
+        <ul>
+          <b>Title:</b> { this.props.movie.title }<br />
+          <b>Director:</b> { this.props.movie.director }<br />
+          <b>Year:</b> {this.props.movie.release_date.split('-')[0]}
+        </ul>
+        <a href={`/admin/movies/${this.props.movie._id}`}>Edit</a>
+        {/* <div className="movie-details">
           <div className="movie-info">
             <p className="plot">{ this.props.movie.overview }</p>
             <p><b>Director</b>: { this.props.movie.director.join(', ') }</p>
             <p><b>Stars</b>: { this.props.movie.cast.join(', ') }</p>
             <p className="run-time">
-              ({ this.props.movie.productionCountries.join(', ') }, {this.props.movie.length} min) | 
-              <span><b>Release:</b> {this.props.movie.releaseDate}</span>
+              ({ this.props.movie.production_countries.join(', ') }, {this.props.movie.runtime} min) | 
+              <span></span>
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     )
   }
