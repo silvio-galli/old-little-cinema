@@ -14,6 +14,7 @@ var User = require('./models/user');
 var authRoutes = require('./routes/auth');
 var countriesRoutes = require('./routes/countries');
 var moviesRoutes = require('./routes/movies');
+var eventsRoutes = require('./routes/events');
 var usersRoutes = require('./routes/users');
 
 require('./configs/database');
@@ -66,6 +67,7 @@ app.use('/api', authRoutes);
 app.use('/api/countries', countriesRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/movies', moviesRoutes);
+app.use('/api/events', eventsRoutes);
 
 
 // For any routes that starts with "/api", catch 404 and forward to error handler

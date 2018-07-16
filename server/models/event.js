@@ -12,7 +12,13 @@ const eventSchema = new mongoose.Schema({
     showtime: String,
     _movie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }
   }]
-})
+},
+  {
+  timestamps: {
+    createdAt: "created_at",
+    updatedAt: "updated_at"
+  }
+});
 
 const Event = mongoose.model('Event', eventSchema);
 

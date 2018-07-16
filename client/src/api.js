@@ -40,6 +40,27 @@ export default {
       .then(res => res.data)
       .catch(errHandler);
    },
+
+   getEvents() {
+    return service
+      .get('/events')
+      .then(res => res.data)
+      .catch(errHandler);
+  },
+
+  getEvent(eventId) {
+    return service
+      .get('/events/' + eventId)
+      .then(res => res.data)
+      .catch(errHandler);
+  },
+
+   postEvents(data) {
+    return service
+      .post('/events', data)
+      .then(res => res.data)
+      .catch(errHandler);
+  },
   
   getSecret() {
     return service

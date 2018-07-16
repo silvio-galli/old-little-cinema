@@ -3,7 +3,9 @@ import tmdbApi from '../tmdbApi';
 import api from '../api';
 import Movie from './Movie';
 import LocalMovie from './LocalMovie';
+import Event from './Event';
 import SearchForm from './SearchForm';
+
 
 class Admin extends Component {
   constructor(props) {
@@ -12,7 +14,8 @@ class Admin extends Component {
       searchFor: 'XRQZ',
       tmdbMovies: [],
       localMovies: [],
-      filteredMovies: []
+      filteredMovies: [],
+      events: []
     }
   }
 
@@ -24,9 +27,15 @@ class Admin extends Component {
       })
     })
     .catch( err => { throw err })
-  }
 
-  comp
+    api.getEvents()
+    .then(events => {
+      this.setState({
+        events: [...events]
+      })
+    })
+    .catch( err => { throw err })
+  }
 
   handleChange(e) {
     let word = e.target.value !== '' ? e.target.value : 'XRQZ'
@@ -76,6 +85,12 @@ class Admin extends Component {
             <h2>Local db</h2>
             { 
               this.state.filteredMovies.map( movie => <LocalMovie key={movie.id} movie={movie} /> )
+            }
+          </div>
+          <div className="col-md-4 events">
+            <h2>Events</h2>
+            { 
+              this.state.events.map( event => <Event key={event.id} event={event} /> )
             }
           </div>
         </div>
