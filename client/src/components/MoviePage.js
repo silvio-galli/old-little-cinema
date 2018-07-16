@@ -78,6 +78,7 @@ class MoviePage extends Component {
           <Col md="8">
             <ul>
               <li><b>Title:</b> { this.state.movie.title }</li>
+              <li><b>Original Title:</b> { this.state.movie.original_title }</li>
               <li><b>Director:</b> { this.state.movie.director }</li>
               <li><b>Release Date:</b> { this.state.movie.release_date}</li>
               <li><b>Director:</b> { director }</li>

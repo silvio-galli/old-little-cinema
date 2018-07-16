@@ -54,7 +54,7 @@ class LocalMovie extends Component {
           <b>Director:</b> { this.props.movie.director }<br />
           <b>Year:</b> {this.props.movie.release_date.split('-')[0]}
         </ul>
-        <a href={`/admin/movies/${this.props.movie._id}`}>Edit</a>
+        <a href={`/movies/${this.props.movie._id}`}>Edit</a>
         {/* <div className="movie-details">
           <div className="movie-info">
             <p className="plot">{ this.props.movie.overview }</p>

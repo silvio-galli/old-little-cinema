@@ -42,7 +42,7 @@ class Admin extends Component {
     this.setState({
       searchFor: word
     })
-    let filtered = this.state.localMovies.filter( movie => movie.title.toUpperCase().includes(word.toUpperCase()) );
+    let filtered = this.state.localMovies.filter( movie => movie.title.toUpperCase().includes(word.toUpperCase()) || movie.original_title.toUpperCase().includes(word.toUpperCase()) );
     this.setState({
       filteredMovies: filtered
     })
@@ -64,11 +64,18 @@ class Admin extends Component {
       localMovies: [...this.state.localMovies, newMovie],
       filteredMovies: [...this.state.filteredMovies, newMovie]
     })
+
+    api.getMovies()
+    .then(movies =>{
+      this.setState({
+        localMovies: [...movies]
+      })
+    })
+    .catch( err => { throw err })
   }
 
   render() {
     console.log("SEARCH FOR -->", this.state.searchFor);
-    
     return (
       <div className="page-wrapper">
         <h2>Admin</h2>
