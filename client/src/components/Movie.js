@@ -3,7 +3,6 @@ import tmdbApi from '../tmdbApi';
 import MovieDetails from './MovieDetails';
 import api from '../api';
 import { Button } from 'reactstrap';
-import loading from '../animated-loading.gif';
 
 class Movie extends Component {
   constructor(props){
@@ -23,6 +22,7 @@ class Movie extends Component {
       this.setState({
         movieDetails: {
           tmdb_id: response.id,
+          imdb_id: response.imdb_id,
           title: response.title,
           tagline: response.tagline,
           original_title: response.original_title,

@@ -45,5 +45,24 @@ router.post('/', (req, res, next) => {
   
 });
 
+// update movie details
+router.post('/:movieId/update', (req,res,next) => {
+  console.log( "REQ.BODY --->", req.body )
+  let movieId = req.params.movieId;
+  let data = {
+    external_links: req.body.external_links,
+    trailer: req.body.trailer
+  };
+  Movie.findByIdAndUpdate(movieId, data, {new: true})
+  .then( updatedMovie => {
+    console.log( "UPDATED MOVIE --->", updatedMovie );
+    res.json({
+      success: true,
+      updatedMovie
+    });
+  })
+  .catch( err => next(err));
+});
+
 
 module.exports = router;

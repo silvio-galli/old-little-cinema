@@ -29,14 +29,10 @@ class Admin extends Component {
   comp
 
   handleChange(e) {
-    let word = e.target.value !== '' ? e.target.value : '$_$'
+    let word = e.target.value !== '' ? e.target.value : 'XRQZ'
     this.setState({
       searchFor: word
     })
-    this.filterMovies(this.state.searchFor)
-  }
-
-  filterMovies(word) {
     let filtered = this.state.localMovies.filter( movie => movie.title.toUpperCase().includes(word.toUpperCase()) );
     this.setState({
       filteredMovies: filtered

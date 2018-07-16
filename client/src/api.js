@@ -32,6 +32,13 @@ export default {
       .then(res => res.data)
       .catch(errHandler);
   },
+
+  postMovieDetails(movieId, data){
+    return service
+      .post(`/$movieId/update`, data)
+      .then(res => res.data)
+      .catch(errHandler);
+   },
   
   getSecret() {
     return service
