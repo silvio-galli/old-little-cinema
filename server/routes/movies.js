@@ -46,7 +46,7 @@ router.post('/', (req, res, next) => {
 });
 
 // update movie details
-router.post('/:movieId/update', (req,res,next) => {
+router.post('/:movieId', (req,res,next) => {
   console.log( "REQ.BODY --->", req.body )
   let movieId = req.params.movieId;
   let data = {

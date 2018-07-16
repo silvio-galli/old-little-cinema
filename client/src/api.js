@@ -34,8 +34,9 @@ export default {
   },
 
   postMovieDetails(movieId, data){
+    console.log(`inside Api movieId -->`, movieId)
     return service
-      .post(`/$movieId/update`, data)
+      .post(`/movies/${movieId}`, data)
       .then(res => res.data)
       .catch(errHandler);
    },

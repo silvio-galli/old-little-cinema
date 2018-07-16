@@ -29,7 +29,7 @@ const movieSchema = new mongoose.Schema({
   external_links: {
     type: [String]
   },
-  trailer: String
+  trailer: { type: String, default: "" }
   },
   {
   timestamps: {
