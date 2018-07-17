@@ -3,7 +3,7 @@ import axios from 'axios';
 const MOVIEDB_API_KEY = '187833d4f410703c240782d20b5d2bab';
 
 const service = axios.create({
-  baseURL: 'https://api.themoviedb.org/3/search/movie'
+  baseURL: 'https://api.themoviedb.org/3/search'
 });
 
 const errHandler = err => {
@@ -16,7 +16,7 @@ export default {
 
   getMovies( title ) {
     return service
-      .get(`?api_key=${MOVIEDB_API_KEY}&query=${title}`)
+      .get(`movie?api_key=${MOVIEDB_API_KEY}&query=${title}`)
       .then(res => res.data )
       .catch(errHandler);
   },
