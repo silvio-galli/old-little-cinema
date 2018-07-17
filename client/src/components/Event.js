@@ -6,9 +6,9 @@ class Event extends Component {
   render() {
     return (
       <Button outline color="primary" className="mr-2">
-        <a href={`/events/${this.props.event._id}`}>
+        {/* <a href={`/events/${this.props.event._id}`}> */}
           { this.props.event.title }
-        </a>
+        {/* </a> */}
       </Button>
     )
   }

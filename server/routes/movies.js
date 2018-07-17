@@ -14,11 +14,17 @@ router.get('/', (req, res, next) => {
 
 // get one movie
 router.get('/:movieId', (req, res, next) => {
-  Movie.findById(req.params.movieId)
-  .then(movie => {
-    res.json(movie);
+  Movie.findById(req.params.movieId, (err, movie) => {
+    if (err) {                                       // TODO: see LocalMovie.js
+      Movie.findOne({ tmdb_id: req.params.movieId }) // try to find the movie first by Id
+      .then(movie => {                               // and then with the tmdb_id
+        res.json(movie);                             // because filteredMovies in Admin.js
+      })                                             // cannot access the _id of newly added movies 
+      .catch(err => next(err))
+    } else {
+      res.json(movie);
+    }
   })
-  .catch(err => next(err))
 });
 
 // create one movie into the local database

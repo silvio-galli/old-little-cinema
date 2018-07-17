@@ -79,7 +79,7 @@ class Admin extends Component {
   }
 
   showPanel(movieId) {
-    console.log( "You're trying to toggle the side panel." );
+    console.log( "You're trying to toggle the side panel." );  
     this.setState({
       moviePanel: {
         isActive: !this.state.moviePanel.isActive,
@@ -91,7 +91,7 @@ class Admin extends Component {
   render() {
     
     return (
-      <div className="page-wrapper">
+      <div className="container-fluid">
         <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
         <div className="row">
           <div className="col-md-3 movieDb-list">
@@ -118,7 +118,8 @@ class Admin extends Component {
                     some data here
                   </div>
                 </div>
-                <div className="row">
+                <hr />
+                <div className="row mb-2">
                   <div className="col-md-3 text-right">
                     Events
                   </div>
@@ -130,8 +131,10 @@ class Admin extends Component {
                 </div>
               </div>
             </div>
-            <div className="row">
-              { this.state.moviePanel.isActive && <MoviePanel movieId={this.state.moviePanel.movieId} /> }
+            <div className="container-fluid">
+              <div className="row">
+                { this.state.moviePanel.isActive && <MoviePanel movieId={this.state.moviePanel.movieId} /> }
+              </div>
             </div>
           </div>
         </div>

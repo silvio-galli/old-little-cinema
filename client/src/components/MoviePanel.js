@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../api';
 import { Row, Col } from 'reactstrap';
 
@@ -61,13 +62,16 @@ class MoviePanel extends Component {
   }
 
   render() {
-    console.log( "MOVIE inside MoviePage --->", this.state.movie )
-
     const year = this.state.movie.release_date && this.state.movie.release_date.split('-')[0];
     const director = this.state.movie.director && this.state.movie.director.join(', ');
     const stars = this.state.movie.cast && this.state.movie.cast.join(', ');
     const countries = this.state.movie.production_countries && this.state.movie.production_countries.join(', ');
-    const ytVideo = this.state.movie.trailer && this.state.movie.trailer.split('v=')[1]
+    
+    function getDomain(address) {
+      var res = address.match(/\b(?:(?:https?|ftp):\/\/(www.)?)?([^\/\n]+)\/?/);
+      return res[2];
+    }
+
     return (
       <div className="movie-panel">
         <Row>
@@ -75,7 +79,7 @@ class MoviePanel extends Component {
             <img src={this.state.movie.poster_path} alt="" className="img-thumbnail" />
               { this.state.movie.trailer && <p>Here the movie player embedded:<br />{ this.state.movie.trailer }</p>  }
           </Col>
-          <Col md="8">
+          <Col md="8" className="text-left">
             <ul className="list-group text-left">
               <li className="list-group-item p-1"><b>Title:</b> { this.state.movie.title }</li>
               <li className="list-group-item p-1"><b>Original Title:</b> { this.state.movie.original_title }</li>
@@ -97,9 +101,9 @@ class MoviePanel extends Component {
                 <h6>Reviews and articles:</h6>
                 { this.state.movie.external_links.map(link => {
                     return (
-                      <a href={link} className="btn btn-sm btn-outline-info mr-1 btn-outline">
-                        { link }
-                      </a>
+                      <Link to={ link } className="btn btn-sm btn-outline-info m-1 btn-outline" target="_blank">
+                        { getDomain( link ) }
+                      </Link>
                     )
                   })
                 }
@@ -132,7 +136,7 @@ class MoviePanel extends Component {
               </div>
               <button type="submit" className="btn">Add</button>
             </form>
-            <button className="btn btn-success" onClick={this.saveChanges.bind(this)}>Save Changes</button>
+            <button className="btn btn-success mt-2" onClick={this.saveChanges.bind(this)}>Save Changes</button>
           </Col>
         </Row>
       </div>

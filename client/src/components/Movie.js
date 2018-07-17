@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import tmdbApi from '../tmdbApi';
 import api from '../api';
 import { Button } from 'reactstrap';
@@ -44,9 +45,9 @@ class Movie extends Component {
     api.postMovies( this.state.movieDetails )
     .then( response => {
       console.log( "Response from local DB after trying to add a movie", response );
-      if (response.success) { this.props.onAdd( response ) };
-    })
-    .catch( err => { throw err } )
+      if (response.success) { this.props.onAdd( this.state.movieDetails ) }; // TODO: fix this workaround
+    })                                                                       // should use response from the
+    .catch( err => { throw err } )                                           // local db instead of the state
   }
 
   render() {
@@ -63,7 +64,7 @@ class Movie extends Component {
               </li>
               { this.state.movieDetails && <li><b>Director:</b> { this.state.movieDetails.director }</li> }
               <li><b>Year:</b> {this.props.movie.release_date.split('-')[0]}</li>
-              <li><b>Source:</b> <a href="https://www.themoviedb.org/">themoviedb.org</a></li>
+              <li><b>Source:</b> <Link to={`https://www.themoviedb.org/movie/${this.props.movie.id}`}target="_blank">themoviedb.org</Link></li>
             </ul>
             <Button onClick={this.addMovie.bind(this)} outline color="success" size="sm" >Add Movie</Button>
           </div>
