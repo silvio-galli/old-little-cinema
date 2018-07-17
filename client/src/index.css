@@ -3,20 +3,21 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-.container {
+.movie {
   text-align: left;
 }
-/* .movie {
-  text-align: left;
-} */
+.movie ul li {
+  list-style: none;
+  font-size: 12px;
+}
 .movie img {
-  float: left;
-  width: 50px;
+  max-width: 100%;
   height: auto;
 }
-.movie ul {
-  margin-left: 20px;
-}
-.movie-details {
+/* .movie-details {
   text-align: left;
+} */
+
+.movie-panel {
+  font-size: 0.85em;
 }

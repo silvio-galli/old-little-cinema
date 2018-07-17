@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import tmdbApi from '../tmdbApi';
-import MovieDetails from './MovieDetails';
 import api from '../api';
 import { Button } from 'reactstrap';
 
@@ -42,26 +41,33 @@ class Movie extends Component {
   }
 
   addMovie() {
-    this.props.onAdd(this.state.movieDetails);
     api.postMovies( this.state.movieDetails )
-    .then( newLocalMovie => {
-      console.log( "New Movie added to local database", newLocalMovie );
+    .then( response => {
+      console.log( "Response from local DB after trying to add a movie", response );
+      if (response.success) { this.props.onAdd( response ) };
     })
-    .catch( err => { throw err })
-
+    .catch( err => { throw err } )
   }
 
   render() {
     return (
-      <div className="movie border rounded my-3 p-2" id={this.props.movie.id}>
-        <img src={`https://image.tmdb.org/t/p/w500${this.props.movie.poster_path}`} alt="" />
-        <br />
-
-        { <Button onClick={this.addMovie.bind(this)} color="success" className="mt-2" type="submit">Add Movie</Button> }
-        <h6><b>Title:</b> { this.props.movie.title }</h6>
-        {
-          this.state.movieDetails && <MovieDetails details={this.state.movieDetails} />
-        }
+      <div className="container movie border rounded my-3 p-1" >
+        <div className="row" id={this.props.movie.id}>
+          <div className="col-md-4">
+            <img src={`https://image.tmdb.org/t/p/w500${this.props.movie.poster_path}`} alt="" />
+          </div>
+          <div className="col-md-8">
+            <ul className="ml-0 pl-0">
+              <li>
+                <b>Title:</b> { this.props.movie.title }
+              </li>
+              { this.state.movieDetails && <li><b>Director:</b> { this.state.movieDetails.director }</li> }
+              <li><b>Year:</b> {this.props.movie.release_date.split('-')[0]}</li>
+              <li><b>Source:</b> <a href="https://www.themoviedb.org/">themoviedb.org</a></li>
+            </ul>
+            <Button onClick={this.addMovie.bind(this)} outline color="success" size="sm" >Add Movie</Button>
+          </div>
+        </div>
       </div>
     )
   }

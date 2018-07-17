@@ -1,71 +1,31 @@
 import React, { Component } from 'react';
-import  { Link }  from  'react-router-dom'
-import api from '../api';
 import { Button } from 'reactstrap';
 
 class LocalMovie extends Component {
-  // constructor(props){
-  //   super(props)
-  //   this.state = {
-  //     movieId: this.props.movie.id,
-  //     movieDetails: null
-  //   }
-  // }
 
-  // to get the details of all movies
-  // uncomment this below
-  // componentDidMount() {
-  //   movieDbApi.getMovieDetails(this.state.movieId)
-  //   .then(response => {
-  //     console.log( "MOVIE DETAILS -->", response )
-  //     this.setState({
-  //       movieDetails: {
-  //         movieDbId: response.id,
-  //         title: response.title,
-  //         originalTitle: response.original_title,
-  //         director: response.credits.crew.filter(member => member.job === 'Director').map( el => el.name),
-  //         plot: response.overview,
-  //         poster: `https://image.tmdb.org/t/p/w500${response.poster_path}`,
-  //         cast: response.credits.cast.map(el => el.name).slice(0,10),
-  //         genres: response.genres.map(genre => genre.name),
-  //         productionCountries: response.production_countries.map(country => country.name),
-  //         releaseDate: response.release_date,
-  //         length: response.runtime
-  //       }
-  //     })
-  //   })
-  //   .catch( err => { throw err } )
-  // }
-
-  // addMovie() {
-  //   api.postMovies( this.state.movieDetails )
-  //   .then( newLocalMovie => {
-  //     console.log( "New Movie added to local database", newLocalMovie );
-  //   })
-  //   .catch( err => { throw err })
-  // }
+  handlePanel() {
+    this.props.showPanel(this.props.movie._id);
+  }
 
   render() {
+    // console.log("LOCAL MOVIE COMPONENT -->", this.props.movie)
+    let year = this.props.movie.release_date && this.props.movie.release_date.split('-')[0];
     return (
-      <div className="movie border rounded my-3 p-1" id={this.props.movie.id}>
-        <img src={this.props.movie.poster_path} alt="" />
-        <ul>
-          <b>Title:</b> { this.props.movie.title }<br />
-          <b>Director:</b> { this.props.movie.director }<br />
-          <b>Year:</b> {this.props.movie.release_date.split('-')[0]}
-        </ul>
-        <a href={`/movies/${this.props.movie._id}`}>Edit</a>
-        {/* <div className="movie-details">
-          <div className="movie-info">
-            <p className="plot">{ this.props.movie.overview }</p>
-            <p><b>Director</b>: { this.props.movie.director.join(', ') }</p>
-            <p><b>Stars</b>: { this.props.movie.cast.join(', ') }</p>
-            <p className="run-time">
-              ({ this.props.movie.production_countries.join(', ') }, {this.props.movie.runtime} min) | 
-              <span></span>
-            </p>
+      <div className="container movie border rounded my-3 p-1" >
+        <div className="row" id={this.props.movie._id}>
+          <div className="col-md-4 text-center">
+            <img src={this.props.movie.poster_path} alt="" />
           </div>
-        </div> */}
+          <div className="col-md-8">
+            <ul className="ml-0 pl-0">
+              <li><b>Title:</b> { this.props.movie.title }</li>
+              <li><b>Director:</b> { this.props.movie.director }</li>
+              <li><b>Year:</b> { year }</li>
+              <li>Source: <b>local database</b></li>
+            </ul>
+            <Button onClick={this.handlePanel.bind(this)} outline color="primary" size="sm">Edit</Button>
+          </div>
+        </div>
       </div>
     )
   }

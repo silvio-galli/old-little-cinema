@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import api from '../api';
 import { Row, Col } from 'reactstrap';
 
-class MoviePage extends Component {
+class MoviePanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -13,7 +13,7 @@ class MoviePage extends Component {
   }
 
   componentDidMount() {
-    api.getMovie(this.props.match.params.movieId)
+    api.getMovie(this.props.movieId)
     .then( movie => {
       this.setState({
         movie: movie
@@ -49,7 +49,7 @@ class MoviePage extends Component {
   }
 
   saveChanges() {
-    console.log("SAVE THE CHANGES");
+    console.log("SAVING CHANGES TO DB");
     api.postMovieDetails(`${this.state.movie._id}`, this.state.movie)
     .then( response => {
       console.log( "RESPONSE AFTER SAVE CHANGES -->", response );
@@ -67,33 +67,44 @@ class MoviePage extends Component {
     const director = this.state.movie.director && this.state.movie.director.join(', ');
     const stars = this.state.movie.cast && this.state.movie.cast.join(', ');
     const countries = this.state.movie.production_countries && this.state.movie.production_countries.join(', ');
+    const ytVideo = this.state.movie.trailer && this.state.movie.trailer.split('v=')[1]
     return (
-      <div>
-        <h1>{ this.state.movie.title } <small>({ year }) - [{this.state.movie._id}]</small></h1>
+      <div className="movie-panel">
         <Row>
           <Col md="4">
             <img src={this.state.movie.poster_path} alt="" className="img-thumbnail" />
-            {this.state.movie.trailer && <p>HERE IS THE TRAILER: {this.state.movie.trailer}</p>}
+              { this.state.movie.trailer && <p>Here the movie player embedded:<br />{ this.state.movie.trailer }</p>  }
           </Col>
           <Col md="8">
-            <ul>
-              <li><b>Title:</b> { this.state.movie.title }</li>
-              <li><b>Original Title:</b> { this.state.movie.original_title }</li>
-              <li><b>Director:</b> { this.state.movie.director }</li>
-              <li><b>Release Date:</b> { this.state.movie.release_date}</li>
-              <li><b>Director:</b> { director }</li>
-              <li><b>Stars:</b> { stars }}</li>
-              <li><b>Countries:</b> { countries }</li>
-              <li><b>Runtime:</b> { this.state.movie.runtime } min.</li>
+            <ul className="list-group text-left">
+              <li className="list-group-item p-1"><b>Title:</b> { this.state.movie.title }</li>
+              <li className="list-group-item p-1"><b>Original Title:</b> { this.state.movie.original_title }</li>
+              <li className="list-group-item p-1"><b>Director:</b> { this.state.movie.director }</li>
+              <li className="list-group-item p-1"><b>Release Date:</b> { this.state.movie.release_date}</li>
+              <li className="list-group-item p-1"><b>Director:</b> { director }</li>
+              <li className="list-group-item p-1"><b>Stars:</b> { stars }}</li>
+              <li className="list-group-item p-1"><b>Countries:</b> { countries }</li>
+              <li className="list-group-item p-1"><b>Runtime:</b> { this.state.movie.runtime } min.</li>
             </ul>
-            <p>
+            <p className="text-left">
               <b>Plot: </b>
               { this.state.movie.overview }
             </p>
-            <ul>
-              { this.state.movie.external_links && this.state.movie.external_links.map(link => <li><a href={link}>{ link }</a></li>) }
-            </ul>
 
+            { 
+              this.state.movie.external_links &&
+              <div className="external-links text-left mb-2">
+                <h6>Reviews and articles:</h6>
+                { this.state.movie.external_links.map(link => {
+                    return (
+                      <a href={link} className="btn btn-sm btn-outline-info mr-1 btn-outline">
+                        { link }
+                      </a>
+                    )
+                  })
+                }
+              </div>
+            }
             <form onSubmit={this.handleAdd.bind(this)} className="form-inline">
               <div className="input-group">
                 <input
@@ -129,4 +140,4 @@ class MoviePage extends Component {
   }
 }
 
-export default MoviePage;
+export default MoviePanel;

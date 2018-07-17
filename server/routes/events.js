@@ -8,7 +8,6 @@ router.get('/', (req, res, next) => {
   Event.find()
   .populate('_movie')
   .then(events => {
-    console.log( "EVENTS -->", events );
     res.json(events);
   })
   .catch(err => next(err))

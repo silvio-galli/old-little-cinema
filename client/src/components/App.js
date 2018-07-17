@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from './Home';
-// import Countries from './Countries';
-// import AddCountry from './AddCountry';
 import Admin from './Admin';
 import Login from './Login';
 import Signup from './Signup';
@@ -68,20 +66,17 @@ class App extends Component {
             </Nav>
           </Collapse>
         </Navbar>
-        <Container>
-
-          <Switch>
-            <Route path="/" exact component={Home} />
-            {/* <Route path="/countries" component={Countries} /> */}
-            {/* <Route path="/add-country" component={AddCountry} /> */}
-            <Route path="/signup" component={Signup} />
-            <Route path="/login" component={Login} />
-            <Route path="/admin" exact component={Admin} />
-            <Route path="/movies/:movieId" component={MoviePage} />
-            <Route path="/events/:eventId" component={EventPage} />
-            <Route render={() => <h2>404</h2>} />
-          </Switch>        
-        </Container>
+        <Switch>
+          <Route path="/" exact component={Home} />
+          {/* <Route path="/countries" component={Countries} /> */}
+          {/* <Route path="/add-country" component={AddCountry} /> */}
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/admin" exact component={Admin} />
+          <Route path="/movies/:movieId" component={MoviePage} />
+          <Route path="/events/:eventId" component={EventPage} />
+          <Route render={() => <h2>404</h2>} />
+        </Switch>
       </div>
     );
   }

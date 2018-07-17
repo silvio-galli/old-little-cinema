@@ -5,7 +5,7 @@ import Movie from './Movie';
 import LocalMovie from './LocalMovie';
 import Event from './Event';
 import SearchForm from './SearchForm';
-
+import MoviePanel from './MoviePanel';
 
 class Admin extends Component {
   constructor(props) {
@@ -15,7 +15,11 @@ class Admin extends Component {
       tmdbMovies: [],
       localMovies: [],
       filteredMovies: [],
-      events: []
+      events: [],
+      moviePanel: {
+        isActive: false,
+        movieId: ''
+      }
     }
   }
 
@@ -60,45 +64,75 @@ class Admin extends Component {
   }
 
   handleAddMovie( newMovie ) {
+    console.log('LUDWIG debug newMovie added:', newMovie)
     this.setState({
       localMovies: [...this.state.localMovies, newMovie],
       filteredMovies: [...this.state.filteredMovies, newMovie]
     })
+    // api.getMovies()
+    // .then( movies => {
+    //   let filtered = movies.filter( movie => movie.title.toUpperCase().includes(this.state.searchFor.toUpperCase()) || movie.original_title.toUpperCase().includes(this.state.searchFor.toUpperCase()) );
+    //   this.setState({
+    //     filteredMovies: filtered
+    //   })
+    // })
+  }
 
-    api.getMovies()
-    .then(movies =>{
-      this.setState({
-        localMovies: [...movies]
-      })
+  showPanel(movieId) {
+    console.log( "You're trying to toggle the side panel." );
+    this.setState({
+      moviePanel: {
+        isActive: !this.state.moviePanel.isActive,
+        movieId: movieId
+      }
     })
-    .catch( err => { throw err })
   }
 
   render() {
-    console.log("SEARCH FOR -->", this.state.searchFor);
+    
     return (
       <div className="page-wrapper">
-        <h2>Admin</h2>
         <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
         <div className="row">
-          <div className="col-md-4 movieDb-list">
-            <h2>tmdb.org</h2>
-            {/* call the movie component for every object in the list */}
+          <div className="col-md-3 movieDb-list">
+            {/* THEMOVIEDB.org results */}
             { 
               this.state.tmdbMovies.map( movie => <Movie key={movie.id} movie={movie} onAdd={this.handleAddMovie.bind(this)}  /> )
             }
           </div>
-          <div className="col-md-4 local-db-list">
-            <h2>Local db</h2>
+          <div className="col-md-3 local-db-list">
+            {/* LOCAL DB results */}
             { 
-              this.state.filteredMovies.map( movie => <LocalMovie key={movie.id} movie={movie} /> )
+              this.state.filteredMovies.map( movie => <LocalMovie key={movie._id} movie={movie} showPanel={ this.showPanel.bind(this) } /> )
             }
           </div>
-          <div className="col-md-4 events">
-            <h2>Events</h2>
-            { 
-              this.state.events.map( event => <Event key={event.id} event={event} /> )
-            }
+          <div className="col-md-6 side-panel">
+            {/* SIDE PANEL */}
+            <div className="row">
+              <div className="col">
+                <div className="row">
+                  <div className="col-md-3 text-right">
+                    Main Movies
+                  </div>
+                  <div className="col-md-9 text-left">
+                    some data here
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-3 text-right">
+                    Events
+                  </div>
+                  <div className="col-md-9 text-left">
+                    { 
+                      this.state.events.map( event => <Event key={event._id} event={event} /> )
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              { this.state.moviePanel.isActive && <MoviePanel movieId={this.state.moviePanel.movieId} /> }
+            </div>
           </div>
         </div>
       </div>
