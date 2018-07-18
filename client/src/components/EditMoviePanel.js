@@ -62,7 +62,7 @@ class MoviePanel extends Component {
   }
 
   render() {
-    const year = this.state.movie.release_date && this.state.movie.release_date.split('-')[0];
+    //const year = this.state.movie.release_date && this.state.movie.release_date.split('-')[0];
     const director = this.state.movie.director && this.state.movie.director.join(', ');
     const stars = this.state.movie.cast && this.state.movie.cast.join(', ');
     const countries = this.state.movie.production_countries && this.state.movie.production_countries.join(', ');
@@ -80,7 +80,7 @@ class MoviePanel extends Component {
               { this.state.movie.trailer && <p>Here the movie player embedded:<br />{ this.state.movie.trailer }</p>  }
           </Col>
           <Col md="8" className="text-left">
-            <ul className="list-group text-left">
+            <ul className="list-group">
               <li className="list-group-item p-1"><b>Title:</b> { this.state.movie.title }</li>
               <li className="list-group-item p-1"><b>Original Title:</b> { this.state.movie.original_title }</li>
               <li className="list-group-item p-1"><b>Director:</b> { this.state.movie.director }</li>
@@ -101,7 +101,7 @@ class MoviePanel extends Component {
                 <h6>Reviews and articles:</h6>
                 { this.state.movie.external_links.map(link => {
                     return (
-                      <Link to={ link } className="btn btn-sm btn-outline-info m-1 btn-outline" target="_blank">
+                      <Link key={link} to={ link } className="btn btn-sm btn-outline-info m-1 btn-outline" target="_blank">
                         { getDomain( link ) }
                       </Link>
                     )
@@ -120,7 +120,7 @@ class MoviePanel extends Component {
                   onChange={this.handleChange.bind(this)}
                 />
               </div>
-              <button type="submit" className="btn">Add</button>
+              <button type="submit" className="btn btn-outline-secondary">Add</button>
             </form>
 
             <form onSubmit={this.handleAdd.bind(this)} className="form-inline">
@@ -134,7 +134,7 @@ class MoviePanel extends Component {
                   onChange={this.handleChange.bind(this)}                
                 />
               </div>
-              <button type="submit" className="btn">Add</button>
+              <button type="submit" className="btn btn-outline-secondary">Add</button>
             </form>
             <button className="btn btn-success mt-2" onClick={this.saveChanges.bind(this)}>Save Changes</button>
           </Col>

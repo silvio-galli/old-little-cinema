@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class PageLink extends Component {
+class ApiResultPaginationListItem extends Component {
 
   render() {
     return (
@@ -13,4 +13,4 @@ class PageLink extends Component {
   }
 }
 
-export default PageLink;
+export default ApiResultPaginationListItem;

@@ -3,8 +3,8 @@ import { Button } from 'reactstrap';
 
 class LocalMovie extends Component {
 
-  handlePanel() {
-    this.props.showPanel(this.props.movie.tmdb_id);
+  activatePanel() {
+    this.props.handlePanel( 'EDIT_MOVIE_PANEL', this.props.movie.tmdb_id );
   }
 
   render() {
@@ -23,7 +23,7 @@ class LocalMovie extends Component {
               <li><b>Year:</b> { year }</li>
               <li><b>Source:</b> Local DB</li>
             </ul>
-            <Button onClick={this.handlePanel.bind(this)} outline color="primary" size="sm">Edit</Button>
+            <Button onClick={this.activatePanel.bind(this)} outline color="primary" size="sm">Edit</Button>
           </div>
         </div>
       </div>

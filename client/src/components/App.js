@@ -16,7 +16,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink, Container } from 'reactstrap';
+  NavLink } from 'reactstrap';
 
   
 class App extends Component {
@@ -42,8 +42,8 @@ class App extends Component {
       <div className="App">
       <Navbar color="light" light expand="md">
           <NavbarBrand href="/">
-          <img src={logo} className="App-logo" alt="logo" style={{height: 35}} />
-          Old Little Cinema
+            <img src={logo} className="App-logo" alt="logo" style={{height: 35}} />
+            Old Little Cinema
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle.bind(this)} />
           <Collapse isOpen={this.state.isOpen} navbar>

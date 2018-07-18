@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import api from '../api';
 import { Row, Col } from 'reactstrap';
 
-class MoviePage extends Component {
+class EditMoviePanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -129,4 +129,4 @@ class MoviePage extends Component {
   }
 }
 
-export default MoviePage;
+export default EditMoviePanel;

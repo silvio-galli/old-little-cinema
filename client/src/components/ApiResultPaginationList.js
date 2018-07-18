@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PageLink from './PageLink';
+import ApiResultPaginationListItem from './ApiResultPaginationListItem';
 
-class ApiResultList extends Component {
+class ApiResultPaginationList extends Component {
 
   render() {
     
@@ -17,7 +17,7 @@ class ApiResultList extends Component {
         <ul className="pagination pagination-sm mt-1">
           { 
             links.map( link => {
-              return <PageLink
+              return <ApiResultPaginationListItem
                         key={link}
                         text={`${link}`}
                         active={ link === this.props.tmdbActivePage ? "active" : '' }
@@ -30,4 +30,4 @@ class ApiResultList extends Component {
   }
 }
 
-export default ApiResultList;
+export default ApiResultPaginationList;

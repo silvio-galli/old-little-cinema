@@ -5,8 +5,8 @@ import Movie from './Movie';
 import LocalMovie from './LocalMovie';
 import Event from './Event';
 import SearchForm from './SearchForm';
-import ApiResultList from './ApiResultList';
-import MoviePanel from './MoviePanel';
+import ApiResultPaginationList from './ApiResultPaginationList';
+import PanelSwitch from './PanelSwitch';
 
 class Admin extends Component {
   constructor(props) {
@@ -20,9 +20,10 @@ class Admin extends Component {
       localMovies: [],
       filteredMovies: [],
       events: [],
-      moviePanel: {
+      currentPanel: {
         isActive: false,
-        movieId: ''
+        componentName: '',
+        componentId: null
       }
     }
   }
@@ -87,20 +88,27 @@ class Admin extends Component {
     // })
   }
 
-  showPanel(movieId) {
-    console.log( "You're trying to toggle the side panel." );  
+  activatePanel(e) {
+    console.log( "NEW EVENT CALL e.target -->", e.target.value );
+    this.handlePanel( e.target.value );
+  }
+
+  handlePanel( componentName, componentId ) {
+    let currentPanel = {
+      isActive: !this.state.currentPanel.isActive,  //TODO: change as soon as possible with shoulsComponentUpdate()
+      componentName: componentName,
+      componentId: componentId
+    }
+
     this.setState({
-      moviePanel: {
-        isActive: !this.state.moviePanel.isActive,
-        movieId: movieId
-      }
+      currentPanel: currentPanel
     })
   }
 
   render() {
     
     return (
-      <div className="container-fluid">
+      <div className="container-fluid mb-5">
 
         <div className="row">
           
@@ -108,7 +116,7 @@ class Admin extends Component {
           {
             this.state.tmdbTotalResults !== 0
             ?
-            <ApiResultList
+            <ApiResultPaginationList
               tmdbTotalPages={ this.state.tmdbTotalPages }
               tmdbActivePage={ this.state.tmdbActivePage }
               handlePageRequest={ this.handleSubmit.bind(this) }
@@ -121,6 +129,13 @@ class Admin extends Component {
           <div className="col-md-3">
             <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
           </div>
+
+          <div className="col-md-6">
+            <button className="btn btn-outline-success mr-2 mt-1" onClick={this.activatePanel.bind(this)} value="NEW_EVENT_PANEL">
+              New Event
+            </button>
+          </div>
+
         </div>
 
         
@@ -137,44 +152,55 @@ class Admin extends Component {
           <div className="col-md-3 local-db-list">
             {/* LOCAL DB results */}
             { 
-              this.state.filteredMovies.map( movie => <LocalMovie key={movie._id} movie={movie} showPanel={ this.showPanel.bind(this) } /> )
+              this.state.filteredMovies.map( movie => <LocalMovie key={movie._id} movie={movie} handlePanel={ this.handlePanel.bind(this) } /> )
             }
           </div>
           
-          
+          {/* SIDE PANEL */}
           <div className="col-md-6 side-panel">
-            {/* SIDE PANEL */}
+            
             <div className="row">
               <div className="col">
+
                 <div className="row">
                   <div className="col-md-3 text-right">
-                    Main Movies
+                    <h5>Main Movies</h5>
                   </div>
                   <div className="col-md-9 text-left">
                     some data here
                   </div>
                 </div>
+
                 <hr />
+
                 <div className="row mb-2">
                   <div className="col-md-3 text-right">
-                    Events
+                    <h5>Events</h5>
                   </div>
                   <div className="col-md-9 text-left">
                     { 
-                      this.state.events.map( event => <Event key={event._id} event={event} /> )
+                      this.state.events.map( event => <Event key={event._id} event={event} handlePanel={ this.handlePanel.bind(this) } /> )
                     }
                   </div>
                 </div>
+
               </div>
             </div>
+
             <div className="container-fluid">
+              
               <div className="row">
-                { this.state.moviePanel.isActive && <MoviePanel movieId={this.state.moviePanel.movieId} /> }
+
+                { this.state.currentPanel.isActive && <PanelSwitch currentPanel={this.state.currentPanel} /> }
+              
               </div>
+            
             </div>
+
           </div>
         </div>
       </div>
+
     );
   }
 }
