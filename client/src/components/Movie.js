@@ -18,7 +18,7 @@ class Movie extends Component {
   componentDidMount() {
     tmdbApi.getMovieDetails(this.state.movieId)
     .then(response => {
-      console.log( "MOVIE DETAILS -->", response )
+      //console.log( "MOVIE DETAILS -->", response )
       this.setState({
         movieDetails: {
           tmdb_id: response.id,
@@ -52,7 +52,7 @@ class Movie extends Component {
 
   render() {
     return (
-      <div className="container movie border rounded my-3 p-1" >
+      <div className="movie border rounded my-3 p-1" >
         <div className="row" id={this.props.movie.id}>
           <div className="col-md-4">
             <img src={`https://image.tmdb.org/t/p/w500${this.props.movie.poster_path}`} alt="" />

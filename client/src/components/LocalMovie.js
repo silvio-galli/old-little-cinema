@@ -11,7 +11,7 @@ class LocalMovie extends Component {
     // console.log("LOCAL MOVIE COMPONENT -->", this.props.movie)
     let year = this.props.movie.release_date && this.props.movie.release_date.split('-')[0];
     return (
-      <div className="container movie border rounded my-3 p-1" >
+      <div className="movie border rounded my-3 p-1" >
         <div className="row" id={this.props.movie._id}>
           <div className="col-md-4 text-center">
             <img src={this.props.movie.poster_path} alt="" />

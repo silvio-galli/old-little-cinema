@@ -5,6 +5,7 @@ import Movie from './Movie';
 import LocalMovie from './LocalMovie';
 import Event from './Event';
 import SearchForm from './SearchForm';
+import ApiResultList from './ApiResultList';
 import MoviePanel from './MoviePanel';
 
 class Admin extends Component {
@@ -13,6 +14,9 @@ class Admin extends Component {
     this.state = {
       searchFor: 'XRQZ',
       tmdbMovies: [],
+      tmdbTotalResults: null,
+      tmdbTotalPages: null,
+      tmdbActivePage: null,
       localMovies: [],
       filteredMovies: [],
       events: [],
@@ -48,16 +52,21 @@ class Admin extends Component {
     })
     let filtered = this.state.localMovies.filter( movie => movie.title.toUpperCase().includes(word.toUpperCase()) || movie.original_title.toUpperCase().includes(word.toUpperCase()) );
     this.setState({
-      filteredMovies: filtered
+      filteredMovies: filtered,
+      tmdbActivePage: 1
     })
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    tmdbApi.getMovies( this.state.searchFor )
+    let page = e.target.innerHTML.length > 3 ? "1" : e.target.innerHTML; //TODO: change this as soon as possible
+    tmdbApi.getMovies( this.state.searchFor, page )
     .then( response => {
       this.setState({
-        tmdbMovies: [...response.results]
+        tmdbMovies: [...response.results],
+        tmdbTotalResults: response.total_results,
+        tmdbTotalPages: response.total_pages > 12 ? 12 : response.total_pages, //TODO: change this as soon as possible
+        tmdbActivePage: response.page
       })
     })
     .catch( err => { throw err })
@@ -92,20 +101,47 @@ class Admin extends Component {
     
     return (
       <div className="container-fluid">
-        <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
+
         <div className="row">
+          
+          <div className="col-md-3 api-result-list text-center">
+          {
+            this.state.tmdbTotalResults !== 0
+            ?
+            <ApiResultList
+              tmdbTotalPages={ this.state.tmdbTotalPages }
+              tmdbActivePage={ this.state.tmdbActivePage }
+              handlePageRequest={ this.handleSubmit.bind(this) }
+            />
+            :
+            <h6>No results from themoviedb.org</h6>
+          }
+          </div>
+
+          <div className="col-md-3">
+            <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
+          </div>
+        </div>
+
+        
+        <div className="row">
+          
           <div className="col-md-3 movieDb-list">
             {/* THEMOVIEDB.org results */}
             { 
               this.state.tmdbMovies.map( movie => <Movie key={movie.id} movie={movie} onAdd={this.handleAddMovie.bind(this)}  /> )
             }
           </div>
+          
+          
           <div className="col-md-3 local-db-list">
             {/* LOCAL DB results */}
             { 
               this.state.filteredMovies.map( movie => <LocalMovie key={movie._id} movie={movie} showPanel={ this.showPanel.bind(this) } /> )
             }
           </div>
+          
+          
           <div className="col-md-6 side-panel">
             {/* SIDE PANEL */}
             <div className="row">

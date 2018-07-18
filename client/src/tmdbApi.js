@@ -14,9 +14,16 @@ const errHandler = err => {
 export default {
   service: service,
 
-  getMovies( title ) {
+  getMovies( title, pageNumber ) {
     return service
-      .get(`movie?api_key=${MOVIEDB_API_KEY}&query=${title}`)
+      .get(`movie?api_key=${MOVIEDB_API_KEY}&query=${title}&page=${pageNumber}`)
+      .then(res => res.data )
+      .catch(errHandler);
+  },
+
+  getTmdbPage(title, pageNumber) {
+    return service
+      .get(`movie?api_key=${MOVIEDB_API_KEY}&query=${title}&page=${pageNumber}`)
       .then(res => res.data )
       .catch(errHandler);
   },
