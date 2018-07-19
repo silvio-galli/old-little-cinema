@@ -3,7 +3,7 @@ import tmdbApi from '../tmdbApi';
 import api from '../api';
 import Movie from './Movie';
 import LocalMovie from './LocalMovie';
-import Event from './Event';
+import EventButton from './EventButton';
 import SearchForm from './SearchForm';
 import ApiResultPaginationList from './ApiResultPaginationList';
 import PanelSwitch from './PanelSwitch';
@@ -156,21 +156,10 @@ class Admin extends Component {
           </div>
           
           {/* SIDE PANEL */}
-          <div className="col-md-6 side-panel">
+          <div className="col-md-6 side-panel mt-2">
             
             <div className="row">
               <div className="col">
-
-                <div className="row">
-                  <div className="col-md-3 text-right">
-                    <h5>Main Movies</h5>
-                  </div>
-                  <div className="col-md-9 text-left">
-                    some data here
-                  </div>
-                </div>
-
-                <hr />
 
                 <div className="row mb-2">
                   <div className="col-md-3 text-right">
@@ -178,7 +167,7 @@ class Admin extends Component {
                   </div>
                   <div className="col-md-9 text-left">
                     { 
-                      this.state.events.map( event => <Event key={event._id} event={event} handlePanel={ this.handlePanel.bind(this) } /> )
+                      this.state.events.map( event => <EventButton key={event._id} event={event} handlePanel={ this.handlePanel.bind(this) } /> )
                     }
                   </div>
                 </div>
@@ -190,7 +179,14 @@ class Admin extends Component {
               
               <div className="row">
 
-                { this.state.currentPanel.componentName && <PanelSwitch currentPanel={this.state.currentPanel} /> }
+                {
+                  this.state.currentPanel.componentName
+                  &&
+                  <PanelSwitch
+                    movies={this.state.localMovies}
+                    currentPanel={this.state.currentPanel}
+                  />
+                }
               
               </div>
             

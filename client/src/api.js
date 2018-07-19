@@ -55,7 +55,7 @@ export default {
       .catch(errHandler);
   },
 
-   postEvents(data) {
+  postEvents(data) {
     return service
       .post('/events', data)
       .then(res => res.data)

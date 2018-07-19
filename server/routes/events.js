@@ -15,6 +15,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:eventId', (req,res,next) => {
   Event.findById(req.params.eventId)
+  .populate('_movies')
   .then( event => {
     res.json(event);
   })
@@ -23,8 +24,8 @@ router.get('/:eventId', (req,res,next) => {
 
 // create new event
 router.post('/', (req, res, next) => {
-  let { title, subtitle, tagline, promo, startingDate, endingDate, movieList } = req.body;
-  Event.create( { title, subtitle, tagline, promo, startingDate, endingDate, movieList } )
+  let { title, subtitle, tagline, promo, startingDate, endingDate, dates, showtimes, _movies } = req.body;
+  Event.create( { title, subtitle, tagline, promo, startingDate, endingDate, dates, showtimes, _movies } )
   .then( newEvent => {
     res.json({
       success: true,

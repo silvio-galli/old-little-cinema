@@ -4,7 +4,7 @@ import { Button } from 'reactstrap'
 class Event extends Component {
   
   activatePanel() {
-    this.props.handlePanel( 'EDIT_EVENT_PANEL', this.props.event._id );
+    this.props.handlePanel( 'PREVIEW_EVENT_PANEL', this.props.event._id );
   }
 
   render() {

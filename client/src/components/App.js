@@ -4,8 +4,8 @@ import Home from './Home';
 import Admin from './Admin';
 import Login from './Login';
 import Signup from './Signup';
-import MoviePage from './MoviePage';
-import EventPage from './EventPage';
+// import MoviePage from './MoviePage';
+// import EventPage from './EventPage';
 import api from '../api';
 import logo from '../logo.svg';
 import './App.css';
@@ -73,8 +73,8 @@ class App extends Component {
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/admin" exact component={Admin} />
-          <Route path="/movies/:movieId" component={MoviePage} />
-          <Route path="/events/:eventId" component={EventPage} />
+          {/* <Route path="/movies/:movieId" component={MoviePage} />
+          <Route path="/events/:eventId" component={EventPage} /> */}
           <Route render={() => <h2>404</h2>} />
         </Switch>
       </div>

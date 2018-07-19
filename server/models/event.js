@@ -7,11 +7,9 @@ const eventSchema = new mongoose.Schema({
   promo: String,
   startingDate: Date,
   endingDate: Date,
-  movieList: [{
-    date: Date,
-    showtime: String,
-    _movie: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }
-  }]
+  dates: [ String ],
+  showtimes: [ String ],
+  _movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }]
 },
   {
   timestamps: {
