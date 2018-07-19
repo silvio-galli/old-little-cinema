@@ -21,8 +21,7 @@ class Admin extends Component {
       filteredMovies: [],
       events: [],
       currentPanel: {
-        isActive: false,
-        componentName: '',
+        componentName: null,
         componentId: null
       }
     }
@@ -95,7 +94,6 @@ class Admin extends Component {
 
   handlePanel( componentName, componentId ) {
     let currentPanel = {
-      isActive: !this.state.currentPanel.isActive,  //TODO: change as soon as possible with shoulsComponentUpdate()
       componentName: componentName,
       componentId: componentId
     }
@@ -103,6 +101,7 @@ class Admin extends Component {
     this.setState({
       currentPanel: currentPanel
     })
+
   }
 
   render() {
@@ -191,7 +190,7 @@ class Admin extends Component {
               
               <div className="row">
 
-                { this.state.currentPanel.isActive && <PanelSwitch currentPanel={this.state.currentPanel} /> }
+                { this.state.currentPanel.componentName && <PanelSwitch currentPanel={this.state.currentPanel} /> }
               
               </div>
             

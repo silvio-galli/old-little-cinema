@@ -13,6 +13,16 @@ class MoviePanel extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    api.getMovie(nextProps.movieId)
+    .then( movie => {
+      this.setState({
+        movie: movie
+      })
+    })
+    .catch(err => { throw err } );
+  }
+
   componentDidMount() {
     api.getMovie(this.props.movieId)
     .then( movie => {
@@ -32,7 +42,6 @@ class MoviePanel extends Component {
 
   handleAdd(e) {
     e.preventDefault();
-    console.log(`Clicked clicked!!`);
     let key = e.target.getElementsByClassName("form-control")[0]["name"];
     let movie = Object.assign({}, this.state.movie);
     if (key === "external_links") {
