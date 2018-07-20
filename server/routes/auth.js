@@ -6,19 +6,19 @@ const passport = require('passport');
 const config = require('../configs/index');
 
 
-router.post('/signup', (req, res, next) => {
-  // extract the info we need from the body of the request
-  const { email, name, password } = req.body;
-  const user = new User({
-    email,
-    name
-  });
+// router.post('/signup', (req, res, next) => {
+//   // extract the info we need from the body of the request
+//   const { email, name, password } = req.body;
+//   const user = new User({
+//     email,
+//     name
+//   });
 
-  User.register(user, password, err => {
-    if (err) return next(err);
-    res.json({ success: true });
-  });
-});
+//   User.register(user, password, err => {
+//     if (err) return next(err);
+//     res.json({ success: true });
+//   });
+// });
 
 router.post('/login', (req, res, next) => {
   const authenticate = User.authenticate();

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './Home';
 import Admin from './Admin';
 import Login from './Login';
@@ -18,6 +18,14 @@ import {
   NavItem,
   NavLink } from 'reactstrap';
 
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    api.isLoggedIn()
+    ? <Component {...props} />
+    : <Redirect to='/login' />
+  )} />
+)
   
 class App extends Component {
   constructor(props) {
@@ -36,6 +44,7 @@ class App extends Component {
       isOpen: !this.state.isOpen
     });
   }
+
   
   render() {                
     return (
@@ -51,9 +60,9 @@ class App extends Component {
               <NavItem>
                 <NavLink href="/">Home</NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
                 {!api.isLoggedIn() && <NavLink href="/signup">Signup</NavLink> }
-              </NavItem>
+              </NavItem> */}
               <NavItem>
                 {!api.isLoggedIn() && <NavLink href="/login">Login</NavLink> }
               </NavItem>
@@ -61,7 +70,7 @@ class App extends Component {
                 {api.isLoggedIn() && <NavLink href="/" onClick={(e) => this.handleLogoutClick(e)}>Logout</NavLink> }
               </NavItem>
               <NavItem>
-                <NavLink href="/admin">Admin</NavLink>
+              {api.isLoggedIn() && <NavLink href="/admin">Admin</NavLink> }
               </NavItem>
             </Nav>
           </Collapse>
@@ -70,9 +79,9 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           {/* <Route path="/countries" component={Countries} /> */}
           {/* <Route path="/add-country" component={AddCountry} /> */}
-          <Route path="/signup" component={Signup} />
+          {/* <Route path="/signup" component={Signup} /> */}
           <Route path="/login" component={Login} />
-          <Route path="/admin" exact component={Admin} />
+          <PrivateRoute path="/admin" exact component={Admin} />
           {/* <Route path="/movies/:movieId" component={MoviePage} />
           <Route path="/events/:eventId" component={EventPage} /> */}
           <Route render={() => <h2>404</h2>} />

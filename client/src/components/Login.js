@@ -33,10 +33,18 @@ class Login extends Component {
     return (
       <div className="Login">
         <h2>Login</h2>
-        <form>
-          Email: <input type="text" value={this.state.email} onChange={(e) => {this.handleInputChange("email", e)}} /> <br/>
-          Password: <input type="password" value={this.state.password} onChange={(e) => {this.handleInputChange("password", e)}}  /> <br/>
-          <button onClick={(e) => this.handleClick(e)}>Login</button>
+        <form className="form mx-auto login-form">
+          <div className="form-group">
+            <label>Email</label>
+            <input className="form-control" type="text" value={this.state.email} onChange={(e) => {this.handleInputChange("email", e)}} />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input className="form-control" type="password" value={this.state.password} onChange={(e) => {this.handleInputChange("password", e)}}  /> <br/>
+          </div>
+          <div className="form-group">
+            <button type="submit" onClick={(e) => this.handleClick(e)} className="btn btn-success">Login</button>
+          </div>
         </form>
       </div>
     );
