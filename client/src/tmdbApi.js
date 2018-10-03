@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-const MOVIEDB_API_KEY = '187833d4f410703c240782d20b5d2bab';
-
 const service = axios.create({
-  baseURL: 'https://api.themoviedb.org/3/search'
+  baseURL: process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:3030/api',
 });
 
 const errHandler = err => {
@@ -16,22 +14,30 @@ export default {
 
   getMovies( title, pageNumber ) {
     return service
-      .get(`movie?api_key=${MOVIEDB_API_KEY}&query=${title}&page=${pageNumber}`)
+      .get(`/movies/tmdb?title=${title}&page=${pageNumber}`)
       .then(res => res.data )
       .catch(errHandler);
   },
 
   getTmdbPage(title, pageNumber) {
     return service
-      .get(`movie?api_key=${MOVIEDB_API_KEY}&query=${title}&page=${pageNumber}`)
-      .then(res => res.data )
-      .catch(errHandler);
+      // .get(`movie?api_key=${MOVIEDB_API_KEY}&query=${title}&page=${pageNumber}`)
+      // .then(res => res.data )
+      // .catch(errHandler);
   },
 
   getMovieDetails(movieId) {
     console.log( "GET MOVIE DETAILS CALL for movie id = ", movieId )
     return axios
-      .get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${MOVIEDB_API_KEY}&append_to_response=credits`)
+      // .get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${MOVIEDB_API_KEY}&append_to_response=credits`)
+      // .then(res => res.data)
+      // .catch(errHandler);
+  },
+
+  getMovieDetailsFromTmdb(movieId) {
+    console.log( "GET MOVIE DETAILS CALL for movie id = ", movieId )
+    return service
+      .get('/movies/details/' + movieId)
       .then(res => res.data)
       .catch(errHandler);
   }

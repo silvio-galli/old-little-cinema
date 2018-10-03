@@ -16,9 +16,8 @@ class Movie extends Component {
   // to get the details of all movies
   // uncomment this below
   componentDidMount() {
-    tmdbApi.getMovieDetails(this.state.movieId)
+    tmdbApi.getMovieDetailsFromTmdb(this.state.movieId)
     .then(response => {
-      //console.log( "MOVIE DETAILS -->", response )
       this.setState({
         movieDetails: {
           tmdb_id: response.id,
@@ -27,11 +26,11 @@ class Movie extends Component {
           tagline: response.tagline,
           original_title: response.original_title,
           original_language: response.original_language,
-          director: response.credits.crew.filter(member => member.job === 'Director').map( el => el.name),
+          director: response.credits ? response.credits.crew.filter(member => member.job === 'Director').map( el => el.name): "",
           overview: response.overview,
           poster_path: `https://image.tmdb.org/t/p/w500${response.poster_path}`,
-          cast: response.credits.cast.map(el => el.name).slice(0,10),
-          genres: response.genres.map(genre => genre.name),
+          cast: response.credits ? response.credits.cast.map(el => el.name).slice(0,10) : "",
+          genres: response.genres ? response.genres.map(genre => genre.name) : "",
           production_countries: response.production_countries.map(country => country.name),
           release_date: response.release_date,
           runtime: response.runtime

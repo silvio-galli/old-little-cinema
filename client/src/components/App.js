@@ -17,15 +17,6 @@ import {
   Nav,
   NavItem,
   NavLink } from 'reactstrap';
-
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => (
-    api.isLoggedIn()
-    ? <Component {...props} />
-    : <Redirect to='/login' />
-  )} />
-)
   
 class App extends Component {
   constructor(props) {
@@ -39,6 +30,7 @@ class App extends Component {
   handleLogoutClick(e) {
     api.logout()
   }
+  
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
@@ -77,11 +69,9 @@ class App extends Component {
         </Navbar>
         <Switch>
           <Route path="/" exact component={Home} />
-          {/* <Route path="/countries" component={Countries} /> */}
-          {/* <Route path="/add-country" component={AddCountry} /> */}
           {/* <Route path="/signup" component={Signup} /> */}
           <Route path="/login" component={Login} />
-          <PrivateRoute path="/admin" exact component={Admin} />
+          <Route path="/admin" exact component={Admin} />
           {/* <Route path="/movies/:movieId" component={MoviePage} />
           <Route path="/events/:eventId" component={EventPage} /> */}
           <Route render={() => <h2>404</h2>} />

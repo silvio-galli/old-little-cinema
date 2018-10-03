@@ -1,5 +1,10 @@
 var express = require('express');
 const Movie = require('../models/movie')
+const axios = require('axios');
+
+const service = axios.create({
+  baseURL: 'https://api.themoviedb.org/3/'
+});
 
 var router = express.Router();
 
@@ -8,6 +13,31 @@ router.get('/', (req, res, next) => {
   Movie.find()
   .then(movies => {
     res.json(movies);
+  })
+  .catch(err => next(err))
+});
+
+// GET movies from tMDB
+router.get('/tmdb', (req, res, next) => {
+  console.log("SEARCHING TMDB ---------------------")
+  console.log("req.query -->", req.query)
+  let page = !req.query.page ? 1 : req.query.page;
+  console.log("Page -->", page)
+  service.get(`search/movie?api_key=${process.env.MOVIEDB_API_KEY}&query=${req.query.title}&page=${page}`)
+  .then(response => {
+    console.log("response from tmdb -->", response)
+    res.json(response.data);
+  })
+  .catch(err => next(err))
+});
+
+// GET movie details from tMDB
+router.get('/details/:movieId', (req, res, next) => {
+  console.log("SEARCHING MOVIE DETAILS ---------------------")
+  service.get(`movie/${req.params.movieId}?api_key=${process.env.MOVIEDB_API_KEY}&append_to_response=credits`)
+  .then(response => {
+    console.log("response from tmdb -->", response)
+    res.json(response.data);
   })
   .catch(err => next(err))
 });

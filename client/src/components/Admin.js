@@ -28,21 +28,26 @@ class Admin extends Component {
   }
 
   componentDidMount() {
-    api.getMovies()
-    .then(movies =>{
-      this.setState({
-        localMovies: [...movies]
+    if (!api.isLoggedIn()) {
+      console.log("YOU MUST BE LOGGED IN")
+      this.props.history.push("/login")
+    } else {
+      api.getMovies()
+      .then(movies =>{
+        this.setState({
+          localMovies: [...movies]
+        })
       })
-    })
-    .catch( err => { throw err })
-
-    api.getEvents()
-    .then(events => {
-      this.setState({
-        events: [...events]
+      .catch( err => { throw err })
+  
+      api.getEvents()
+      .then(events => {
+        this.setState({
+          events: [...events]
+        })
       })
-    })
-    .catch( err => { throw err })
+      .catch( err => { throw err })
+    }
   }
 
   handleChange(e) {
@@ -59,7 +64,8 @@ class Admin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let page = e.target.innerHTML.length > 3 ? "1" : e.target.innerHTML; //TODO: change this as soon as possible
+    console.log("handlesubmit e.target.innerHTML -->", e.target.innerHTML)
+    let page = e.target.name === "searchMovieDb" ? 1 : e.target.innerHTML; //TODO: if you click on pagination the 
     tmdbApi.getMovies( this.state.searchFor, page )
     .then( response => {
       this.setState({
