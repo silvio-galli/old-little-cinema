@@ -1,175 +1,73 @@
-# MERN boilerplate | Ironhack Fullstack Application
+# Old Little Cinema
+### MERN application
 
+This is a draft for an administration panel to manage events of a cinema.
 
-## Global information
+You can try a demo on [Heroku](https://old-little-cinema.herokuapp.com)
 
-### Directory structure
+Please, note that the application can be very slow the first time you access it, because the heroku service can be in sleeping mode and need some time to activate and respond to your first request.
+
+---
+
+If you want to try the app locally you need have NodeJS and MongoDB installed on your pc ( information to install Node [here](https://nodejs.org/en/download/) or [here](https://github.com/creationix/nvm#installation) and for MongoDB [here](https://docs.mongodb.com/manual/administration/install-community/) ).
+
+Then, clone this repository:
+```bash
+git clone --depth=1 git@github.com:silvio-galli/old-little-cinema.git
 ```
-client/
-  build/
-  node_modules/
-  public/
-  src/
-  package.json
-server/
-  bin/
-  configs/
-  models/
-  public/
-  routes/
-  package.json
-.gitignore
-package.json
-README.md
+
+Change your directory:
+```bash
+cd old-little-cinema
+```
+
+Install all the dependencies:
+```bash
+npm install
+``` 
+
+Then, in order to run the application, you need to have two terminal windows opened (one for the backend and one for the frontend).
+On one run this command:
+```bash
+npm run dev:server
+```
+
+On the other terminal, run:
+```bash
+npm run dev:client
 ```
 
 ### Files to add
 
-You should have a `server/.env` file, with for example the following values:
+You should have a `server/.env` file, with the following values:
 ```
-CLOUDINARY_CLOUD_NAME=......
-CLOUDINARY_API_KEY=......
-CLOUDINARY_API_SECRET=......
-JWT_SECRET=......
-MONGODB_URI=......
+MOVIEDB_API_KEY=....
 ```
+To query theMovieDB API is mandatory to have a key to access the database. In order to have an API key you need to [create an account on www.themoviedb.org](https://www.themoviedb.org/account/signup) and then paste it in the `srevr/.env` file.
 
+---
 
-## Commands
+![Searching locally](https://user-images.githubusercontent.com/15610747/46479280-06ccdb00-c7ef-11e8-8779-df1322a5397a.png)
 
-**To download the boilerplate and link it with your GitHub project**
+Fig. 1 - typing into the input field you will be filtering the movies already present in the local database
 
-(replace `<my-project>` and `<https://github.com/user/my-project.git>` by what you want, without `<` and `>`).
+---
 
-```sh
-# Clone the project with only the last commit and save it in the folder <my-project>
-$ git clone --depth=1 https://github.com/mc100s/mern-boilerplate.git <my-project>
+![Searching theMovieDB.org](https://user-images.githubusercontent.com/15610747/46480785-39c49e00-c7f2-11e8-9e24-3e68e7aa0d86.png)
 
-$ cd <my-project>
-$ rm -rf .git
-$ git init
+Fig. 2 - If you don't find the movie you need into the local database, you can press `Enter` on your keyboard or click on `Search` button and you will query [themoviedb.org](http://themoviedb.org) database and the result of the query will be displayed on the left side.
+To add the movie into the local db, click on `Add Movie` button.
 
-# Set your GitHub repository as the "origin" remote repository
-$ git remote add origin <https://github.com/user/my-project.git>
-```
+---
 
+![Editing movie](https://user-images.githubusercontent.com/15610747/46481128-f1f24680-c7f2-11e8-97b7-e4b85d88907a.png)
 
-**To install all the packages**
-```sh
-$ npm install
-# OR
-$ (cd server && npm install)
-$ (cd client && npm install)
-```
+Fig. 3 - Once the movie is saved on the local database, you can click on the `Edit` button to edit the movie details.
+On the right part of the page there is a panel used for editing movies and events.
+When editing the movie, you can add some info like links to reviews and articles on the movie or the trailer link (TODO: query the youtube API to find the official trailer of the movie)
 
-**To install a package for the server**
-```sh
-$ cd server
-$ npm install --save axios
-```
+---
 
-**To install a package for the client**
-```sh
-$ cd client
-$ npm install --save axios
-```
+![Creating an event](https://user-images.githubusercontent.com/15610747/46481446-b441ed80-c7f3-11e8-9e3a-05f0401eb271.png)
 
-**To run the server and the client**
-```sh
-# Open a first terminal
-$ npm run dev:server
-# Run the server on http://localhost:3030/
-
-# Open a second terminal
-$ npm run dev:client
-# Run the client on http://localhost:3000/
-```
-
-So now you can go to 
-- http://localhost:3030/api/: A simple API call
-- http://localhost:3030/: The website based on client/build (that you can update with `$ (cd client && npm run build)`)
-- http://localhost:3000/: The last version of your React application that is calling your API with the base url "http://localhost:3030/api/"
-
-
-## Example in the code
-
-### `server/routes/auth.js`
-
-- `router.post('/signup')`: Route to create a new user
-- `router.post('/login')`: Route to send the user JWT 
-- `router.get('/secret')`: Route where the user need to be authenticated
-
-
-### `server/routes/users.js`
-
-- `router.get('/')`: Route to get all users
-- `router.post('/first-user/pictures')`: Route to add a picture on one user with Cloudinary
-
-<!-- TODO: give instructions for Cloudinary -->
-<!-- TODO: give instructions for route guards -->
-
-### `server/routes/countries.js`
-
-- `router.get('/')`: Route to get all countries
-- `router.get('/static-sample')`: Route to get a static sample of countries
-- `router.post('/')`: Route to add a country
-
-
-
-## Deployement on Heroku
-
-### To deploy the first time
-
-Create a project on Heroku.com. Here for the demo I named the project "my-ironhack-project". 
-
-Then, you need to link your Git project with Heroku.
-
-```sh
-# Replace "my-ironhack-project" by the name of your Heroku project
-$ heroku git:remote -a my-ironhack-project 
-$ git push heroku master
-```
-
-Then you need to create a Mongo database online with MLab.
-
-```sh
-$ heroku addons:create mongolab:sandbox
-```
-
-
-### To redeploy
-
-You just need to push on `heroku` (don't forget to commit before):
-```sh
-$ git push heroku master
-```
-
-### To execute a seed
-
-If you want to execute something on the server, for example a seed, you can use `heroku run`.
-
-Example:
-```
-$ heroku run node server/bin/seeds/seeds.js
-```
-
-
-### To Open MongoLab
-
-You can either go on the Heroku project page ("Overview" tab) or type the following commad:
-
-```
-$ heroku addons:open mongolab
-```
-
-
-### See the logs
-
-```sh
-$ heroku logs
-```
-
-
-## Sources
-
-- https://daveceddia.com/create-react-app-express-production/
+Fig. 4 - Clicking on the `New Event` button, you can create a new event filling out the form the will appear.

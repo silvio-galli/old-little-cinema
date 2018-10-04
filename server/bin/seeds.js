@@ -55,12 +55,13 @@ const movies = [
   }
 ]
 
+let password = "password";
+
 let user = new User({
-  name: "Silvio",
-  email: "silvio.galli@gmail.com",
+  name: "test",
+  email: "test@test.com"
 });
 
-let password = "silvio";
 
 Movie.deleteMany()
 .then( _ => User.deleteMany())
