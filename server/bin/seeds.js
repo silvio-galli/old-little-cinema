@@ -3,7 +3,8 @@ const Movie = require('../models/movie');
 const User = require('../models/user');
 
 const dbName = 'old-little-cinema';
-mongoose.connect(`mongodb://localhost/${dbName}`);
+const mongoUri = process.env.MONGODB_URI || `mongodb://localhost/${dbName}`;
+mongoose.connect(mongoUri);
 
 const movies = [
   {
