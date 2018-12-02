@@ -43,10 +43,10 @@ class Movie extends Component {
   addMovie() {
     api.postMovies( this.state.movieDetails )
     .then( response => {
-      console.log( "Response from local DB after trying to add a movie", response );
-      if (response.success) { this.props.onAdd( this.state.movieDetails ) }; // TODO: fix this workaround
-    })                                                                       // should use response from the
-    .catch( err => { throw err } )                                           // local db instead of the state
+      console.log( "Response from local DB after adding movie", response );
+      if (response.success) { this.props.onAdd( response.newMovie ) };
+    })
+    .catch( err => { throw err } )
   }
 
   render() {

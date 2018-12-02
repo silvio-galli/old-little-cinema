@@ -79,7 +79,7 @@ class Admin extends Component {
   }
 
   handleAddMovie( newMovie ) {
-    console.log('LUDWIG debug newMovie added:', newMovie)
+    console.log('Adding new movie to localMovies and filteredMovies state...')
     this.setState({
       localMovies: [...this.state.localMovies, newMovie],
       filteredMovies: [...this.state.filteredMovies, newMovie]
