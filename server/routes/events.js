@@ -24,8 +24,8 @@ router.get('/:eventId', (req,res,next) => {
 
 // create new event
 router.post('/', (req, res, next) => {
-  let { title, subtitle, tagline, promo, startingDate, endingDate, dates, showtimes, _movies } = req.body;
-  Event.create( { title, subtitle, tagline, promo, startingDate, endingDate, dates, showtimes, _movies } )
+  let { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } = req.body;
+  Event.create( { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } )
   .then( newEvent => {
     res.json({
       success: true,

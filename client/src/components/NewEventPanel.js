@@ -10,12 +10,11 @@ class NewEventPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      kind: "",
       title: "",
       subtitle: "",
       tagline: "",
       promo: "",
-      startingDate: '',
-      endingDate: '',
       dates: [],
       showtimes: [],
       _movies: [],
@@ -57,44 +56,57 @@ class NewEventPanel extends Component {
 
   handleAddMovieToEvent(e){
     e.preventDefault();
-
-    this.setState({
-      dates: [ ...this.state.dates, this.state.movieDate ],
-      movieDate: '',
-      showtimes: [ ...this.state.showtimes, this.state.movieShowtime ],
-      movieShowtime: '',
-      _movies: [ ...this.state._movies, this.state.movieId ],
-      movieId: ''
-    })
+    if (this.state.kind === "review") {
+      this.setState({
+        dates: [ ...this.state.dates, this.state.movieDate ],
+        movieDate: '',
+        showtimes: [ ...this.state.showtimes, this.state.movieShowtime ],
+        movieShowtime: '',
+        _movies: [ ...this.state._movies, this.state.movieId ],
+        movieId: ''
+      })
+    } else {
+      this.setState({
+        dates: [ ...this.state.dates, this.state.movieDate ],
+        movieDate: '',
+        showtimes: [ ...this.state.showtimes, this.state.movieShowtime ],
+        movieShowtime: '',
+        _movie: this.state.movieId,
+        movieId: ''
+      })
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
     let data = {
+      kind: this.state.kind,
       title: this.state.title,
       subtitle: this.state.subtitle,
       tagline: this.state.tagline,
       promo: this.state.promo,
-      startingDate: this.state.startingDate,
-      endingDate: this.state.endingDate,
       dates: this.state.dates,
       showtimes: this.state.showtimes,
-      _movies: this.state._movies
     }
-    
+
+    if (data.kind === "review")
+      data._movies = this.state._movies
+    else
+      data._movie = this.state._movie
+
     api.postEvents( data )
     .then( response => {
       console.log( "New Event successfully added!", response );
       this.setState({
+        kind: '',
         title: '',
         subtitle: '',
         tagline: '',
         promo: '',
-        startingDate: '',
-        endingDate: '',
         dates: [],
         showtimes: [],
-        _movies: []
+        _movies: [],
+        _movie: ''
       })
     })
 
@@ -109,8 +121,18 @@ class NewEventPanel extends Component {
         <div className="row border rounded p-2">
           <div className="col-md-6">
 
-            <form className="form needs-validation" onSubmit={this.handleSubmit.bind(this)} novalidate>
-          
+            <form className="form needs-validation" onSubmit={this.handleSubmit.bind(this)} noValidate>
+
+              <div className="form-group m-1">
+                <select name="kind" id="kind" className="form-control" onChange={this.handleChange.bind(this)} required>
+                  <option value="">Select the event type</option>
+                  <option value="premiere">premiere</option>
+                  <option value="review">review</option>
+                  <option value="review">preview</option>
+                  <option value="review">one-show</option>
+                </select>
+              </div>
+
               <div className="form-group m-1">
                 <input
                   type="text"
@@ -153,32 +175,6 @@ class NewEventPanel extends Component {
                   name="promo"
                   placeholder="Enter Event Promo"
                   onChange={this.handleChange.bind(this)}
-                />
-              </div>
-
-              <div className="form-group m-1">
-                <label>Starting Date</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  id="startingDate"
-                  name="startingDate"
-                  placeholder="Starting Date"
-                  onChange={this.handleChange.bind(this)}
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label>Ending Date</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  id="endingDate"
-                  name="endingDate"
-                  placeholder="Ending Date"
-                  onChange={this.handleChange.bind(this)}
-                  required
                 />
               </div>
 
