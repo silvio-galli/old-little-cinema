@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from 'react'
+import ReviewForm from './ReviewForm'
+import OneMovieForm from './OneMovieForm'
 // import { Route, Switch, NavLink, Link } from 'react-router-dom';
-import api from '../api';
-import { link } from 'fs';
-// import './AddCountry.css';
-
+import api from '../api'
 
 class NewEventPanel extends Component {
   constructor(props) {
@@ -70,9 +68,9 @@ class NewEventPanel extends Component {
         dates: [ ...this.state.dates, this.state.movieDate ],
         movieDate: '',
         showtimes: [ ...this.state.showtimes, this.state.movieShowtime ],
-        movieShowtime: '',
-        _movie: this.state.movieId,
-        movieId: ''
+        movieShowtime: ''
+        // _movie: this.state.movieId,
+        // movieId: ''
       })
     }
   }
@@ -92,7 +90,7 @@ class NewEventPanel extends Component {
     if (data.kind === "review")
       data._movies = this.state._movies
     else
-      data._movie = this.state._movie
+      data._movie = this.state.movieId
 
     api.postEvents( data )
     .then( response => {
@@ -113,6 +111,29 @@ class NewEventPanel extends Component {
   }
 
   render() {
+    let details = []
+    if (this.state.kind && this.state.kind === "review") {
+      this.state._movies && this.state._movies.map( (element, index) => {
+        return details.push(
+          <div key={element} className="border rounded my-2 bg-secondary text-white">
+            <b>Date:</b> { this.state.dates[index] }<br />
+            <b>Showtime</b> { this.state.showtimes[index] }
+            <h6>{ this.props.movies.find( movie => movie._id === element ).title }</h6>
+          </div>
+        )
+      })
+    } else {
+      this.state.movieId && details.push(<h6 key={this.state.movieId}>{ this.props.movies.find(movie => movie._id === this.state.movieId).title }</h6>)
+      this.state.dates && this.state.dates.map( (element, index) => {
+        return details.push(
+          <div key={`${element}-${index}`} className="border rounded my-2 bg-secondary text-white">
+            <b>Date:</b> { this.state.dates[index] }<br />
+            <b>Showtime</b> { this.state.showtimes[index] }
+          </div>
+        )
+      })
+    }
+    console.log("DETAILS _-------->", details)
     console.log( "THIS STATE --> ", this.state )
     return (
       <div className="NewEventPanel">
@@ -120,7 +141,7 @@ class NewEventPanel extends Component {
 
         <div className="row border rounded p-2">
           <div className="col-md-6">
-
+            {/* FIRST FORM starts here */}
             <form className="form needs-validation" onSubmit={this.handleSubmit.bind(this)} noValidate>
 
               <div className="form-group m-1">
@@ -128,8 +149,8 @@ class NewEventPanel extends Component {
                   <option value="">Select the event type</option>
                   <option value="premiere">premiere</option>
                   <option value="review">review</option>
-                  <option value="review">preview</option>
-                  <option value="review">one-show</option>
+                  <option value="preview">preview</option>
+                  <option value="one-show">one-show</option>
                 </select>
               </div>
 
@@ -185,69 +206,41 @@ class NewEventPanel extends Component {
               </div>
 
             </form>
+            {/* FIRST FORM ends here */}
 
           </div>
+
           <div className="col-md-6">
-            <form className="form border rounded" onSubmit={this.handleAddMovieToEvent.bind(this)}>
-              {/* TODO: change this part of the form based on the event type */}
-              {/* if the event is a review the user can choose more movies */}
-              {/* otherwise the user can choose one movie and multiple dates */}
-              <h6>Add a movie</h6>
-              
-              <div className="form-group m-1">
-                <input
-                  type="date"
-                  className="form-control"
-                  id="movieDate"
-                  name="movieDate"
-                  value={this.state.movieDate}
-                  onChange={this.handleChange.bind(this)}
-                  required
-                />
-              </div>
+            
+            {/* SECOND FORM starts here */}
+            {
+              this.state.kind === "review" &&
+              <ReviewForm
+                movies={this.props.movies}
+                handleChange={this.handleChange.bind(this)}
+                handleAddMovieToEvent={this.handleAddMovieToEvent.bind(this)}
+                movieDate={this.state.movieDate}
+                movieShowtime={this.state.movieShowtime}
+                movieId={this.state.movieId}
+              />
+            }
 
-              <div className="form-group m-1">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="movieShowtime"
-                  name="movieShowtime"
-                  value={this.state.movieShowtime}
-                  placeholder="Enter showtime for this movie"
-                  onChange={this.handleChange.bind(this)}
-                  required
-                />
-              </div>
+            {
+              this.state.kind && this.state.kind !== "review" &&
+              <OneMovieForm
+                movies={this.props.movies}
+                handleChange={this.handleChange.bind(this)}
+                handleAddMovieToEvent={this.handleAddMovieToEvent.bind(this)}
+                movieDate={this.state.movieDate}
+                movieShowtime={this.state.movieShowtime}
+                movieId={this.state.movieId}
+              />
+            }
 
-              <select id="movieId" name="movieId" className="form-control" onChange={this.handleChange.bind(this)} value={this.state.movieId} required>
-                <option value='Select a movie'>Select a movie</option>
-                { 
-                  this.props.movies.sort((a,b) => {
-                    if(a.title < b.title) return -1;
-                    if(a.title > b.title) return 1;
-                    return 0
-                  }).map(movie => {
-                    return <option key={movie._id} value={movie._id}>{ movie.title }</option>
-                  })
-                }
-              </select>
-              <div className="form-group m-1">
-                <button type="submit" className="btn btn-outline-secondary">Add Movie</button>
-              </div>
-            </form>
+            {/* SECOND FORM ends here */}
+
             <div className="event-details">
-              {
-                this.state._movies &&
-                this.state._movies.map( (element, index) => {
-                  return (
-                    <div key={element} className="border rounded my-2 bg-secondary text-white">
-                      <b>Date:</b> { this.state.dates[index] }<br />
-                      <b>Showtime</b> { this.state.showtimes[index] }
-                      <h6>{ this.props.movies.find( movie => movie._id === element ).title }</h6>
-                    </div>
-                  )
-                } ) 
-              }
+              { details }
             </div>
           </div>
         </div>

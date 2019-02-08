@@ -108,8 +108,10 @@ class Admin extends Component {
     return (
       <div className="container-fluid mb-5">
 
+        {/* FIRST row START */}
         <div className="row">
           
+          {/* PAGINATION starts here */}
           <div className="col-md-3 api-result-list text-center">
           {
             this.state.tmdbTotalResults !== 0
@@ -123,10 +125,13 @@ class Admin extends Component {
             <h6>No results from themoviedb.org</h6>
           }
           </div>
-
+          {/* PAGINATION ends here */}
+          
+          {/* SEARCH starts here */}
           <div className="col-md-3">
             <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
           </div>
+          {/* SEARCH ends here */}
 
           <div className="col-md-6">
             <button className="btn btn-outline-success mr-2 mt-1" onClick={this.activatePanel.bind(this)} value="NEW_EVENT_PANEL">
@@ -135,8 +140,9 @@ class Admin extends Component {
           </div>
 
         </div>
+        {/* FIRST row END */}
 
-        
+        {/* SECOND row START */}
         <div className="row">
           
           <div className="col-md-3 movieDb-list">
@@ -193,6 +199,8 @@ class Admin extends Component {
 
           </div>
         </div>
+        {/* SECOND row END */}
+
       </div>
 
     );
