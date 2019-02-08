@@ -59,14 +59,13 @@ class Admin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let page = e.target.innerHTML.length > 3 ? "1" : e.target.innerHTML; //TODO: change this as soon as possible
-    tmdbApi.getMovies( this.state.searchFor, page )
+    tmdbApi.getMovies( this.state.searchFor, e.target.innerHTML ) // NOTE 1 
     .then( response => {
       this.setState({
         tmdbMovies: [...response.results],
         tmdbTotalResults: response.total_results,
         tmdbTotalPages: response.total_pages > 12 ? 12 : response.total_pages, //TODO: change this as soon as possible
-        tmdbActivePage: response.page
+        tmdbActivePage: response.page                                          
       })
     })
     .catch( err => { throw err })
@@ -201,3 +200,13 @@ class Admin extends Component {
 }
 
 export default Admin;
+
+/* ***** NOTES ******
+
+1) we pass the innerHTML value of the element that triggers the event as the second parameter of the function.
+   This parameter in the function stands for the page number of the query that is sent to theMovieDB.
+   In case the query is triggered by one of the element of the pagination the value passed is a number, the number of the page we want from theMovieDB api.
+   In case the query is triggered by the search input field, the value passed is the entire HTML of the element.
+   In the getMovies() declaration in TmdbApi.js file, if the value passed is not a number, it is swapped to 1. 
+
+*/

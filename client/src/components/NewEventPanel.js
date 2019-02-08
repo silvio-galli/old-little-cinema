@@ -189,7 +189,9 @@ class NewEventPanel extends Component {
           </div>
           <div className="col-md-6">
             <form className="form border rounded" onSubmit={this.handleAddMovieToEvent.bind(this)}>
-              
+              {/* TODO: change this part of the form based on the event type */}
+              {/* if the event is a review the user can choose more movies */}
+              {/* otherwise the user can choose one movie and multiple dates */}
               <h6>Add a movie</h6>
               
               <div className="form-group m-1">
