@@ -14,7 +14,7 @@ class PreviewEventPanel extends Component {
     api.getEvent(nextProps.eventId)
     .then( event => {
       this.setState({
-        event: event
+        event
       })
     })
     .catch(err => { throw err } );
@@ -24,7 +24,7 @@ class PreviewEventPanel extends Component {
     api.getEvent(this.props.eventId)
     .then( event => {
       this.setState({
-        event: event
+        event
       })
     })
     .catch(err => { throw err } );
@@ -33,28 +33,35 @@ class PreviewEventPanel extends Component {
 
   render() {
     console.log( "EVENT inside EventPage --->", this.state.event )
+    let {kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie} = this.state.event
     let startingDate, endingDate;
     let details = []
-    if (this.state.event.kind && this.state.event.kind === "review" ) {
-      startingDate = this.state.event.dates && new Date( Date.parse(this.state.event.dates[0]) ).toDateString()
-      endingDate = this.state.event.dates && new Date(Date.parse(this.state.event.dates[this.state.event.dates.length - 1]) ).toDateString()
-      this.state.event._movies && this.state.event._movies.map( (movie, index) => {
+    if (kind && kind === "review" ) {
+      startingDate = dates && new Date( Date.parse(dates[0]) ).toDateString()
+      endingDate = dates && new Date(Date.parse(dates[dates.length - 1]) ).toDateString()
+      _movies && _movies.map( (movie, index) => {
         details.push(
-          <div key={movie._id} className="border rounded my-2 bg-light">
-            <h4>{ movie.title }</h4>
-            <b>Date:</b> { this.state.event.dates[index] }<br />
-            <b>Showtime</b> { this.state.event.showtimes[index] }
+          <div key={movie._id} className="my-2 p-2 border rounded bg-light movie-box">
+            <div className="poster-box">
+              <img src={movie.poster_path} alt=""/>
+            </div>
+            <p>
+            <b>{ movie.title }</b><br />
+            <b>Date:</b> { dates[index] }<br />
+            <b>Showtime</b> { showtimes[index] }
+            </p>
+            <div className="clearfix"></div>
           </div>
         )
         return false
       })
     } else {
-      startingDate = this.state.event.dates && new Date( Date.parse(this.state.event.dates[0]) ).toDateString()
-      this.state.event.dates && this.state.event.dates.map( (date, index) => {
+      startingDate = dates && new Date( Date.parse(dates[0]) ).toDateString()
+      dates && dates.map( (date, index) => {
         details.push(
-          <div key={`${date}-${index}`} className="border rounded my-2 bg-light">
+          <div key={`${date}-${index}`} className="my-2 p-2 border rounded bg-light">
             <b>Date:</b> { date }<br />
-            <b>Showtime</b> { this.state.event.showtimes[index] }
+            <b>Showtime</b> { showtimes[index] }
           </div>
         )
         return false
@@ -63,26 +70,36 @@ class PreviewEventPanel extends Component {
     console.log("DETAILS ----->", details)
 
     return this.state.event && (
-      <div>
-        <h1>{ this.state.event.title }</h1>
-        <h2>{ this.state.event.subtitle }</h2>
-        <h3>{ this.state.event.tagline }</h3>
-        <h4>{ this.state.event.promo }</h4>
+      <div className="p-2 border text-left event-preview-box">
+        <ul>
+          {title && <li><b>Title:</b> { title }</li>}
+          {subtitle && <li><b>Subtitle:</b> { subtitle }</li>}
+          {tagline && <li><b>Tagline:</b> { tagline }</li>}
+          {promo && <li><b>Promo:</b> { promo }</li>}
+        </ul>
         { (startingDate && endingDate)
-          ?
+          &&
           <p>
-            <b>Starting Date:</b> { startingDate }
+            <b>Starting Date:</b> { startingDate } - 
             <b>Ending Date:</b> { endingDate }
           </p>
-          :
-          <p>
-            <b>From </b> { startingDate }
-          </p>
+        }
+
+        {
+          _movie &&
+          <div className="my-2 p-2 border rounded movie-box">
+            <div className="poster-box">
+                <img src={_movie.poster_path} alt=""/>
+              </div>
+            <p>
+              <b>Title: </b> { _movie.title }
+              <b>From </b> { startingDate }
+            </p>
+            <div className="clearfix"></div>
+          </div>
         }
         
-        <div className="event-details border rounded p-2">
-          { details }
-        </div>
+        { details }
 
       </div>
     )

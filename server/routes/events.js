@@ -17,6 +17,7 @@ router.get('/', (req, res, next) => {
 router.get('/:eventId', (req,res,next) => {
   Event.findById(req.params.eventId)
   .populate('_movies')
+  .populate('_movie')
   .then( event => {
     res.json(event)
   })

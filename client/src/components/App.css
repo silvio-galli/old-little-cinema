@@ -27,6 +27,18 @@
   font-size: large;
 }
 
+.clearfix {
+  float: clear;
+}
+.event-preview-box .movie-box .poster-box {
+  float: left;
+  width: 25%;
+}
+
+.event-preview-box .movie-box .poster-box img {
+  width: 70%;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
