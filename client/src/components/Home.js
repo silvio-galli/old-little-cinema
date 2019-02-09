@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
-import api from '../api';
+import api from '../api'
+import PremierHome from './PremiereHome'
+import './Home.css'
 
 class Home extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      events: []
+    }
+  }
+
+  componentDidMount() {
+    api.getEvents()
+    .then(events => {
+      console.log("EVENTS' LIST --->", events)
+      this.setState({
+        events: [...this.state.events, ...events]
+      })
+    })
+  }
 
   render() {
-    let user = "test@test.com";
-    let password = "password";
+    let premieres = this.state.events
+    .filter(event => event.kind === 'premiere' && event.public)
+    .map(premiere => {
+      return <PremierHome event={premiere} />
+    })
+    console.log("PREMIERES --->", premieres)
+    
     return (
-      <div className="Home">
-        <h2>Home</h2>
-        <p>This is a sample project with the MERN stack</p>
-        {
-          api.isLoggedIn()
-          ? <p>Now that you are logged in you can go to <a href="/admin">Admin</a></p>
-          : (
-              <p>
-                Go to <a href="/login">login</a> and use this credentials to access:
-                <br />
-                <strong>email: </strong>
-                <span>{user}</span>
-                <br />
-                <strong>password: </strong>
-                <span>{password}</span>
-              </p>
-            )
-        }
+
+      <div className="container Home">
+        {/* <h1>Home</h1>
+        <p>This is a sample project with the MERN stack</p> */}
+        <div className="row">
+          { premieres }
+        </div>
       </div>
-    );
+    )
   }
 }
 

@@ -64,15 +64,13 @@ class Admin extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log("handlesubmit e.target.innerHTML -->", e.target.innerHTML)
-    let page = e.target.name === "searchMovieDb" ? 1 : e.target.innerHTML; //TODO: if you click on pagination the 
-    tmdbApi.getMovies( this.state.searchFor, page )
+    tmdbApi.getMovies( this.state.searchFor, e.target.innerHTML ) // NOTE 1 
     .then( response => {
       this.setState({
         tmdbMovies: [...response.results],
         tmdbTotalResults: response.total_results,
         tmdbTotalPages: response.total_pages > 12 ? 12 : response.total_pages, //TODO: change this as soon as possible
-        tmdbActivePage: response.page
+        tmdbActivePage: response.page                                          
       })
     })
     .catch( err => { throw err })
@@ -115,8 +113,10 @@ class Admin extends Component {
     return (
       <div className="container-fluid mb-5">
 
+        {/* FIRST row START */}
         <div className="row">
           
+          {/* PAGINATION starts here */}
           <div className="col-md-3 api-result-list text-center">
           {
             this.state.tmdbTotalResults !== 0
@@ -130,10 +130,13 @@ class Admin extends Component {
             <h6>No results from themoviedb.org</h6>
           }
           </div>
-
+          {/* PAGINATION ends here */}
+          
+          {/* SEARCH starts here */}
           <div className="col-md-3">
             <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
           </div>
+          {/* SEARCH ends here */}
 
           <div className="col-md-6">
             <button className="btn btn-outline-success mr-2 mt-1" onClick={this.activatePanel.bind(this)} value="NEW_EVENT_PANEL">
@@ -142,8 +145,9 @@ class Admin extends Component {
           </div>
 
         </div>
+        {/* FIRST row END */}
 
-        
+        {/* SECOND row START */}
         <div className="row">
           
           <div className="col-md-3 movieDb-list">
@@ -169,7 +173,7 @@ class Admin extends Component {
 
                 <div className="row mb-2">
                   <div className="col-md-3 text-right">
-                    <h5>Events</h5>
+                    {/* <h5>Events</h5> */}
                   </div>
                   <div className="col-md-9 text-left">
                     { 
@@ -200,6 +204,8 @@ class Admin extends Component {
 
           </div>
         </div>
+        {/* SECOND row END */}
+
       </div>
 
     );
@@ -207,3 +213,13 @@ class Admin extends Component {
 }
 
 export default Admin;
+
+/* ***** NOTES ******
+
+1) we pass the innerHTML value of the element that triggers the event as the second parameter of the function.
+   This parameter in the function stands for the page number of the query that is sent to theMovieDB.
+   In case the query is triggered by one of the element of the pagination the value passed is a number, the number of the page we want from theMovieDB api.
+   In case the query is triggered by the search input field, the value passed is the entire HTML of the element.
+   In the getMovies() declaration in TmdbApi.js file, if the value passed is not a number, it is swapped to 1. 
+
+*/

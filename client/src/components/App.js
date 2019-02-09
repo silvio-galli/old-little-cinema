@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import Home from './Home';
-import Admin from './Admin';
-import Login from './Login';
-import Signup from './Signup';
+import React, { Component } from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import Home from './Home'
+import Admin from './Admin'
+import Login from './Login'
+import Footer from './Footer'
+// import Signup from './Signup';
 // import MoviePage from './MoviePage';
 // import EventPage from './EventPage';
 import api from '../api';
@@ -50,7 +51,7 @@ class App extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/">Home</NavLink>
+                <NavLink href="/" >Home</NavLink>
               </NavItem>
               {/* <NavItem>
                 {!api.isLoggedIn() && <NavLink href="/signup">Signup</NavLink> }
@@ -76,6 +77,7 @@ class App extends Component {
           <Route path="/events/:eventId" component={EventPage} /> */}
           <Route render={() => <h2>404</h2>} />
         </Switch>
+        <Footer />
       </div>
     );
   }

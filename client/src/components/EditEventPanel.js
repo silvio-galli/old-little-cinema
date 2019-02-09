@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import api from '../api';
-import { Row, Col } from 'reactstrap';
+// import { Row, Col } from 'reactstrap';
 
 class EditEventPanel extends Component {
   constructor(props) {
