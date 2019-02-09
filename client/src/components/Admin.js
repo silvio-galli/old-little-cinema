@@ -26,6 +26,7 @@ class Admin extends Component {
       }
     }
     
+    this._setPanelToDisplay = this._setPanelToDisplay.bind(this)
     this._addEvent = this._addEvent.bind(this)
   }
 
@@ -93,24 +94,6 @@ class Admin extends Component {
     // })
   }
 
-  _addEvent( newEvent ) {
-    this.setState({
-      events: [newEvent, ...this.state.events]
-    })
-  }
-
-  handlePanel( componentName, componentId = null ) {
-    let currentPanel = {
-      componentName: componentName,
-      componentId: componentId
-    }
-
-    this.setState({
-      currentPanel: currentPanel
-    })
-
-  }
-
   render() {
     
     return (
@@ -142,7 +125,10 @@ class Admin extends Component {
           {/* SEARCH ends here */}
 
           <div className="col-md-6">
-            <button className="btn btn-outline-success mr-2 mt-1" onClick={() => this.handlePanel("NEW_EVENT_PANEL")}>
+            <button
+              className="btn btn-outline-success mr-2 mt-1"
+              onClick={() => this._setPanelToDisplay("NEW_EVENT_PANEL")}
+            >
               New Event
             </button>
           </div>
@@ -164,7 +150,7 @@ class Admin extends Component {
           <div className="col-md-3 local-db-list">
             {/* LOCAL DB results */}
             { 
-              this.state.filteredMovies.map( movie => <LocalMovie key={movie._id} movie={movie} handlePanel={ this.handlePanel.bind(this) } /> )
+              this.state.filteredMovies.map( movie => <LocalMovie key={movie._id} movie={movie} setPanelToDisplay={ this._setPanelToDisplay } /> )
             }
           </div>
           
@@ -180,7 +166,7 @@ class Admin extends Component {
                   </div>
                   <div className="col-md-9 text-left">
                     { 
-                      this.state.events.map( event => <EventButton key={event._id} id={event._id} title={event.title} handlePanel={ this.handlePanel.bind(this) } /> )
+                      this.state.events.map( event => <EventButton key={event._id} id={event._id} title={event.title} setPanelToDisplay={ this._setPanelToDisplay } /> )
                     }
                   </div>
                 </div>
@@ -199,6 +185,7 @@ class Admin extends Component {
                     movies={this.state.localMovies} // TODO: change to pinned movies to have a short list of movies to select
                     currentPanel={this.state.currentPanel}
                     addEvent={this._addEvent}
+                    setPanelToDisplay={this._setPanelToDisplay}
                   />
                 }
               
@@ -213,6 +200,24 @@ class Admin extends Component {
       </div>
 
     );
+  }
+
+  //
+  _setPanelToDisplay( componentName, componentId = null ) {
+    let currentPanel = {
+      componentName: componentName,
+      componentId: componentId
+    }
+    this.setState({
+      currentPanel: currentPanel
+    })
+  }
+
+  //
+  _addEvent( newEvent ) {
+    this.setState({
+      events: [newEvent, ...this.state.events]
+    })
   }
 }
 

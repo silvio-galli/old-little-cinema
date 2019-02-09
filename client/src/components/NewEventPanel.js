@@ -20,21 +20,8 @@ class NewEventPanel extends Component {
       movieShowtime: '',
       movieId: ''
     }
-  }
 
-  // handleInputChange(eventFieldName, e) {
-  //   console.log( e.target.value )
-  //   let newEvent = {}
-  //   newEvent[eventFieldName] = e.target.value
-  //   this.setState(newEvent)
-  // }
-
-  handleChange(e) {
-    //console.log(`${e.target.name} is type -->`, e.target.type);
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-    console.log(`Changing this.state[${e.target.name}]`, this.state[e.target.name] );
+    this._handleInputChange = this._handleInputChange.bind(this)
   }
 
   handleChangeMovieDetails(e) {
@@ -75,42 +62,6 @@ class NewEventPanel extends Component {
     }
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    let data = {
-      kind: this.state.kind,
-      title: this.state.title,
-      subtitle: this.state.subtitle,
-      tagline: this.state.tagline,
-      promo: this.state.promo,
-      dates: this.state.dates,
-      showtimes: this.state.showtimes,
-    }
-
-    if (data.kind === "review")
-      data._movies = this.state._movies
-    else
-      data._movie = this.state.movieId
-
-    api.postEvents( data )
-    .then( response => {
-      console.log( "New Event successfully added!", response );
-      this.props.addEvent(response.newEvent)
-      this.setState({
-        kind: '',
-        title: '',
-        subtitle: '',
-        tagline: '',
-        promo: '',
-        dates: [],
-        showtimes: [],
-        _movies: [],
-        _movie: ''
-      })
-    })
-
-  }
-
   render() {
     let details = []
     if (this.state.kind && this.state.kind === "review") {
@@ -143,10 +94,10 @@ class NewEventPanel extends Component {
         <div className="row border rounded p-2">
           <div className="col-md-6">
             {/* FIRST FORM starts here */}
-            <form className="form needs-validation" onSubmit={this.handleSubmit.bind(this)} noValidate>
+            <form className="form needs-validation" onSubmit={this._handleSubmit.bind(this)} noValidate>
 
               <div className="form-group m-1">
-                <select name="kind" id="kind" className="form-control" onChange={this.handleChange.bind(this)} required>
+                <select name="kind" id="kind" className="form-control" onChange={this._handleInputChange} required>
                   <option value="">Select the event type</option>
                   <option value="premiere">premiere</option>
                   <option value="review">review</option>
@@ -162,7 +113,7 @@ class NewEventPanel extends Component {
                   id="title"
                   name="title"
                   placeholder="Enter Event Title"
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this._handleInputChange}
                   required
                 />
               </div>
@@ -174,7 +125,7 @@ class NewEventPanel extends Component {
                   id="subtitle"
                   name="subtitle"
                   placeholder="Enter Event Subtitle"
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this._handleInputChange}
                 />
               </div>
 
@@ -185,7 +136,7 @@ class NewEventPanel extends Component {
                   id="tagline"
                   name="tagline"
                   placeholder="Enter Event Tagline"
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this._handleInputChange}
                 />
               </div>
 
@@ -196,7 +147,7 @@ class NewEventPanel extends Component {
                   id="promo"
                   name="promo"
                   placeholder="Enter Event Promo"
-                  onChange={this.handleChange.bind(this)}
+                  onChange={this._handleInputChange}
                 />
               </div>
 
@@ -218,7 +169,7 @@ class NewEventPanel extends Component {
               this.state.kind === "review" &&
               <ReviewForm
                 movies={this.props.movies}
-                handleChange={this.handleChange.bind(this)}
+                handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this.handleAddMovieToEvent.bind(this)}
                 movieDate={this.state.movieDate}
                 movieShowtime={this.state.movieShowtime}
@@ -230,7 +181,7 @@ class NewEventPanel extends Component {
               this.state.kind && this.state.kind !== "review" &&
               <OneMovieForm
                 movies={this.props.movies}
-                handleChange={this.handleChange.bind(this)}
+                handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this.handleAddMovieToEvent.bind(this)}
                 movieDate={this.state.movieDate}
                 movieShowtime={this.state.movieShowtime}
@@ -248,6 +199,40 @@ class NewEventPanel extends Component {
         
       </div>
     );
+  }
+
+  //
+  _handleInputChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  //
+  _handleSubmit(e) {
+    e.preventDefault();
+    let data = {
+      kind: this.state.kind,
+      title: this.state.title,
+      subtitle: this.state.subtitle,
+      tagline: this.state.tagline,
+      promo: this.state.promo,
+      dates: this.state.dates,
+      showtimes: this.state.showtimes,
+    }
+
+    if (data.kind === "review")
+      data._movies = this.state._movies
+    else
+      data._movie = this.state.movieId
+
+    api.postEvents( data )
+    .then( response => {
+      // add the new event in the parent component
+      this.props.addEvent(response.newEvent)
+      // mount the preview component
+      this.props.setPanelToDisplay('PREVIEW_EVENT_PANEL', response.newEvent._id)
+    })
   }
 }
 
