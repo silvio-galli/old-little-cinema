@@ -18,7 +18,7 @@ router.get('/:eventId', (req,res,next) => {
   Event.findById(req.params.eventId)
   .populate('_movies')
   .then( event => {
-    res.json(event);
+    res.json(event)
   })
   .catch(err => next(err))
 });
@@ -28,10 +28,13 @@ router.post('/', (req, res, next) => {
   let { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } = req.body;
   Event.create( { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } )
   .then( newEvent => {
-    res.json({
+    console.log("SERVER: New event created ->", newEvent)
+    let response = {
       success: true,
       newEvent
-    });
+    }
+    console.log("SERVER response ->", response)
+    res.json(response);
   })
   .catch( err => next(err));
 });

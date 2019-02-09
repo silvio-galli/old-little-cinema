@@ -25,6 +25,8 @@ class Admin extends Component {
         componentId: null
       }
     }
+    
+    this._addEvent = this._addEvent.bind(this)
   }
 
   componentDidMount() {
@@ -43,7 +45,7 @@ class Admin extends Component {
       api.getEvents()
       .then(events => {
         this.setState({
-          events: [...events]
+          events: [...events.reverse()]
         })
       })
       .catch( err => { throw err })
@@ -91,12 +93,13 @@ class Admin extends Component {
     // })
   }
 
-  activatePanel(e) {
-    console.log( "NEW EVENT CALL e.target -->", e.target.value );
-    this.handlePanel( e.target.value );
+  _addEvent( newEvent ) {
+    this.setState({
+      events: [newEvent, ...this.state.events]
+    })
   }
 
-  handlePanel( componentName, componentId ) {
+  handlePanel( componentName, componentId = null ) {
     let currentPanel = {
       componentName: componentName,
       componentId: componentId
@@ -139,7 +142,7 @@ class Admin extends Component {
           {/* SEARCH ends here */}
 
           <div className="col-md-6">
-            <button className="btn btn-outline-success mr-2 mt-1" onClick={this.activatePanel.bind(this)} value="NEW_EVENT_PANEL">
+            <button className="btn btn-outline-success mr-2 mt-1" onClick={() => this.handlePanel("NEW_EVENT_PANEL")}>
               New Event
             </button>
           </div>
@@ -177,7 +180,7 @@ class Admin extends Component {
                   </div>
                   <div className="col-md-9 text-left">
                     { 
-                      this.state.events.map( event => <EventButton key={event._id} event={event} handlePanel={ this.handlePanel.bind(this) } /> )
+                      this.state.events.map( event => <EventButton key={event._id} id={event._id} title={event.title} handlePanel={ this.handlePanel.bind(this) } /> )
                     }
                   </div>
                 </div>
@@ -193,8 +196,9 @@ class Admin extends Component {
                   this.state.currentPanel.componentName
                   &&
                   <PanelSwitch
-                    movies={this.state.localMovies}
+                    movies={this.state.localMovies} // TODO: change to pinned movies to have a short list of movies to select
                     currentPanel={this.state.currentPanel}
+                    addEvent={this._addEvent}
                   />
                 }
               

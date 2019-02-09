@@ -14,7 +14,7 @@ class PanelSwitch extends Component {
       case 'EDIT_EVENT_PANEL':
         return <EditEventPanel eventId={ this.props.currentPanel.componentId } />;
       case 'NEW_EVENT_PANEL':
-        return <NewEventPanel movies={ this.props.movies } />;
+        return <NewEventPanel movies={this.props.movies} addEvent={this.props.addEvent} />;
       case 'PREVIEW_EVENT_PANEL':
         return <PreviewEventPanel eventId={ this.props.currentPanel.componentId } movies={ this.props.movies } />;
       default:

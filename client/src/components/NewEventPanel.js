@@ -95,6 +95,7 @@ class NewEventPanel extends Component {
     api.postEvents( data )
     .then( response => {
       console.log( "New Event successfully added!", response );
+      this.props.addEvent(response.newEvent)
       this.setState({
         kind: '',
         title: '',
