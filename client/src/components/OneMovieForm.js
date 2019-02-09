@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 
 class OneMovieForm extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     return (

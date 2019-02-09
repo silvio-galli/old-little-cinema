@@ -6,6 +6,7 @@ var router = express.Router();
 // Route to get all events
 router.get('/', (req, res, next) => {
   Event.find()
+  .populate('_movies')
   .populate('_movie')
   .then(events => {
     res.json(events);

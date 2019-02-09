@@ -6,6 +6,7 @@ const eventSchema = new mongoose.Schema({
     required: true,
     enum: ["premiere", "review", "preview", "one-show"]
   },
+  public: { type: Boolean, default: false },
   title: { type: String, required: true },
   subtitle: String,
   tagline: String,

@@ -46,6 +46,7 @@ class PreviewEventPanel extends Component {
             <b>Showtime</b> { this.state.event.showtimes[index] }
           </div>
         )
+        return false
       })
     } else {
       startingDate = this.state.event.dates && new Date( Date.parse(this.state.event.dates[0]) ).toDateString()
@@ -56,6 +57,7 @@ class PreviewEventPanel extends Component {
             <b>Showtime</b> { this.state.event.showtimes[index] }
           </div>
         )
+        return false
       })
     }
     console.log("DETAILS ----->", details)

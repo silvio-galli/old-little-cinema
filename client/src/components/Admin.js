@@ -168,7 +168,7 @@ class Admin extends Component {
 
                 <div className="row mb-2">
                   <div className="col-md-3 text-right">
-                    <h5>Events</h5>
+                    {/* <h5>Events</h5> */}
                   </div>
                   <div className="col-md-9 text-left">
                     { 
