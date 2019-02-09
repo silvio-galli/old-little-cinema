@@ -1,3 +1,4 @@
+require('dotenv').config()
 var express = require('express');
 const Movie = require('../models/movie')
 const axios = require('axios');
@@ -18,7 +19,7 @@ router.get('/', (req, res, next) => {
 });
 
 // GET movies from tMDB
-router.get('/tmdb', (req, res, next) => {
+router.get('/tmdb/search', (req, res, next) => {
   console.log("SEARCHING TMDB ---------------------")
   console.log("req.query -->", req.query)
   let page = !req.query.page ? 1 : req.query.page;
@@ -31,7 +32,7 @@ router.get('/tmdb', (req, res, next) => {
   .catch(err => next(err))
 });
 
-// GET movie details from tMDB
+// GET movie details from theMovieDB.org
 router.get('/details/:movieId', (req, res, next) => {
   console.log("SEARCHING MOVIE DETAILS ---------------------")
   service.get(`movie/${req.params.movieId}?api_key=${process.env.MOVIEDB_API_KEY}&append_to_response=credits`)
@@ -42,7 +43,7 @@ router.get('/details/:movieId', (req, res, next) => {
   .catch(err => next(err))
 });
 
-// get one movie
+// GET one local movie
 router.get('/:movieId', (req, res, next) => {
   Movie.findById(req.params.movieId, (err, movie) => {
     if (err) {                                       // TODO: see LocalMovie.js
@@ -57,7 +58,7 @@ router.get('/:movieId', (req, res, next) => {
   })
 });
 
-// create one movie into the local database
+// POST one movie into the local database
 router.post('/', (req, res, next) => {
   let { tmdb_id, imdb_id, title, original_title, director, overview, poster_path, cast, genres, production_countries, release_date, runtime, tagline, original_language } = req.body;
   Movie.findOne({tmdb_id}, (err, movie) => {
@@ -81,7 +82,7 @@ router.post('/', (req, res, next) => {
   
 });
 
-// update movie details
+// PUT movie details
 router.post('/:movieId', (req,res,next) => {
   console.log( "REQ.BODY --->", req.body )
   let movieId = req.params.movieId;

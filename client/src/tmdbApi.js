@@ -14,7 +14,7 @@ export default {
 
   getMovies( title, pageNumber ) {
     return service
-      .get(`movie?api_key=${process.env.MOVIEDB_API_KEY}&query=${title}&page=${ isNaN(Number(pageNumber)) ? "1" : pageNumber }`)
+      .get(`/movies/tmdb/search?title=${title}&page=${ isNaN(Number(pageNumber)) ? "1" : pageNumber }`)
       .then(res => res.data )
       .catch(errHandler);
   },

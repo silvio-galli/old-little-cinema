@@ -21,19 +21,19 @@ class Movie extends Component {
       this.setState({
         movieDetails: {
           tmdb_id: response.id,
-          imdb_id: response.imdb_id,
+          imdb_id: response.imdb_id ? response.imdb_id : '',
           title: response.title,
           tagline: response.tagline,
-          original_title: response.original_title,
-          original_language: response.original_language,
+          original_title: response.original_title ? response.original_title : '',
+          original_language: response.original_language ? response.original_language : '',
           director: response.credits ? response.credits.crew.filter(member => member.job === 'Director').map( el => el.name): "",
-          overview: response.overview,
-          poster_path: `https://image.tmdb.org/t/p/w500${response.poster_path}`,
+          overview: response.overview ? response.overview : '',
+          poster_path: response.poster_path ? `https://image.tmdb.org/t/p/w500${response.poster_path}` : 'find a default poster for missing one',
           cast: response.credits ? response.credits.cast.map(el => el.name).slice(0,10) : "",
           genres: response.genres ? response.genres.map(genre => genre.name) : "",
-          production_countries: response.production_countries.map(country => country.name),
-          release_date: response.release_date,
-          runtime: response.runtime
+          production_countries: response.production_countries ? response.production_countries.map(country => country.name) : [],
+          release_date: response.release_date ? response.release_date : '',
+          runtime: response.runtime ? response.runtime : NaN
         }
       })
     })

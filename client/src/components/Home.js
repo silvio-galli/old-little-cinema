@@ -25,9 +25,8 @@ class Home extends Component {
     let premieres = this.state.events
     .filter(event => event.kind === 'premiere' && event.public)
     .map(premiere => {
-      return <PremierHome event={premiere} />
+      return <PremierHome key={premiere._id} event={premiere} />
     })
-    console.log("PREMIERES --->", premieres)
     
     return (
 
