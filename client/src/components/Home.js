@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from '../api'
-import PremierHome from './PremiereHome'
+import EventHome from './EventHome'
 import './Home.css'
 
 class Home extends Component {
@@ -25,10 +25,7 @@ class Home extends Component {
     let events = this.state.events
     .filter(event => event.public )
     .map(event => {
-      if (event.kind === 'review')
-        return <div><h1>Review</h1></div>
-      else
-        return <PremierHome key={event._id} event={event} />
+      return <EventHome key={event._id} event={event} />
     })
     
     return (
@@ -36,7 +33,7 @@ class Home extends Component {
       <div className="container Home">
         {/* <h1>Home</h1>
         <p>This is a sample project with the MERN stack</p> */}
-        <div className="row">
+        <div className="row p-3">
           { events }
         </div>
       </div>

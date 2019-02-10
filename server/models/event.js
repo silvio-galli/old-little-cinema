@@ -11,6 +11,9 @@ const eventSchema = new mongoose.Schema({
   subtitle: String,
   tagline: String,
   promo: String,
+  poster: {
+      type: String, default:'https://user-images.githubusercontent.com/15610747/52535184-a83edd00-2d4b-11e9-8b93-80eb97919a4c.png'
+  },
   dates: [ String ],
   showtimes: [ String ],
   _movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],

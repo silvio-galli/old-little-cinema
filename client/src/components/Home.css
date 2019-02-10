@@ -5,71 +5,138 @@ span.title {
   color: #fbbd61
 }
 .row {
-  margin-right: -15px;
-  margin-left: -15px;
+  /* margin-right: -15px;
+  margin-left: -15px; */
 }
-.movie-tabs {
+.event-tabs {
   text-align: left;
   margin-bottom:40px;
   padding-bottom:40px;
   border-bottom:1px solid #d8d8d8;
 }
-.movie-tabs:last-child {
+.event-tabs:last-child {
   margin-bottom:0;
   padding-bottom:0;
   border-bottom:none
 }
-.movie-tabs img{
+.event-tabs img{
   border-radius:10px
 }
-.movie-tabs h4 {
+.event-tabs h4 {
   line-height: 0.90em;
   color: #ec7532; 
 }
-.movie-tabs h4 small {
+.event-tabs h4 small {
   color: #4a4a4a;
   font-size: 0.60em; 
 }
-.movie-tabs span.title{
+.event-tabs span.title{
   color:#ec7532;
   margin-bottom: 0;
 }
-.movie-tabs .short-info {
+.event-tabs .short-info {
   font-size: 14px;
   color:#ec7532;
 }
-.movie-tabs .short-info .detail {
+.event-tabs .short-info .detail {
   display:inline-block;
   margin-right:15px;
 }
-.movie-tabs .viewing-times {
+.event-tabs .viewing-times {
   font-size:12px;
   letter-spacing:1.5px;
   text-transform:uppercase;
   color:#4a4a4a;
 }
-.movie-tabs .viewing-times {
+.event-tabs .viewing-times {
   font-size: 12px;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #4a4a4a;
 }
-.movie-tabs .date .time {
+.event-tabs .date .time {
   font-size: 14px;
   display: inline-block;
   /* letter-spacing: 2px; */
   color: #717171;
   background-color: #d8d8d8;
 }
-/* .movie-tabs .showtime.past{
+/* .event-tabs .showtime.past{
   opacity:.5
 } */
-.movie-tabs .running-time {
+.event-tabs .running-time {
   font-size:12px;
   text-align:right;
   letter-spacing:1.5px;
   text-transform:uppercase;
 }
-.movie-tabs .certificate{
+.event-tabs .certificate{
   font-size:13px;font-weight:700;line-height:33px;display:inline-block;width:33px;height:33px;margin-left:5px;text-align:center;letter-spacing:0;color:#fff;border-radius:50%;background:#4a4a4a
+}
+.reviewListItem {
+  border:1px solid #d8d8d8;
+  border-radius: 5px;
+}
+.reviewListItem img {
+  float: left;
+  margin-right: 5px;
+}
+
+@media (max-width: 574px) {
+  .event-tabs h4 {
+    text-align: center;
+    margin-top: 15px;
+  }
+  .reviewListItem {
+    width: 40%;
+  }
+  .reviewListItem img {
+    width: 40%;
+  }
+}
+
+@media (min-width: 575px) {
+  .reviewListItem {
+    width: 45%;
+  }
+  .reviewListItem img {
+    width: 40%;
+  }
+}
+
+@media (min-width: 768px) {
+  .reviewListItem {
+    width: 31%;
+  }
+  .reviewListItem img {
+    width: 40%;
+  }
+}
+
+@media (min-width:320px) and (max-width:480px) {
+  .event-tabs h4 {
+    text-align: center;
+    margin-top: 15px;
+  }
+  .reviewListItem {
+    width: 85%;
+  }
+  .reviewListItem {
+    text-align: center;
+  }
+  .reviewListItem .date li {
+    display: block;
+    text-align: center;
+  }
+  .reviewListItem .date li b {
+    display: block;
+    text-align: center;
+  }
+  .reviewListItem img {
+    display: block;
+    width: 80%;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
