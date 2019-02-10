@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
   .populate('_movies')
   .populate('_movie')
   .then(events => {
-    res.json(events)
+    res.json(events.reverse())
   })
   .catch(err => next(err))
 })

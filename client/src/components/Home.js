@@ -22,11 +22,13 @@ class Home extends Component {
   }
 
   render() {
-    let premieres = this.state.events
-    .filter(event => event.kind === 'premiere' && event.public)
-    .reverse()
-    .map(premiere => {
-      return <PremierHome key={premiere._id} event={premiere} />
+    let events = this.state.events
+    .filter(event => event.public )
+    .map(event => {
+      if (event.kind === 'review')
+        return <div><h1>Review</h1></div>
+      else
+        return <PremierHome key={event._id} event={event} />
     })
     
     return (
@@ -35,7 +37,7 @@ class Home extends Component {
         {/* <h1>Home</h1>
         <p>This is a sample project with the MERN stack</p> */}
         <div className="row">
-          { premieres }
+          { events }
         </div>
       </div>
     )
