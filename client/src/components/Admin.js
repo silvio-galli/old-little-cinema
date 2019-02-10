@@ -168,7 +168,18 @@ class Admin extends Component {
                   </div>
                   <div className="col-md-9 text-left">
                     { 
-                      this.state.events.map( event => <EventButton key={event._id} id={event._id} title={event.title} setPanelToDisplay={ this._setPanelToDisplay } /> )
+                      this.state.events.map( event => {
+                        return (
+                          <EventButton
+                            key={event._id}
+                            id={event._id}
+                            kind={event.kind}
+                            movieTitle= {event._movie ? event._movie.title : null}
+                            title={event.title}
+                            setPanelToDisplay={ this._setPanelToDisplay }
+                          />
+                        )
+                      })
                     }
                   </div>
                 </div>

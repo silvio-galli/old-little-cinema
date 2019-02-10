@@ -27,7 +27,13 @@ router.get('/:eventId', (req,res,next) => {
 // POST /events
 router.post('/', (req, res, next) => {
   let { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } = req.body;
-  Event.create( { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } )
+
+  let event = new Event({ kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie })
+
+  event.save()
+  // populate _movie and _movies to have movie data available on front
+  .then(saved => Event.populate(saved, {path:"_movie"}) )
+  .then(populated => Event.populate(populated, {path:"_movies"}) ) 
   .then( newEvent => {
     let response = {
       success: true,

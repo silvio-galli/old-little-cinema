@@ -6,10 +6,10 @@ function Event(props) {
     <Button
       outline
       color="primary"
-      className="mr-2 btn-sm"
-      onClick={() => props.setPanelToDisplay( 'PREVIEW_EVENT_PANEL', props.id )}
+      className="m-1 btn-sm"
+      onClick={() => props.setPanelToDisplay('PREVIEW_EVENT_PANEL', props.id )}
     >
-      { props.title }
+      { props.kind === "review" ? `${props.kind} - ${props.title}` : `${props.kind} - ${props.movieTitle}`  }
     </Button>
   )
 }
