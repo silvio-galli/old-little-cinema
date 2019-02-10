@@ -33,7 +33,7 @@ class PreviewEventPanel extends Component {
 
   render() {
     console.log( "EVENT inside EventPage --->", this.state.event )
-    let {kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie} = this.state.event
+    let {_id, kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie} = this.state.event
     let startingDate, endingDate;
     let details = []
     if (kind && kind === "review" ) {
@@ -100,6 +100,17 @@ class PreviewEventPanel extends Component {
         }
         
         { details }
+
+        <div className="actions">
+          <button className="btn btn-outline-primary mr-2">Publish</button>
+          <button className="btn btn-outline-secondary mr-2">Edit</button>
+          <button
+            className="btn btn-outline-danger"
+            onClick={() => this.props.deleteEvent(_id) }
+          >
+            Delete
+          </button>
+        </div>
 
       </div>
     )

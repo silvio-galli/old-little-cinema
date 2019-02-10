@@ -28,6 +28,7 @@ class Admin extends Component {
     
     this._setPanelToDisplay = this._setPanelToDisplay.bind(this)
     this._addEvent = this._addEvent.bind(this)
+    this._deleteEvent = this._deleteEvent.bind(this)
   }
 
   componentDidMount() {
@@ -184,8 +185,9 @@ class Admin extends Component {
                   <PanelSwitch
                     movies={this.state.localMovies} // TODO: change to pinned movies to have a short list of movies to select
                     currentPanel={this.state.currentPanel}
-                    addEvent={this._addEvent}
                     setPanelToDisplay={this._setPanelToDisplay}
+                    addEvent={this._addEvent}
+                    deleteEvent={this._deleteEvent}
                   />
                 }
               
@@ -218,6 +220,28 @@ class Admin extends Component {
     this.setState({
       events: [newEvent, ...this.state.events]
     })
+  }
+
+  //
+  _deleteEvent( eventId ) {
+    console.log("EVENT TO DELETE ->", eventId)
+    if (api.isLoggedIn()) {
+      api.deleteEvent(eventId)
+      .then(response => {
+        if (response.success) {
+          let eventIndex = this.state.events.findIndex(event => event._id === eventId)
+          this.setState({
+            events: [ ...this.state.events.slice(0,eventIndex), ...this.state.events.slice(eventIndex + 1) ],
+            currentPanel: {
+              componentName: null,
+              componentId: null
+            }
+          })
+        }
+      })
+    } else {
+      this.history.push('/login')
+    }
   }
 }
 

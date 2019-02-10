@@ -61,6 +61,13 @@ export default {
       .then(res => res.data)
       .catch(errHandler);
   },
+
+  deleteEvent(eventId) {
+    return service
+      .delete('/events/' + eventId)
+      .then(res => res.data)
+      .catch(errHandler)
+  },
   
   getSecret() {
     return service

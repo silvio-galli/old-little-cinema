@@ -1,29 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import EditMoviePanel from './EditMoviePanel';
 import EditEventPanel from './EditEventPanel';
 import NewEventPanel from './NewEventPanel';
 import PreviewEventPanel from './PreviewEventPanel';
 
 
-class PanelSwitch extends Component {
+function PanelSwitch(props) {
 
-  render() {
-    switch ( this.props.currentPanel.componentName ) {
-      case 'EDIT_MOVIE_PANEL':
-        return <EditMoviePanel movieId={ this.props.currentPanel.componentId } />;
-      case 'EDIT_EVENT_PANEL':
-        return <EditEventPanel eventId={ this.props.currentPanel.componentId } />;
-      case 'NEW_EVENT_PANEL':
-        return <NewEventPanel
-                  movies={this.props.movies}
-                  addEvent={this.props.addEvent}
-                  setPanelToDisplay={this.props.setPanelToDisplay}
-                />;
-      case 'PREVIEW_EVENT_PANEL':
-        return <PreviewEventPanel eventId={ this.props.currentPanel.componentId } movies={ this.props.movies } />;
-      default:
-        return ( <span></span> );
-    }
+  switch ( props.currentPanel.componentName ) {
+    case 'EDIT_MOVIE_PANEL':
+      return <EditMoviePanel
+                movieId={ props.currentPanel.componentId }
+              />;
+    case 'EDIT_EVENT_PANEL':
+      return <EditEventPanel
+                eventId={ props.currentPanel.componentId }
+              />;
+    case 'NEW_EVENT_PANEL':
+      return <NewEventPanel
+                movies={props.movies}
+                addEvent={props.addEvent}
+                setPanelToDisplay={props.setPanelToDisplay}
+              />;
+    case 'PREVIEW_EVENT_PANEL':
+      return <PreviewEventPanel
+                eventId={ props.currentPanel.componentId }
+                movies={ props.movies }
+                deleteEvent={props.deleteEvent}
+              />;
+    default:
+      return ( <span></span> );
   }
 }
 
