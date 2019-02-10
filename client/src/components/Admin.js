@@ -177,6 +177,7 @@ class Admin extends Component {
                             movieTitle= {event._movie ? event._movie.title : null}
                             title={event.title}
                             setPanelToDisplay={ this._setPanelToDisplay }
+                            active={event.active}
                           />
                         )
                       })
@@ -222,6 +223,14 @@ class Admin extends Component {
     let currentPanel = {
       componentName: componentName,
       componentId: componentId
+    }
+    if (componentId) {
+      console.log("Setting active event!!!!!!!!!")
+      let events = this.state.events.slice()
+      events.map(event => {
+        event.active = event._id === componentId ? true : false
+        return event
+      })
     }
     this.setState({
       currentPanel: currentPanel

@@ -90,7 +90,7 @@ class EditEventPanel extends Component {
     // console.log("DETAILS _-------->", details)
     // console.log( "THIS STATE --> ", this.state )
     return (
-      <div className="NewEventPanel">
+      <div className="EditEventPanel">
         <h2>Edit Event {this.state._id}</h2>
 
         <div className="row border rounded p-2">

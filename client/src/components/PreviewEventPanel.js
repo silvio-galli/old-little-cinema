@@ -68,60 +68,63 @@ class PreviewEventPanel extends Component {
     }
 
     return this.state.event && (
-      <div className="p-2 border text-left event-preview-box">
-        <ul>
-          {title && <li><b>Title:</b> { title }</li>}
-          {subtitle && <li><b>Subtitle:</b> { subtitle }</li>}
-          {tagline && <li><b>Tagline:</b> { tagline }</li>}
-          {promo && <li><b>Promo:</b> { promo }</li>}
-        </ul>
-        { (startingDate && endingDate)
-          &&
-          <p>
-            <b>Starting Date:</b> { startingDate }<br /> 
-            <b>Ending Date:</b> { endingDate }
-          </p>
-        }
-
-        {
-          _movie &&
-          <div className="my-2 p-2 border rounded movie-box">
-            <div className="poster-box">
-                <img src={_movie.poster_path} alt=""/>
-              </div>
+      <div className="PreviewEventPanel">
+        <h2>Preview Event {_id}</h2>
+        <div className="p-2 border text-left event-preview-box">
+          <ul>
+            {title && <li><b>Title:</b> { title }</li>}
+            {subtitle && <li><b>Subtitle:</b> { subtitle }</li>}
+            {tagline && <li><b>Tagline:</b> { tagline }</li>}
+            {promo && <li><b>Promo:</b> { promo }</li>}
+          </ul>
+          { (startingDate && endingDate)
+            &&
             <p>
-              <b>Title: </b> { _movie.title }<br />
-              <b>From </b> { startingDate }
+              <b>Starting Date:</b> { startingDate }<br /> 
+              <b>Ending Date:</b> { endingDate }
             </p>
-            <div className="clearfix"></div>
-          </div>
-        }
-        
-        { details }
+          }
 
-        <div className="actions">
-          <button
-            className="btn btn-outline-primary mr-2"
-            onClick={this._handlePublish.bind(this)}
-          >
-            {this.state.event.public ? 'Unpublish' : 'Publish'}
-          </button>
+          {
+            _movie &&
+            <div className="my-2 p-2 border rounded movie-box">
+              <div className="poster-box">
+                  <img src={_movie.poster_path} alt=""/>
+                </div>
+              <p>
+                <b>Title: </b> { _movie.title }<br />
+                <b>From </b> { startingDate }
+              </p>
+              <div className="clearfix"></div>
+            </div>
+          }
           
-          <button
-            className="btn btn-outline-secondary mr-2"
-            onClick={() => this.props.setPanelToDisplay('EDIT_EVENT_PANEL', _id)}
-          >
-            Edit
-          </button>
+          { details }
 
-          <button
-            className="btn btn-outline-danger"
-            onClick={() => this.props.deleteEvent(_id) }
-          >
-            Delete
-          </button>
+          <div className="actions">
+            <button
+              className="btn btn-outline-primary mr-2"
+              onClick={this._handlePublish.bind(this)}
+            >
+              {this.state.event.public ? 'Unpublish' : 'Publish'}
+            </button>
+            
+            <button
+              className="btn btn-outline-secondary mr-2"
+              onClick={() => this.props.setPanelToDisplay('EDIT_EVENT_PANEL', _id)}
+            >
+              Edit
+            </button>
+
+            <button
+              className="btn btn-outline-danger"
+              onClick={() => this.props.deleteEvent(_id) }
+            >
+              Delete
+            </button>
+          </div>
+
         </div>
-
       </div>
     )
   }
