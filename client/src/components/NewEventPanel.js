@@ -68,9 +68,11 @@ class NewEventPanel extends Component {
       this.state._movies && this.state._movies.map( (element, index) => {
         return details.push(
           <div key={element} className="border rounded my-2 bg-secondary text-white">
+            <h5 className="no-underline">
+              { this.props.movies.find( movie => movie._id === element ).title }
+            </h5>
             <b>Date:</b> { this.state.dates[index] }<br />
-            <b>Showtime</b> { this.state.showtimes[index] }
-            <h6>{ this.props.movies.find( movie => movie._id === element ).title }</h6>
+            <b>Showtime</b> { api.displayTimes(this.state.showtimes[index]) }
           </div>
         )
       })
@@ -80,7 +82,7 @@ class NewEventPanel extends Component {
         return details.push(
           <div key={`${element}-${index}`} className="border rounded my-2 bg-secondary text-white">
             <b>Date:</b> { this.state.dates[index] }<br />
-            <b>Showtime</b> { this.state.showtimes[index] }
+            <b>Showtime</b> { api.displayTimes(this.state.showtimes[index]) }
           </div>
         )
       })
