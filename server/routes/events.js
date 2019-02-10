@@ -24,23 +24,35 @@ router.get('/:eventId', (req,res,next) => {
   .catch(err => next(err))
 })
 
-// create new event
+// POST /events
 router.post('/', (req, res, next) => {
   let { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } = req.body;
   Event.create( { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } )
   .then( newEvent => {
-    console.log("SERVER: New event created ->", newEvent)
     let response = {
       success: true,
       newEvent
     }
-    console.log("SERVER response ->", response)
     res.json(response)
   })
   .catch( err => next(err))
 })
 
-// delete one event
+// PUT /events/:id
+router.post('/:eventId', (req, res, next) => {
+  let { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } = req.body;
+  Event.findByIdAndUpdate( req.params.eventId, { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie }, {new: true} )
+  .then( updated => {
+    let response = {
+      success: true,
+      updated
+    }
+    res.json(response)
+  })
+  .catch( err => next(err))
+})
+
+// DELETE /events/:id
 router.delete('/:eventId', (req, res, next) => {
   Event.findByIdAndRemove(req.params.eventId)
   .then(() => {

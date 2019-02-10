@@ -62,6 +62,13 @@ export default {
       .catch(errHandler);
   },
 
+  updateEvents(data) {
+    return service
+      .post('/events/' + data._id, data)
+      .then(res => res.data)
+      .catch(errHandler);
+  },
+
   deleteEvent(eventId) {
     return service
       .delete('/events/' + eventId)

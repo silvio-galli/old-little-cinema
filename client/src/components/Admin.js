@@ -28,6 +28,7 @@ class Admin extends Component {
     
     this._setPanelToDisplay = this._setPanelToDisplay.bind(this)
     this._addEvent = this._addEvent.bind(this)
+    this._updateEvents = this._updateEvents.bind(this)
     this._deleteEvent = this._deleteEvent.bind(this)
   }
 
@@ -187,6 +188,7 @@ class Admin extends Component {
                     currentPanel={this.state.currentPanel}
                     setPanelToDisplay={this._setPanelToDisplay}
                     addEvent={this._addEvent}
+                    updateEvents={this._updateEvents}
                     deleteEvent={this._deleteEvent}
                   />
                 }
@@ -219,6 +221,14 @@ class Admin extends Component {
   _addEvent( newEvent ) {
     this.setState({
       events: [newEvent, ...this.state.events]
+    })
+  }
+
+  //
+  _updateEvents( updated ) {
+    let eventIndex = this.state.events.findIndex(event => event._id === updated._id)
+    this.setState({
+      events: [...this.state.events.slice(0, eventIndex), updated, ...this.state.events.slice(eventIndex+1)]
     })
   }
 
