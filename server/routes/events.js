@@ -46,8 +46,9 @@ router.post('/', (req, res, next) => {
 
 // PUT /events/:id
 router.post('/:eventId', (req, res, next) => {
-  let { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } = req.body;
-  Event.findByIdAndUpdate( req.params.eventId, { kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie }, {new: true} )
+  console.log("Triggered update event -->", req.body)
+  let { public, kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie } = req.body;
+  Event.findByIdAndUpdate( req.params.eventId, { public, kind, title, subtitle, tagline, promo, dates, showtimes, _movies, _movie }, {new: true} )
   .then( updated => {
     let response = {
       success: true,

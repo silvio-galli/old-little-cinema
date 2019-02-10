@@ -30,6 +30,7 @@ function PanelSwitch(props) {
                 eventId={ props.currentPanel.componentId }
                 movies={ props.movies }
                 deleteEvent={props.deleteEvent}
+                updateEvents={props.updateEvents}
                 setPanelToDisplay={props.setPanelToDisplay}
               />;
     default:

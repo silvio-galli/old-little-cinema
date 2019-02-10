@@ -102,8 +102,9 @@ class PreviewEventPanel extends Component {
         <div className="actions">
           <button
             className="btn btn-outline-primary mr-2"
+            onClick={this._handlePublish.bind(this)}
           >
-            Publish
+            {this.state.event.public ? 'Unpublish' : 'Publish'}
           </button>
           
           <button
@@ -123,6 +124,17 @@ class PreviewEventPanel extends Component {
 
       </div>
     )
+  }
+
+  _handlePublish() {
+    let eventCopy = Object.assign({}, this.state.event);
+    eventCopy.public = !this.state.event.public
+    api.updateEvents(eventCopy)
+    .then(_ => {
+      this.setState({
+        event: eventCopy
+      })
+    })
   }
 }
 
