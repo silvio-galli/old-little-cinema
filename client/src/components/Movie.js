@@ -7,8 +7,10 @@ import { Button } from 'reactstrap';
 class Movie extends Component {
   constructor(props){
     super(props)
+    let {alreadyLocal} = this.props.movie
     this.state = {
       movieId: this.props.movie.id,
+      alreadyLocal,
       movieDetails: null
     }
   }
@@ -40,11 +42,16 @@ class Movie extends Component {
     .catch( err => { throw err } )
   }
 
-  addMovie() {
+  addMovieToLocalDB() {
     api.postMovies( this.state.movieDetails )
     .then( response => {
       console.log( "Response from local DB after adding movie", response );
-      if (response.success) { this.props.onAdd( response.newMovie ) };
+      if (response.success) {
+        this.setState({
+          alreadyLocal: true
+        })
+        this.props.onAdd( response.newMovie )
+      }
     })
     .catch( err => { throw err } )
   }
@@ -65,7 +72,13 @@ class Movie extends Component {
               <li><b>Year:</b> {this.props.movie.release_date.split('-')[0]}</li>
               <li><b>Source:</b> <Link to={`https://www.themoviedb.org/movie/${this.props.movie.id}`}target="_blank">themoviedb.org</Link></li>
             </ul>
-            <Button onClick={this.addMovie.bind(this)} outline color="success" size="sm" >Add Movie</Button>
+            {
+              this.state.alreadyLocal
+              ?
+              <Button outline color="secondary" size="sm" >Already Saved</Button>
+              :
+              <Button onClick={this.addMovieToLocalDB.bind(this)} outline color="success" size="sm" >Add Movie</Button>
+            }
           </div>
         </div>
       </div>

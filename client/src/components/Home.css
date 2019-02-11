@@ -2,11 +2,7 @@ span.title {
   font-size: 14px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #fbbd61
-}
-.row {
-  /* margin-right: -15px;
-  margin-left: -15px; */
+  color: #fbbd61;
 }
 .event-tabs {
   text-align: left;
@@ -74,18 +70,38 @@ span.title {
   font-size:13px;font-weight:700;line-height:33px;display:inline-block;width:33px;height:33px;margin-left:5px;text-align:center;letter-spacing:0;color:#fff;border-radius:50%;background:#4a4a4a
 }
 .reviewListItem {
-  border:1px solid #d8d8d8;
+  border:1px solid rgba(236, 117, 50, 0.45);
   border-radius: 5px;
+  box-shadow: 0 0 15px #d8d8d8;
+  text-align: center;
+}
+.reviewListItem .short-info {
+  margin-top:5px;
 }
 .reviewListItem img {
   float: left;
   margin-right: 5px;
+}
+.reviewListItem .date li {
+  display: block;
+  text-align: center;
+}
+.reviewListItem .date li b {
+  display: block;
+  text-align: center;
 }
 
 @media (max-width: 574px) {
   .event-tabs h4 {
     text-align: center;
     margin-top: 15px;
+  }
+  .eventPoster {
+    width: 65%;
+    height: auto;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
   }
   .reviewListItem {
     width: 40%;
@@ -114,29 +130,32 @@ span.title {
 }
 
 @media (min-width:320px) and (max-width:480px) {
-  .event-tabs h4 {
+  .event-tabs {
     text-align: center;
     margin-top: 15px;
   }
-  .reviewListItem {
-    width: 85%;
+  .event-tabs h4 {
+    margin-top: 15px;
+  }
+  .event-tabs .overview {
+    text-align: left
   }
   .reviewListItem {
-    text-align: center;
-  }
-  .reviewListItem .date li {
-    display: block;
-    text-align: center;
-  }
-  .reviewListItem .date li b {
-    display: block;
-    text-align: center;
+    width: 75%;
   }
   .reviewListItem img {
     display: block;
-    width: 80%;
+    width: 50%;
     float: none;
     margin-left: auto;
     margin-right: auto;
+  }
+  .date li {
+    display: block;
+    text-align: center;
+  }
+  .date li b {
+    display: block;
+    text-align: center;
   }
 }

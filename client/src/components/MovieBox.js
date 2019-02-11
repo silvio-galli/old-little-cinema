@@ -44,7 +44,7 @@ function MovieBox(props) {
               {movie.release_date && <span className="detail"><i className="fas fa-calendar-alt"></i> {movie.release_date.slice(0,4)}</span>}
               {movie.runtime && <span className="detail"><i className="fas fa-clock"></i> {movie.runtime} mins</span>}
             </p>
-            <p>
+            <p className="overview">
               {movie.overview}
             </p>
             <p>

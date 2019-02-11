@@ -12,6 +12,7 @@ const errHandler = err => {
 export default {
   service: service,
   
+  // GET all movies
   getMovies() {
     return service
       .get('/movies')
@@ -19,6 +20,7 @@ export default {
       .catch(errHandler);
   },
 
+  // GET one movie
   getMovie(movieId) {
     return service
       .get('/movies/' + movieId)
@@ -26,11 +28,20 @@ export default {
       .catch(errHandler);
   },
 
+  // POST /movies
   postMovies(data) {
     return service
       .post('/movies', data)
       .then(res => res.data)
-      .catch(errHandler);
+      .catch(errHandler)
+  },
+
+  // SEARCH movies by title
+  searchMovies(text) {
+    return service
+      .get('/movies/search?title=' + text)
+      .then(res => res.data)
+      .catch(errHandler)
   },
 
   postMovieDetails(movieId, data){
@@ -44,6 +55,13 @@ export default {
    getEvents() {
     return service
       .get('/events')
+      .then(res => res.data)
+      .catch(errHandler);
+  },
+
+  getLastNEvents(n=15) {
+    return service
+      .get('/events/last/:n')
       .then(res => res.data)
       .catch(errHandler);
   },

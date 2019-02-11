@@ -18,7 +18,7 @@ class Admin extends Component {
       tmdbTotalPages: null,
       tmdbActivePage: null,
       localMovies: [],
-      filteredMovies: [],
+      // filteredMovies: [],
       events: [],
       currentPanel: {
         componentName: null,
@@ -26,10 +26,13 @@ class Admin extends Component {
       }
     }
     
+    this.handleAddMovie = this.handleAddMovie.bind(this)
     this._setPanelToDisplay = this._setPanelToDisplay.bind(this)
     this._addEvent = this._addEvent.bind(this)
     this._updateEvents = this._updateEvents.bind(this)
     this._deleteEvent = this._deleteEvent.bind(this)
+    this._searchLocalDB = this._searchLocalDB.bind(this)
+    this._searchTMDB = this._searchTMDB.bind(this)
   }
 
   componentDidMount() {
@@ -37,18 +40,10 @@ class Admin extends Component {
       console.log("YOU MUST BE LOGGED IN")
       this.props.history.push("/login")
     } else {
-      api.getMovies()
-      .then(movies =>{
-        this.setState({
-          localMovies: [...movies]
-        })
-      })
-      .catch( err => { throw err })
-  
-      api.getEvents()
+      api.getLastNEvents()
       .then(events => {
         this.setState({
-          events: [...events.reverse()]
+          events: [...events]
         })
       })
       .catch( err => { throw err })
@@ -57,22 +52,40 @@ class Admin extends Component {
 
   handleChange(e) {
     let word = e.target.value !== '' ? e.target.value : 'XRQZ'
-    this.setState({
-      searchFor: word
-    })
-    let filtered = this.state.localMovies.filter( movie => movie.title.toUpperCase().includes(word.toUpperCase()) || movie.original_title.toUpperCase().includes(word.toUpperCase()) );
-    this.setState({
-      filteredMovies: filtered,
-      tmdbActivePage: 1
-    })
+    if (word.length < 2) {
+      this.setState({
+        searchFor: word
+      })
+    } else {
+      this.setState({
+        searchFor: word
+      }, () => {
+        this._searchLocalDB()
+      })
+    }
   }
 
-  handleSubmit(e) {
+  _searchLocalDB() {
+    api.searchMovies(this.state.searchFor)
+    .then(response => {
+      this.setState({
+        localMovies: response
+      })
+    })
+    .catch(err => {throw err})
+  }
+
+  _searchTMDB(e) {
     e.preventDefault();
     tmdbApi.getMovies( this.state.searchFor, e.target.innerHTML ) // NOTE 1 
     .then( response => {
+      let test = this.state.localMovies.map(movie => movie.tmdb_id)
+      let movies = response.results.map(movie => {
+        movie.alreadyLocal = test.includes(movie.id) ? true : false
+        return movie
+      })
       this.setState({
-        tmdbMovies: [...response.results],
+        tmdbMovies: [...movies],
         tmdbTotalResults: response.total_results,
         tmdbTotalPages: response.total_pages > 12 ? 12 : response.total_pages, //TODO: change this as soon as possible
         tmdbActivePage: response.page                                          
@@ -82,18 +95,9 @@ class Admin extends Component {
   }
 
   handleAddMovie( newMovie ) {
-    console.log('Adding new movie to localMovies and filteredMovies state...')
     this.setState({
-      localMovies: [...this.state.localMovies, newMovie],
-      filteredMovies: [...this.state.filteredMovies, newMovie]
+      localMovies: [...this.state.localMovies, newMovie]
     })
-    // api.getMovies()
-    // .then( movies => {
-    //   let filtered = movies.filter( movie => movie.title.toUpperCase().includes(this.state.searchFor.toUpperCase()) || movie.original_title.toUpperCase().includes(this.state.searchFor.toUpperCase()) );
-    //   this.setState({
-    //     filteredMovies: filtered
-    //   })
-    // })
   }
 
   render() {
@@ -112,7 +116,7 @@ class Admin extends Component {
             <ApiResultPaginationList
               tmdbTotalPages={ this.state.tmdbTotalPages }
               tmdbActivePage={ this.state.tmdbActivePage }
-              handlePageRequest={ this.handleSubmit.bind(this) }
+              handlePageRequest={ this._searchTMDB }
             />
             :
             <h6>No results from themoviedb.org</h6>
@@ -122,7 +126,7 @@ class Admin extends Component {
           
           {/* SEARCH starts here */}
           <div className="col-md-3">
-            <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this.handleSubmit.bind(this)} />
+            <SearchForm onChange={this.handleChange.bind(this)} onSubmit={this._searchTMDB} />
           </div>
           {/* SEARCH ends here */}
 
@@ -144,7 +148,7 @@ class Admin extends Component {
           <div className="col-md-3 movieDb-list">
             {/* THEMOVIEDB.org results */}
             { 
-              this.state.tmdbMovies.map( movie => <Movie key={movie.id} movie={movie} onAdd={this.handleAddMovie.bind(this)}  /> )
+              this.state.tmdbMovies.map( movie => <Movie key={movie.id} movie={movie} onAdd={this.handleAddMovie}  /> )
             }
           </div>
           
@@ -152,7 +156,7 @@ class Admin extends Component {
           <div className="col-md-3 local-db-list">
             {/* LOCAL DB results */}
             { 
-              this.state.filteredMovies.map( movie => <LocalMovie key={movie._id} movie={movie} setPanelToDisplay={ this._setPanelToDisplay } /> )
+              this.state.localMovies.map( movie => <LocalMovie key={movie._id} alreadyLocal={movie.alreadyLocal} movie={movie} setPanelToDisplay={ this._setPanelToDisplay } /> )
             }
           </div>
           

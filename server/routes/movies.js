@@ -9,14 +9,24 @@ const service = axios.create({
 
 var router = express.Router();
 
-// Route to get all movies
+// GET /movies local DB
 router.get('/', (req, res, next) => {
   Movie.find()
   .then(movies => {
     res.json(movies);
   })
   .catch(err => next(err))
-});
+})
+
+// SEARCH local DB by title
+router.get('/search', (req, res, next) => {
+  let query = new RegExp(req.query.title, "gi")
+  Movie.find({title: query})
+  .then(movies => {
+    res.json(movies)
+  })
+  .catch(err => next(err))
+})
 
 // GET movies from tMDB
 router.get('/tmdb/search', (req, res, next) => {

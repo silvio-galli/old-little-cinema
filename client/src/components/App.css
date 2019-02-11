@@ -108,6 +108,7 @@ img {
 
 .App {
   text-align: center;
+  padding-bottom: 70px;
 }
 
 .App-logo {
@@ -133,6 +134,12 @@ img {
 
 .App-intro {
   font-size: large;
+}
+
+.footer {
+  background-color: #717171;
+  color: #222;
+  height: 65px;
 }
 
 .clearfix {

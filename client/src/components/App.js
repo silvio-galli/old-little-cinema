@@ -38,10 +38,10 @@ class App extends Component {
     });
   }
 
-  
-  render() {                
+  render() {
+    
     return (
-      <div className="App">
+      <div className="App" >
       <Navbar color="light" light expand="md">
           <NavbarBrand href="/">
             <img src={logo} className="App-logo" alt="logo" style={{height: 35}} />

@@ -3,7 +3,7 @@ const Event = require('../models/event')
 
 var router = express.Router()
 
-// Route to get all events
+// GET /events
 router.get('/', (req, res, next) => {
   Event.find()
   .populate('_movies')
@@ -14,6 +14,20 @@ router.get('/', (req, res, next) => {
   .catch(err => next(err))
 })
 
+// GET /events/last/:n default 15 elements 
+router.get('/last/:n', (req, res, next) => {
+  Event.find({})
+  .sort({'created_at': -1})
+  .limit(req.param.n)
+  .populate('_movies')
+  .populate('_movie')
+  .then(events => {
+    res.json(events.reverse())
+  })
+  .catch(err => next(err))
+})
+
+// GET /events/:id
 router.get('/:eventId', (req,res,next) => {
   Event.findById(req.params.eventId)
   .populate('_movies')

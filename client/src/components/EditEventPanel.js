@@ -10,6 +10,7 @@ class EditEventPanel extends Component {
     super(props)
     this.state = {
       kind: "",
+      public: null,
       title: "",
       subtitle: "",
       tagline: "",
@@ -261,6 +262,7 @@ class EditEventPanel extends Component {
     e.preventDefault();
     let data = {
       _id: this.state._id,
+      public: this.state.public,
       kind: this.state.kind,
       title: this.state.title,
       subtitle: this.state.subtitle,
