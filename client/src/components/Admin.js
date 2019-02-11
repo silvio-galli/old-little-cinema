@@ -271,7 +271,7 @@ class Admin extends Component {
                   this.state.currentPanel.componentName
                   &&
                   <PanelSwitch
-                    movies={this.state.localMovies} // TODO: change to pinned movies to have a short list of movies to select
+                    movies={this.state.pinnedMovies.map(m => ({_id: m._id, title: m.title, poster_path: m.poster_path}))}
                     currentPanel={this.state.currentPanel}
                     setPanelToDisplay={this._setPanelToDisplay}
                     addEvent={this._addEvent}

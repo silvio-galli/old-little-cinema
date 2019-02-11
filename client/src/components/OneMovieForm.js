@@ -14,9 +14,17 @@ class OneMovieForm extends Component {
               return 0
             }).map(movie => {
               if (this.props._movie && this.props._movie._id === movie._id) {
-                return <option key={movie._id} value={movie._id} selected>{ movie.title }</option>
+                return (
+                  <option key={movie._id} value={movie._id} selected>
+                    { movie.title }
+                  </option>
+                )
               } else {
-                return <option key={movie._id} value={movie._id}>{ movie.title }</option>
+                return (
+                  <option key={movie._id} value={movie._id}>
+                    { movie.title }
+                  </option>
+                )
               }
             })
           }

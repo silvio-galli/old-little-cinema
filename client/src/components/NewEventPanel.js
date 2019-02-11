@@ -87,8 +87,7 @@ class NewEventPanel extends Component {
         )
       })
     }
-    console.log("DETAILS _-------->", details)
-    console.log( "THIS STATE --> ", this.state )
+    
     return (
       <div className="NewEventPanel">
         <h2>Create New Event</h2>
