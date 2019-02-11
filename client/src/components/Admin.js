@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
-import tmdbApi from '../tmdbApi';
-import api from '../api';
-import Movie from './Movie';
-import LocalMovie from './LocalMovie';
-import EventButton from './EventButton';
-import SearchForm from './SearchForm';
-import ApiResultPaginationList from './ApiResultPaginationList';
-import PanelSwitch from './PanelSwitch';
+import React, { Component } from 'react'
+import tmdbApi from '../tmdbApi'
+import api from '../api'
+import Movie from './Movie'
+import LocalMovie from './LocalMovie'
+import EventButton from './EventButton'
+import SearchForm from './SearchForm'
+import ApiResultPaginationList from './ApiResultPaginationList'
+import PanelSwitch from './PanelSwitch'
+import './Admin.css'
+
 
 class Admin extends Component {
   constructor(props) {
@@ -18,7 +20,8 @@ class Admin extends Component {
       tmdbTotalPages: null,
       tmdbActivePage: null,
       localMovies: [],
-      // filteredMovies: [],
+      pinnedMovies: [],
+      pinnedListToggle: true,
       events: [],
       currentPanel: {
         componentName: null,
@@ -33,6 +36,8 @@ class Admin extends Component {
     this._deleteEvent = this._deleteEvent.bind(this)
     this._searchLocalDB = this._searchLocalDB.bind(this)
     this._searchTMDB = this._searchTMDB.bind(this)
+    this._pinMovie = this._pinMovie.bind(this)
+    this._toggleElement = this._toggleElement.bind(this)
   }
 
   componentDidMount() {
@@ -79,7 +84,7 @@ class Admin extends Component {
     e.preventDefault();
     tmdbApi.getMovies( this.state.searchFor, e.target.innerHTML ) // NOTE 1 
     .then( response => {
-      let test = this.state.localMovies.map(movie => movie.tmdb_id)
+      let test = this.state.pinnedMovies.concat(this.state.localMovies).map(movie => movie.tmdb_id)
       let movies = response.results.map(movie => {
         movie.alreadyLocal = test.includes(movie.id) ? true : false
         return movie
@@ -97,6 +102,30 @@ class Admin extends Component {
   handleAddMovie( newMovie ) {
     this.setState({
       localMovies: [...this.state.localMovies, newMovie]
+    })
+  }
+
+  _pinMovie(_id) {
+    // get index of the movie in the local list
+    let localIndex = this.state.localMovies.findIndex(movie => movie._id === _id)
+    // make a copy of the movie object
+    let pinnedMovie = this.state.localMovies.slice()[localIndex]
+    // add the pinned property
+    pinnedMovie.pinned = true
+    // update the state
+    this.setState({
+      pinnedMovies: [...this.state.pinnedMovies, pinnedMovie],
+      localMovies: [
+        ...this.state.localMovies.slice(0,localIndex),
+        ...this.state.localMovies.slice(localIndex+1)
+      ]
+    })
+  }
+
+  _toggleElement(elementName) {
+    console.log("active ???", this.state[elementName])
+    this.setState({
+      [elementName]: !this.state[elementName]
     })
   }
 
@@ -154,10 +183,52 @@ class Admin extends Component {
           
           
           <div className="col-md-3 local-db-list">
-            {/* LOCAL DB results */}
-            { 
-              this.state.localMovies.map( movie => <LocalMovie key={movie._id} alreadyLocal={movie.alreadyLocal} movie={movie} setPanelToDisplay={ this._setPanelToDisplay } /> )
+            {/* Pinned movies start here */}
+            { this.state.pinnedMovies.length !== 0 &&
+              <div className="pinnedMovies">
+                <h4 className="no-underline">
+                  Pinned movies
+                  <small> 
+                      <i
+                        className={"fas " + (this.state.pinnedListToggle ? 'fa-minus-circle' : 'fa-plus-circle')} 
+                        onClick={() => this._toggleElement('pinnedListToggle')}
+                      >
+                      </i>
+                  </small>
+                  <span className="clearfix"></span>
+                </h4>
+                <div className={"pinnedList" + (this.state.pinnedListToggle ? '' : ' hide')}>
+                  {
+                    this.state.pinnedMovies.map(movie => {
+                      return (
+                        <LocalMovie
+                          key={movie._id}
+                          movie={movie}
+                          setPanelToDisplay={ this._setPanelToDisplay }
+                          pinMovie={this._pinMovie}
+                        />
+                      ) 
+                    })
+                  }
+                </div>
+              </div>
             }
+            {/* Pinned movies ends here */}
+            
+            {/* LOCAL DB results start here*/}
+            {
+              this.state.localMovies.map( (movie, index) => {
+                return (
+                  <LocalMovie
+                    key={movie._id}
+                    movie={movie}
+                    setPanelToDisplay={ this._setPanelToDisplay }
+                    pinMovie={this._pinMovie}
+                  />
+                ) 
+              })
+            }
+            {/* LOCAL DB results end here*/}
           </div>
           
           {/* SIDE PANEL */}

@@ -1,0 +1,26 @@
+.useThis {
+  margin-left: 3px;
+}
+.pinnedMovies {
+  border-bottom: 1px solid #d8d8d8;
+}
+.pinnedMovies h4 {
+  margin-top: 15px;
+  text-align: left;
+  font-size: 1.20em;
+}
+.pinnedMovies h4 small i {
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: bold;
+}
+.pinnedMovies h4 small i:hover {
+  color: #ec7532;
+}
+.hide {
+  display: none;
+}
+.pinned {
+  border-color: #ec7532;
+  box-shadow: 0 0 5px #ec7532;
+}
