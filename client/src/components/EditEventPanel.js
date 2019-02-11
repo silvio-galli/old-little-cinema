@@ -33,19 +33,23 @@ class EditEventPanel extends Component {
   componentDidMount() {
     api.getEvent(this.props.eventId)
     .then( event => {
-      Object.keys(event).map(key => {
-        switch(key) {
-          case '_movies':
-            this.setState({
-              [key]: event[key].map(event => event._id)
-            })
-            break
-          default:
-            this.setState({
-              [key]: event[key]
-            })
-        }
-        return false
+      this.setState({
+        oldEvent: event
+      }, () => {
+        Object.keys(event).map(key => {
+          switch(key) {
+            case '_movies':
+              this.setState({
+                [key]: event[key].map(event => event._id)
+              })
+              break
+            default:
+              this.setState({
+                [key]: event[key]
+              })
+          }
+          return false
+        })
       })
     })
     .catch(err => { throw err } );
@@ -58,7 +62,7 @@ class EditEventPanel extends Component {
         return details.push(
           <div key={_movieId} className="border rounded my-2 p-2 bg-secondary text-white">
             <h5 className="no-underline">
-              { this.props.movies.find( movie => movie._id === _movieId ).title }
+              { this.props.movies.concat(this.state.oldEvent._movies).find( movie => movie._id === _movieId ).title }
             </h5>
             <b>Date:</b> { this.state.dates[index] }<br />
             <b>Showtime</b> { this.state.showtimes[index] }<br />
@@ -72,7 +76,7 @@ class EditEventPanel extends Component {
         )
       })
     } else {
-      this.state.movieId && details.push(<h6 key={this.state.movieId}>{ this.props.movies.find(movie => movie._id === this.state.movieId).title }</h6>)
+      this.state.movieId && details.push(<h6 key={this.state.movieId}>{ this.state.oldEvent._movie.find(movie => movie._id === this.state.movieId).title }</h6>)
       this.state.dates && this.state.dates.map( (element, index) => {
         return details.push(
           <div key={`${element}-${index}`} className="border rounded my-2 bg-secondary text-white">
@@ -88,8 +92,7 @@ class EditEventPanel extends Component {
         )
       })
     }
-    // console.log("DETAILS _-------->", details)
-    // console.log( "THIS STATE --> ", this.state )
+    
     return (
       <div className="EditEventPanel">
         <h2>Edit Event {this.state._id}</h2>
@@ -180,6 +183,8 @@ class EditEventPanel extends Component {
             {
               this.state.kind === "review" &&
               <ReviewForm
+                // TODO: after pinned movies problem with updating
+                // 
                 movies={this.props.movies}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
@@ -192,6 +197,8 @@ class EditEventPanel extends Component {
             {
               this.state.kind && this.state.kind !== "review" &&
               <OneMovieForm
+                // TODO: after pinned movies problem with updating
+                //
                 movies={this.props.movies}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
@@ -272,10 +279,12 @@ class EditEventPanel extends Component {
       showtimes: this.state.showtimes,
     }
 
-    if (data.kind === "review")
-      data._movies = this.state._movies.map(_movieId => _movieId)
-    else
+    if (data.kind === "review") {
+      data._movies = this.state._movies
+    } else {
       data._movie = this.state.movieId || this.state._movie._id
+      data._movies = []
+    }
 
     api.updateEvents( data )
     .then( response => {

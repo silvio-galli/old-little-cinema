@@ -5,8 +5,8 @@ class PreviewEventPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      event: {},
-      movieList: []
+      event: {}
+      //movieList: []
     }
   }
 

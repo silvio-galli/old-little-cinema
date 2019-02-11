@@ -298,7 +298,7 @@ class Admin extends Component {
                   this.state.currentPanel.componentName
                   &&
                   <PanelSwitch
-                    movies={this.state.pinnedMovies.map(m => ({_id: m._id, title: m.title, poster_path: m.poster_path}))}
+                    movies={ this.state.pinnedMovies.map(m => m) }
                     currentPanel={this.state.currentPanel}
                     setPanelToDisplay={this._setPanelToDisplay}
                     addEvent={this._addEvent}
