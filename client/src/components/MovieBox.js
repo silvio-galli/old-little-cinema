@@ -16,7 +16,7 @@ function MovieBox(props) {
             {movieItem && movieItem.release_date && <span className="detail"><i className="fas fa-calendar-alt"></i> {movieItem.release_date.slice(0,4)}</span>}
             {movieItem && movieItem.runtime && <span className="detail"> <i className="fas fa-clock"></i> {movieItem.runtime} mins</span>}
           </p>
-          <p classname="clearfix">
+          <p className="clearfix">
             <a href="" className="arrow-button">
               Read more <i className="fas fa-chevron-right"></i>
             </a>

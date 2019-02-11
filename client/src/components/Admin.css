@@ -1,3 +1,9 @@
+
+.movie {
+  border: 1px solid #d8d8d8;
+  border-radius: 5px;
+  box-shadow: 0 0 3px #d8d8d8;
+}
 .useThis {
   margin-left: 3px;
 }
@@ -13,16 +19,33 @@
   display: inline-block;
   margin-left: 5px;
   font-weight: bold;
+  color: #717171;
 }
 .pinnedMovies h4 small i:hover {
   color: #ec7532;
+}
+.itemCount {
+  display:inline-block;
+  margin-left: 10px;
+  width: 20px;
+  line-height: 20px;
+  text-align: center;
+  font-weight: bold;
+  background-color: #717171;
+  border: 1px solid #717171;
+  border-radius: 3px;
+  color: #fff;
 }
 .hide {
   display: none;
 }
 .pinned {
+  box-shadow: 0 0 3px #ec7532;
+}
+button.pinned {
   border-color: #ec7532;
-  box-shadow: 0 0 5px #ec7532;
+  color: #ec7532;
+  box-shadow: none;
 }
 .imgOption {
   width: 25px;

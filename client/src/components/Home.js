@@ -14,7 +14,6 @@ class Home extends Component {
   componentDidMount() {
     api.getEvents()
     .then(events => {
-      console.log("EVENTS' LIST --->", events)
       this.setState({
         events: [...this.state.events, ...events]
       })

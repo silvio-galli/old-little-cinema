@@ -21,7 +21,7 @@ class Admin extends Component {
       tmdbActivePage: null,
       localMovies: [],
       pinnedMovies: [],
-      pinnedListToggle: true,
+      pinnedListToggle: false,
       events: [],
       currentPanel: {
         componentName: null,
@@ -36,7 +36,7 @@ class Admin extends Component {
     this._deleteEvent = this._deleteEvent.bind(this)
     this._searchLocalDB = this._searchLocalDB.bind(this)
     this._searchTMDB = this._searchTMDB.bind(this)
-    this._pinMovie = this._pinMovie.bind(this)
+    this._pinUnpinMovie = this._pinUnpinMovie.bind(this)
     this._toggleElement = this._toggleElement.bind(this)
   }
 
@@ -105,25 +105,47 @@ class Admin extends Component {
     })
   }
 
-  _pinMovie(_id) {
-    // get index of the movie in the local list
-    let localIndex = this.state.localMovies.findIndex(movie => movie._id === _id)
-    // make a copy of the movie object
-    let pinnedMovie = this.state.localMovies.slice()[localIndex]
-    // add the pinned property
-    pinnedMovie.pinned = true
-    // update the state
-    this.setState({
-      pinnedMovies: [...this.state.pinnedMovies, pinnedMovie],
-      localMovies: [
-        ...this.state.localMovies.slice(0,localIndex),
-        ...this.state.localMovies.slice(localIndex+1)
-      ]
-    })
+  _pinUnpinMovie(_id, title) {
+    let unpinIndex = this.state.pinnedMovies.findIndex(m => m._id === _id)
+    console.log("UNPIN-->", unpinIndex)
+    if (unpinIndex >= 0) {
+      if (new RegExp(this.state.searchFor, 'gi').test(title)) {
+        let toUnpin = this.state.pinnedMovies.slice()[unpinIndex]
+        toUnpin.pinned = false
+        this.setState({
+          localMovies: [...this.state.localMovies, toUnpin]
+        })
+      }
+      this.setState({
+        pinnedMovies: [
+          ...this.state.pinnedMovies.slice(0, unpinIndex),
+          ...this.state.pinnedMovies.slice(unpinIndex+1)
+        ]
+      }, () => {
+        if (this.state.pinnedMovies.length === 0)
+          this.setState({
+            pinnedListToggle: false
+          })
+      })
+    } else {
+      // get index of the movie in the local list
+      let localIndex = this.state.localMovies.findIndex(movie => movie._id === _id)
+      // make a copy of the movie object
+      let pinnedMovie = this.state.localMovies.slice()[localIndex]
+      // add the pinned property
+      pinnedMovie.pinned = true
+      // update the state
+      this.setState({
+        pinnedMovies: [...this.state.pinnedMovies, pinnedMovie],
+        localMovies: [
+          ...this.state.localMovies.slice(0,localIndex),
+          ...this.state.localMovies.slice(localIndex+1)
+        ]
+      })
+    }
   }
 
   _toggleElement(elementName) {
-    console.log("active ???", this.state[elementName])
     this.setState({
       [elementName]: !this.state[elementName]
     })
@@ -188,12 +210,17 @@ class Admin extends Component {
               <div className="pinnedMovies">
                 <h4 className="no-underline">
                   Pinned movies
-                  <small> 
+                  <small>
+                    <span className="itemCount">
+                      {this.state.pinnedMovies.length}
+                    </span>
+                    <span>
                       <i
                         className={"fas " + (this.state.pinnedListToggle ? 'fa-minus-circle' : 'fa-plus-circle')} 
                         onClick={() => this._toggleElement('pinnedListToggle')}
                       >
                       </i>
+                    </span>
                   </small>
                   <span className="clearfix"></span>
                 </h4>
@@ -205,7 +232,7 @@ class Admin extends Component {
                           key={movie._id}
                           movie={movie}
                           setPanelToDisplay={ this._setPanelToDisplay }
-                          pinMovie={this._pinMovie}
+                          pinUnpinMovie={this._pinUnpinMovie}
                         />
                       ) 
                     })
@@ -223,7 +250,7 @@ class Admin extends Component {
                     key={movie._id}
                     movie={movie}
                     setPanelToDisplay={ this._setPanelToDisplay }
-                    pinMovie={this._pinMovie}
+                    pinUnpinMovie={this._pinUnpinMovie}
                   />
                 ) 
               })

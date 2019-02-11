@@ -1,5 +1,4 @@
 import React from 'react'
-import Calendar from './Calendar'
 import MovieBox from './MovieBox'
 
 function EventHome(props) {
@@ -7,18 +6,22 @@ function EventHome(props) {
   let eventPosterPath, eventPosterAlt, eventDetails;
 
   if (event.kind === 'review') {
-    eventPosterPath = event.poster, eventPosterAlt = event.title
+    eventPosterPath = event.poster
+    eventPosterAlt = event.title;
     eventDetails = event._movies.map((movie, index) => {
       let {_id, title, poster_path, genres, production_countries, release_date, runtime } = movie
       let movieItem = {_id, title, poster_path, genres, production_countries, release_date, runtime, date: event.dates[index], showtimes: event.showtimes[index] }
-      return <MovieBox movieItem={movieItem} />
+      return <MovieBox key={"review-" + movieItem._id + index} movieItem={movieItem} />
     })
   }
   else {
-    eventPosterPath = event._movie.poster_path, eventPosterAlt = event._movie.title
+    eventPosterPath = event._movie.poster_path
+    eventPosterAlt = event._movie.title
+
     let { _movie } = event
-    _movie.dates = event.dates, _movie.showtimes = event.showtimes
-    eventDetails = <MovieBox movie={ _movie } />
+    _movie.dates = event.dates
+    _movie.showtimes = event.showtimes
+    eventDetails = <MovieBox key={_movie._id} movie={ _movie } />
   }
   
   return(
