@@ -103,7 +103,7 @@ class PreviewEventPanel extends Component {
 
           <div className="actions">
             <button
-              className="btn btn-outline-primary mr-2"
+              className={"mr-2 btn btn-outline-" + (this.state.event.public ? "warning" : "primary")}
               onClick={this._handlePublish.bind(this)}
             >
               {this.state.event.public ? 'Unpublish' : 'Publish'}

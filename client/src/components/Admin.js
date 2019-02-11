@@ -280,6 +280,7 @@ class Admin extends Component {
                             title={event.title}
                             setPanelToDisplay={ this._setPanelToDisplay }
                             active={event.active}
+                            published={event.public}
                           />
                         )
                       })

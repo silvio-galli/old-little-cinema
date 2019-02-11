@@ -5,7 +5,7 @@ function Event(props) {
   return (
     <Button
       outline
-      color="primary"
+      color={props.published ? "primary" : "warning"}
       className="m-1 btn-sm"
       onClick={() => props.setPanelToDisplay('PREVIEW_EVENT_PANEL', props.id )}
       active={props.active}
