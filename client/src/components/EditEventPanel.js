@@ -77,8 +77,7 @@ class EditEventPanel extends Component {
         )
       })
     } else {
-      this.state.movieId ? console.log("movieID --->", this.state.movieId) : console.log("No movie id")
-      if (!this.state.movieId && this.state.oldEvent)
+      if (this.state.kind && !this.state.movieId && this.state.oldEvent)
         details.push(<h6 key={this.state.movieId}>{ this.state.oldEvent._movie.title }</h6>)
       else if (this.state.movies)
       details.push(<h6 key={this.state.movieId}>{ this.state.movies.find(m => m._id === this.state.movieId).title }</h6>)
