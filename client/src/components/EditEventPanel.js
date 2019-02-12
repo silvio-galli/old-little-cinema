@@ -205,7 +205,7 @@ class EditEventPanel extends Component {
               <OneMovieForm
                 // TODO: after pinned movies problem with updating
                 //
-                movies={this.props.movies}
+                movies={helper.merge(this.props.movies, [this.state.oldEvent._movie])}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
                 movieDate={this.state.movieDate}
