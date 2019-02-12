@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
 import api from '../api';
-// import { Row, Col } from 'reactstrap';
+import helper from '../helpers'
 import ReviewForm from './ReviewForm'
 import OneMovieForm from './OneMovieForm'
 
@@ -35,21 +34,23 @@ class EditEventPanel extends Component {
     .then( event => {
       this.setState({
         oldEvent: event
-      }, () => {
-        Object.keys(event).map(key => {
-          switch(key) {
-            case '_movies':
-              this.setState({
-                [key]: event[key].map(event => event._id)
-              })
-              break
-            default:
-              this.setState({
-                [key]: event[key]
-              })
-          }
-          return false
-        })
+      })
+      return event
+    })
+    .then (event => {
+      Object.keys(event).map(key => {
+        switch(key) {
+          case '_movies':
+            this.setState({
+              [key]: event[key].map(event => event._id)
+            })
+            break
+          default:
+            this.setState({
+              [key]: event[key]
+            })
+        }
+        return false
       })
     })
     .catch(err => { throw err } );
@@ -76,7 +77,12 @@ class EditEventPanel extends Component {
         )
       })
     } else {
-      this.state.movieId && details.push(<h6 key={this.state.movieId}>{ this.state.oldEvent._movie.find(movie => movie._id === this.state.movieId).title }</h6>)
+      this.state.movieId ? console.log("movieID --->", this.state.movieId) : console.log("No movie id")
+      if (!this.state.movieId && this.state.oldEvent)
+        details.push(<h6 key={this.state.movieId}>{ this.state.oldEvent._movie.title }</h6>)
+      else if (this.state.movies)
+      details.push(<h6 key={this.state.movieId}>{ this.state.movies.find(m => m._id === this.state.movieId).title }</h6>)
+
       this.state.dates && this.state.dates.map( (element, index) => {
         return details.push(
           <div key={`${element}-${index}`} className="border rounded my-2 bg-secondary text-white">
@@ -185,7 +191,7 @@ class EditEventPanel extends Component {
               <ReviewForm
                 // TODO: after pinned movies problem with updating
                 // 
-                movies={this.props.movies}
+                movies={helper.merge(this.props.movies, this.state.oldEvent._movies)}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
                 movieDate={this.state.movieDate}
