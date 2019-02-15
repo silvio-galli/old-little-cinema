@@ -19,8 +19,8 @@ class EditEventPanel extends Component {
       _movies: [],
       movieDate: '',
       movieShowtime: '',
-      movieId: '',
-      _movie: ''
+      movieId: null,
+      _movie: null
     }
 
     this._handleInputChange = this._handleInputChange.bind(this)
@@ -58,13 +58,15 @@ class EditEventPanel extends Component {
 
   render() {
     let details = []
+    console.log("this.state.movies -->", this.state.movies)
     if (this.state.kind && this.state.kind === "review") {
+      console.log("THIS IS A REVIEW!!! Load movies of this event...")
       this.state._movies && this.state._movies.map( (_movieId, index) => {
         return details.push(
           <div key={_movieId} className="border rounded my-2 p-2 bg-secondary text-white">
             <h5 className="no-underline">
               { this.props.movies.concat(this.state.oldEvent._movies).find( movie => movie._id === _movieId ).title }
-            </h5>
+            </h5> 
             <b>Date:</b> { this.state.dates[index] }<br />
             <b>Showtime</b> { this.state.showtimes[index] }<br />
             <button
@@ -77,11 +79,16 @@ class EditEventPanel extends Component {
         )
       })
     } else {
-      this.state.movieId ? console.log("movieID --->", this.state.movieId) : console.log("No movie id")
-      if (!this.state.movieId && this.state.oldEvent)
+      console.log("SINGLE MOVIE EVENT")
+      console.log("this.state.movieId ->", this.state.movieId ? this.state.movieId : "false")
+      if (this.state.kind && !this.state.movieId && this.state.oldEvent) {
+        console.log("If it's a single movie event: we GET the title from this.state.oldEvent._movie");
         details.push(<h6 key={this.state.movieId}>{ this.state.oldEvent._movie.title }</h6>)
-      else if (this.state.movies)
-      details.push(<h6 key={this.state.movieId}>{ this.state.movies.find(m => m._id === this.state.movieId).title }</h6>)
+      }
+      else if (this.state.movies) {
+        console.log("If we have this.state.movies it means the we pinned movies because we want to change the movie linked to this event");
+        details.push(<h6 key={this.state.movieId}>{ this.state.movies.find(m => m._id === this.state.movieId).title }</h6>)
+      }
 
       this.state.dates && this.state.dates.map( (element, index) => {
         return details.push(
@@ -190,7 +197,12 @@ class EditEventPanel extends Component {
               this.state.kind === "review" &&
               <ReviewForm
                 // TODO: after pinned movies problem with updating
-                // 
+
+                // helper.merge concatenates two arrays and
+                // removes possible duplicate movies inside the two list
+                // pinnedMovies (coming from parent component as props)
+                // +
+                // this.state.oldEvent._movies (the movies already in the event)
                 movies={helper.merge(this.props.movies, this.state.oldEvent._movies)}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
@@ -204,7 +216,12 @@ class EditEventPanel extends Component {
               this.state.kind && this.state.kind !== "review" &&
               <OneMovieForm
                 // TODO: after pinned movies problem with updating
-                //
+                
+                // helper.merge concatenates two arrays and
+                // removes possible duplicate movies inside the two list
+                // pinnedMovies (coming from parent component as props)
+                // +
+                // [this.state.oldEvent._movie] (the movie already in the event)
                 movies={helper.merge(this.props.movies, [this.state.oldEvent._movie])}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
@@ -288,7 +305,7 @@ class EditEventPanel extends Component {
     if (data.kind === "review") {
       data._movies = this.state._movies
     } else {
-      data._movie = this.state.movieId || this.state._movie._id
+      data._movie = this.state.movieId !== "nomovie" ? this.state.movieId : this.state.oldEvent._movie._id
       data._movies = []
     }
 

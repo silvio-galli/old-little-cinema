@@ -6,7 +6,7 @@ class OneMovieForm extends Component {
     return (
       <div>
         <select id="movieId" name="movieId" className="form-control" onChange={this.props.handleChange} value={this.props.movieId} required>
-          <option value='Select a movie'>Select a movie</option>
+          <option value="nomovie" placeholder='Select a movie'>Select a movie</option>
           { 
             this.props.movies.sort((a,b) => {
               if(a.title < b.title) return -1;

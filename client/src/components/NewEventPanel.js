@@ -16,6 +16,7 @@ class NewEventPanel extends Component {
       dates: [],
       showtimes: [],
       _movies: [],
+      isOriginalTrack: [],
       movieDate: '',
       movieShowtime: '',
       movieId: ''
@@ -24,20 +25,20 @@ class NewEventPanel extends Component {
     this._handleInputChange = this._handleInputChange.bind(this)
   }
 
-  handleChangeMovieDetails(e) {
-    e.preventDefault();
-    console.log( "MOVIE DETAILS -->", e.target.value )
-    if (e.target.name === 'dates') {
+  // handleChangeMovieDetails(e) {
+  //   e.preventDefault();
+  //   console.log( "MOVIE DETAILS -->", e.target.value )
+  //   if (e.target.name === 'dates') {
         
-    } else if ( e.target.name === 'showtimes' ) {
+  //   } else if ( e.target.name === 'showtimes' ) {
       
-    } else if (e.target.name === '_movies') {
+  //   } else if (e.target.name === '_movies') {
       
-    }
-    console.log( "DATES -->", this.state.dates );
-    console.log( "SHOWTIMES -->", this.state.showtimes );
-    console.log( "_MOVIES -->", this.state._movies );
-  }
+  //   }
+  //   console.log( "DATES -->", this.state.dates );
+  //   console.log( "SHOWTIMES -->", this.state.showtimes );
+  //   console.log( "_MOVIES -->", this.state._movies );
+  // }
 
   handleAddMovieToEvent(e){
     e.preventDefault();
