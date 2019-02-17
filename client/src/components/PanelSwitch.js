@@ -1,5 +1,5 @@
 import React from 'react';
-import EditMoviePanel from './Event/EditMoviePanel';
+import EditMoviePanel from './EditMoviePanel';
 import EditEventPanel from './Event/EditEventPanel';
 import NewEventPanel from './Event/NewEventPanel';
 import PreviewEventPanel from './Event/PreviewEventPanel';

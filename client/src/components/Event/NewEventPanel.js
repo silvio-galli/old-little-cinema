@@ -183,6 +183,7 @@ class NewEventPanel extends Component {
             {
               this.state.kind && this.state.kind !== "review" &&
               <OneMovieForm
+                eventKind={this.state.kind}
                 movies={this.props.movies}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this.handleAddMovieToEvent.bind(this)}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../../api';
+import api from '../api';
 import { Row, Col } from 'reactstrap';
 
 class MoviePanel extends Component {
