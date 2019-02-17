@@ -207,9 +207,22 @@ class NewEventPanel extends Component {
 
   //
   _handleInputChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    if (
+      e.target.name === 'kind' && this.state.kind !== "review" && e.target.value === "review"
+      ||
+      e.target.name === 'kind' && this.state.kind === "review" && e.target.value !== "review"
+    ) {
+      this.setState({
+        dates: [],
+        showtimes: [],
+        movies: [],
+        [e.target.name]: e.target.value
+      })
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value
+      })
+    }
   }
 
   //
