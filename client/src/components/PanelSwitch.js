@@ -1,8 +1,8 @@
 import React from 'react';
-import EditMoviePanel from './EditMoviePanel';
-import EditEventPanel from './EditEventPanel';
-import NewEventPanel from './NewEventPanel';
-import PreviewEventPanel from './PreviewEventPanel';
+import EditMoviePanel from './Event/EditMoviePanel';
+import EditEventPanel from './Event/EditEventPanel';
+import NewEventPanel from './Event/NewEventPanel';
+import PreviewEventPanel from './Event/PreviewEventPanel';
 
 
 function PanelSwitch(props) {

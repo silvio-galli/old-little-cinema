@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import api from '../api';
-import helpers from '../helpers'
+import api from '../../api';
+import { helpers } from '../../helpers'
 
 class PreviewEventPanel extends Component {
   constructor(props) {

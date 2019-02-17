@@ -1,5 +1,4 @@
-export default {
-
+const helpers = {
   // remove duplicate objects inside the two list of movies 
   merge(arr1, arr2) {
     let bigArr =  arr1.concat(arr2)
@@ -9,9 +8,17 @@ export default {
       return res
     }, [])
   },
-
+  
   // call to display the string of showtimes
   displayTimes(s) {
     return s.trim().replace(' ', '').split(',').join(' / ')
   }
+}
+
+let { merge, displayTimes } = helpers
+
+export {
+  helpers,
+  merge,
+  displayTimes
 }

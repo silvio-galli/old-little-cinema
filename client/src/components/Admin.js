@@ -3,7 +3,7 @@ import tmdbApi from '../tmdbApi'
 import api from '../api'
 import Movie from './Movie'
 import LocalMovie from './LocalMovie'
-import EventButton from './EventButton'
+import EventButton from './Event/EventButton'
 import SearchForm from './SearchForm'
 import ApiResultPaginationList from './ApiResultPaginationList'
 import PanelSwitch from './PanelSwitch'
@@ -275,13 +275,13 @@ class Admin extends Component {
                           <EventButton
                             key={event._id}
                             id={event._id}
-                            kind={event.kind}
-                            movieTitle= {event._movie ? event._movie.title : null}
                             title={event.title}
                             setPanelToDisplay={ this._setPanelToDisplay }
                             active={event.active}
                             published={event.public}
-                          />
+                          >
+                            { event.kind === "review" ? `${event.kind} - ${event.title}` : `${event.kind} - ${event._movie.title}`  }
+                          </EventButton>
                         )
                       })
                     }

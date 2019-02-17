@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import api from '../api';
-import helper from '../helpers'
-import ReviewForm from './ReviewForm'
-import OneMovieForm from './OneMovieForm'
+import api from '../../api';
+import { merge } from '../../helpers'
+import ReviewForm from '../ReviewForm'
+import OneMovieForm from '../OneMovieForm'
 
 class EditEventPanel extends Component {
   constructor(props) {
@@ -198,12 +198,12 @@ class EditEventPanel extends Component {
               <ReviewForm
                 // TODO: after pinned movies problem with updating
 
-                // helper.merge concatenates two arrays and
+                // merge (from helpers.js) concatenates two arrays and
                 // removes possible duplicate movies inside the two list
                 // pinnedMovies (coming from parent component as props)
                 // +
                 // this.state.oldEvent._movies (the movies already in the event)
-                movies={helper.merge(this.props.movies, this.state.oldEvent._movies)}
+                movies={merge(this.props.movies, this.state.oldEvent._movies)}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
                 movieDate={this.state.movieDate}
@@ -217,12 +217,12 @@ class EditEventPanel extends Component {
               <OneMovieForm
                 // TODO: after pinned movies problem with updating
                 
-                // helper.merge concatenates two arrays and
+                // merge (from helpers.js) concatenates two arrays and
                 // removes possible duplicate movies inside the two list
                 // pinnedMovies (coming from parent component as props)
                 // +
                 // [this.state.oldEvent._movie] (the movie already in the event)
-                movies={helper.merge(this.props.movies, [this.state.oldEvent._movie])}
+                movies={merge(this.props.movies, [this.state.oldEvent._movie])}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this._handleAddMovieToEvent}
                 movieDate={this.state.movieDate}
@@ -305,7 +305,7 @@ class EditEventPanel extends Component {
     if (data.kind === "review") {
       data._movies = this.state._movies
     } else {
-      data._movie = this.state.movieId !== "nomovie" ? this.state.movieId : this.state.oldEvent._movie._id
+      data._movie = this.state.movieId && this.state.movieId !== "nomovie" ? this.state.movieId : this.state.oldEvent._movie._id
       data._movies = []
     }
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import ReviewForm from './ReviewForm'
-import OneMovieForm from './OneMovieForm'
+import ReviewForm from '../ReviewForm'
+import OneMovieForm from '../OneMovieForm'
 // import { Route, Switch, NavLink, Link } from 'react-router-dom';
-import api from '../api'
+import api from '../../api'
+import { displayTimes } from '../../helpers'
 
 class NewEventPanel extends Component {
   constructor(props) {
@@ -73,7 +74,7 @@ class NewEventPanel extends Component {
               { this.props.movies.find( movie => movie._id === element ).title }
             </h5>
             <b>Date:</b> { this.state.dates[index] }<br />
-            <b>Showtime</b> { api.displayTimes(this.state.showtimes[index]) }
+            <b>Showtime</b> { displayTimes(this.state.showtimes[index]) }
           </div>
         )
       })
@@ -83,7 +84,7 @@ class NewEventPanel extends Component {
         return details.push(
           <div key={`${element}-${index}`} className="border rounded my-2 bg-secondary text-white">
             <b>Date:</b> { this.state.dates[index] }<br />
-            <b>Showtime</b> { api.displayTimes(this.state.showtimes[index]) }
+            <b>Showtime</b> { displayTimes(this.state.showtimes[index]) }
           </div>
         )
       })
