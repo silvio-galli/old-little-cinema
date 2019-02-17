@@ -10,7 +10,7 @@ function Event(props) {
       onClick={() => props.setPanelToDisplay('PREVIEW_EVENT_PANEL', props.id )}
       active={props.active}
     >
-      { props.kind === "review" ? `${props.kind} - ${props.title}` : `${props.kind} - ${props.movieTitle}`  }
+      { props.children }
     </Button>
   )
 }

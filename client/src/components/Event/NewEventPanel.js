@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import ReviewForm from './ReviewForm'
-import OneMovieForm from './OneMovieForm'
+import ReviewForm from '../ReviewForm'
+import OneMovieForm from '../OneMovieForm'
 // import { Route, Switch, NavLink, Link } from 'react-router-dom';
-import api from '../api'
+import api from '../../api'
+import { displayTimes } from '../../helpers'
 
 class NewEventPanel extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class NewEventPanel extends Component {
       dates: [],
       showtimes: [],
       _movies: [],
+      isOriginalTrack: [],
       movieDate: '',
       movieShowtime: '',
       movieId: ''
@@ -24,20 +26,20 @@ class NewEventPanel extends Component {
     this._handleInputChange = this._handleInputChange.bind(this)
   }
 
-  handleChangeMovieDetails(e) {
-    e.preventDefault();
-    console.log( "MOVIE DETAILS -->", e.target.value )
-    if (e.target.name === 'dates') {
+  // handleChangeMovieDetails(e) {
+  //   e.preventDefault();
+  //   console.log( "MOVIE DETAILS -->", e.target.value )
+  //   if (e.target.name === 'dates') {
         
-    } else if ( e.target.name === 'showtimes' ) {
+  //   } else if ( e.target.name === 'showtimes' ) {
       
-    } else if (e.target.name === '_movies') {
+  //   } else if (e.target.name === '_movies') {
       
-    }
-    console.log( "DATES -->", this.state.dates );
-    console.log( "SHOWTIMES -->", this.state.showtimes );
-    console.log( "_MOVIES -->", this.state._movies );
-  }
+  //   }
+  //   console.log( "DATES -->", this.state.dates );
+  //   console.log( "SHOWTIMES -->", this.state.showtimes );
+  //   console.log( "_MOVIES -->", this.state._movies );
+  // }
 
   handleAddMovieToEvent(e){
     e.preventDefault();
@@ -72,7 +74,7 @@ class NewEventPanel extends Component {
               { this.props.movies.find( movie => movie._id === element ).title }
             </h5>
             <b>Date:</b> { this.state.dates[index] }<br />
-            <b>Showtime</b> { api.displayTimes(this.state.showtimes[index]) }
+            <b>Showtime</b> { displayTimes(this.state.showtimes[index]) }
           </div>
         )
       })
@@ -82,7 +84,7 @@ class NewEventPanel extends Component {
         return details.push(
           <div key={`${element}-${index}`} className="border rounded my-2 bg-secondary text-white">
             <b>Date:</b> { this.state.dates[index] }<br />
-            <b>Showtime</b> { api.displayTimes(this.state.showtimes[index]) }
+            <b>Showtime</b> { displayTimes(this.state.showtimes[index]) }
           </div>
         )
       })
@@ -95,7 +97,7 @@ class NewEventPanel extends Component {
         <div className="row border rounded p-2">
           <div className="col-md-6">
             {/* FIRST FORM starts here */}
-            <form className="form needs-validation" onSubmit={this._handleSubmit.bind(this)} noValidate>
+            <form className="form needs-validation" onSubmit={this._handleSubmit.bind(this)}>
 
               <div className="form-group m-1">
                 <select name="kind" id="kind" className="form-control" onChange={this._handleInputChange} required>
@@ -181,6 +183,7 @@ class NewEventPanel extends Component {
             {
               this.state.kind && this.state.kind !== "review" &&
               <OneMovieForm
+                eventKind={this.state.kind}
                 movies={this.props.movies}
                 handleChange={this._handleInputChange}
                 handleAddMovieToEvent={this.handleAddMovieToEvent.bind(this)}
@@ -204,9 +207,22 @@ class NewEventPanel extends Component {
 
   //
   _handleInputChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    if (
+      e.target.name === 'kind' && this.state.kind !== "review" && e.target.value === "review"
+      ||
+      e.target.name === 'kind' && this.state.kind === "review" && e.target.value !== "review"
+    ) {
+      this.setState({
+        dates: [],
+        showtimes: [],
+        movies: [],
+        [e.target.name]: e.target.value
+      })
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value
+      })
+    }
   }
 
   //

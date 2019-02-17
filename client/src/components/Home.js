@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from '../api'
-import EventHome from './EventHome'
+import EventHome from './Event/EventHome'
 import './Home.css'
 
 class Home extends Component {

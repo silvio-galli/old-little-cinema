@@ -155,10 +155,5 @@ export default {
       })
       .then(res => res.data)
       .catch(errHandler);
-  },
-
-  displayTimes(s) {
-    return s.trim().replace(' ', '').split(',').join(' || ')
   }
-
 };

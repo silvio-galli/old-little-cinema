@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ReviewForm extends Component {
-
-  render() {
-    return (
-      <form className="form border rounded" onSubmit={this.props.handleAddMovieToEvent}>
-        <h6>Add a movie</h6>
+function ReviewForm(props) {
+  return (
+    <div>
+      <h6>Add a movie to this review</h6>
+      <form className="form border rounded" onSubmit={props.handleAddMovieToEvent}>
         
-        <select id="movieId" name="movieId" className="form-control" onChange={this.props.handleChange} value={this.props.movieId} required>
-          <option value='Select a movie'>Select a movie</option>
+        <select id="movieId" name="movieId" className="form-control" onChange={props.handleChange} value={props.movieId} required>
+          <option value="" placeholder='Select a movie'>Select a movie</option>
           { 
-            this.props.movies.sort((a,b) => {
+            props.movies.sort((a,b) => {
               if(a.title < b.title) return -1;
               if(a.title > b.title) return 1;
               return 0
@@ -26,8 +25,8 @@ class ReviewForm extends Component {
             className="form-control"
             id="movieDate"
             name="movieDate"
-            value={this.props.movieDate}
-            onChange={this.props.handleChange}
+            value={props.movieDate}
+            onChange={props.handleChange}
             required
           />
         </div>
@@ -38,9 +37,9 @@ class ReviewForm extends Component {
             className="form-control"
             id="movieShowtime"
             name="movieShowtime"
-            value={this.props.movieShowtime}
+            value={props.movieShowtime}
             placeholder="Enter showtime for this movie"
-            onChange={this.props.handleChange}
+            onChange={props.handleChange}
             required
           />
         </div>
@@ -49,8 +48,9 @@ class ReviewForm extends Component {
           <button type="submit" className="btn btn-outline-secondary">Add Movie</button>
         </div>
       </form>
-    )
-  }
+    </div>
+  )
 }
+
 
 export default ReviewForm

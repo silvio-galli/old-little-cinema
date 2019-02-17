@@ -1,5 +1,5 @@
 import React from 'react'
-import MovieBox from './MovieBox'
+import MovieBox from '../MovieBox'
 
 function EventHome(props) {
   let {event} = props

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import api from '../api';
+import api from '../../api';
+import { helpers } from '../../helpers'
 
 class PreviewEventPanel extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class PreviewEventPanel extends Component {
             <p>
             <b>{ movie.title }</b><br />
             <b>Date:</b> { dates[index] }<br />
-            <b>Showtime</b> { api.displayTimes(showtimes[index]) }
+            <b>Showtime</b> { helpers.displayTimes(showtimes[index]) }
             </p>
             <div className="clearfix"></div>
           </div>
@@ -60,7 +61,7 @@ class PreviewEventPanel extends Component {
         details.push(
           <div key={`${date}-${index}`} className="my-2 p-2 border rounded bg-light">
             <b>Date:</b> { date }<br />
-            <b>Showtime</b> { api.displayTimes(showtimes[index]) }
+            <b>Showtime</b> { helpers.displayTimes(showtimes[index]) }
           </div>
         )
         return false
