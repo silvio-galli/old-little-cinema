@@ -196,8 +196,6 @@ class EditEventPanel extends Component {
             {
               this.state.kind === "review" &&
               <ReviewForm
-                // TODO: after pinned movies problem with updating
-
                 // merge (from helpers.js) concatenates two arrays and
                 // removes possible duplicate movies inside the two list
                 // pinnedMovies (coming from parent component as props)
@@ -215,8 +213,6 @@ class EditEventPanel extends Component {
             {
               this.state.kind && this.state.kind !== "review" &&
               <OneMovieForm
-                // TODO: after pinned movies problem with updating
-                
                 // merge (from helpers.js) concatenates two arrays and
                 // removes possible duplicate movies inside the two list
                 // pinnedMovies (coming from parent component as props)
