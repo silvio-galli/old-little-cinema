@@ -4,17 +4,17 @@ const User = require('../models/user');
 const passport = require('passport');
 const config = require('../configs/index');
 
-const cloudinary = require('cloudinary');
-const cloudinaryStorage = require('multer-storage-cloudinary');
-const multer = require('multer');
+// const cloudinary = require('cloudinary');
+// const cloudinaryStorage = require('multer-storage-cloudinary');
+// const multer = require('multer');
 
-const storage = cloudinaryStorage({
-  cloudinary,
-  folder: 'my-images',
-  allowedFormats: ['jpg', 'png', 'gif'],
-});
+// const storage = cloudinaryStorage({
+//   cloudinary,
+//   folder: 'my-images',
+//   allowedFormats: ['jpg', 'png', 'gif'],
+// });
 
-const parser = multer({ storage });
+// const parser = multer({ storage });
 
 
 // Route to get all users
@@ -36,15 +36,15 @@ router.get('/', (req, res, next) => {
 //     <input type="file" name="picture" />
 //     <input type="submit" value="Upload" />
 //   </form>
-router.post('/first-user/pictures', parser.single('picture'), (req, res, next) => {
-  console.log('DEBUG req.file', req.file);
-  User.findOneAndUpdate({}, { pictureUrl: req.file.url })
-    .then(() => {
-      res.json({
-        success: true,
-        pictureUrl: req.file.url
-      })
-    })
-});
+// router.post('/first-user/pictures', parser.single('picture'), (req, res, next) => {
+//   console.log('DEBUG req.file', req.file);
+//   User.findOneAndUpdate({}, { pictureUrl: req.file.url })
+//     .then(() => {
+//       res.json({
+//         success: true,
+//         pictureUrl: req.file.url
+//       })
+//     })
+// });
 
 module.exports = router;
