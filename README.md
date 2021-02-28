@@ -1,5 +1,6 @@
 # Old Little Cinema
-### MERN application
+
+## MERN application
 
 This is a draft for an administration panel to manage events of a cinema.
 
@@ -12,27 +13,32 @@ Please, note that the application can be very slow the first time you access it,
 If you want to try the app locally you need have NodeJS and MongoDB installed on your pc ( information to install Node [here](https://nodejs.org/en/download/) or [here](https://github.com/creationix/nvm#installation) and for MongoDB [here](https://docs.mongodb.com/manual/administration/install-community/) ).
 
 Then, clone this repository:
+
 ```bash
 git clone --depth=1 git@github.com:silvio-galli/old-little-cinema.git
 ```
 
 Change your directory:
+
 ```bash
 cd old-little-cinema
 ```
 
 Install all the dependencies:
+
 ```bash
 npm install
 ``` 
 
 Then, in order to run the application, you need to have two terminal windows opened (one for the backend and one for the frontend).
 On one run this command:
+
 ```bash
 npm run dev:server
 ```
 
 On the other terminal, run:
+
 ```bash
 npm run dev:client
 ```
@@ -40,9 +46,9 @@ npm run dev:client
 ### Files to add
 
 You should have a `server/.env` file, with the following values:
-```
-MOVIEDB_API_KEY=....
-```
+
+`MOVIEDB_API_KEY=....`
+
 To query theMovieDB API is mandatory to have a key to access the database. In order to have an API key you need to [create an account on www.themoviedb.org](https://www.themoviedb.org/account/signup) and then paste it in the `srevr/.env` file.
 
 ---
