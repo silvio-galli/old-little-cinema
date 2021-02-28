@@ -1,12 +1,21 @@
 'use strict';
-require('dotenv').config()
 
+require('dotenv').config();
 const mongoose = require('mongoose');
-const dbName = 'old-little-cinema';
-const mongoUri = process.env.MONGODB_URI || `mongodb://localhost/${dbName}`;
+
+const mongoPort = process.env.MONGODB_PORT || 27017;
+const dbName = process.env.DB_NAME || 'old-little-cinema';
+const mongoUri = process.env.MONGODB_URI || `mongodb://localhost:${mongoPort}/${dbName}`;
+
+const options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+};
 
 // connect to the database
-mongoose.connect(mongoUri);
+mongoose.connect(mongoUri, options);
 
 const db = mongoose.connection;
 

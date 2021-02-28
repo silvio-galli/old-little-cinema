@@ -18,7 +18,7 @@ var eventsRoutes = require('./routes/events');
 var usersRoutes = require('./routes/users');
 
 require('./configs/database');
-require('./configs/cloudinary');
+// require('./configs/cloudinary');
 
 
 const app = express();
