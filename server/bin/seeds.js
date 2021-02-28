@@ -1,10 +1,27 @@
+'use strict';
+
 const mongoose = require('mongoose');
+
 const Movie = require('../models/movie');
 const User = require('../models/user');
 
-const dbName = 'old-little-cinema';
-const mongoUri = process.env.MONGODB_URI || `mongodb://localhost/${dbName}`;
-mongoose.connect(mongoUri);
+const dbName = process.env.DB_NAME || 'old-little-cinema';
+const mongoPort = process.env.MONGODB_PORT || 27017;
+const mongoUri = process.env.MONGODB_URI || `mongodb://localhost_${mongoPort}/${dbName}`;
+const mongoOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+};
+
+const password = "password";
+
+const user = new User({
+  name: "test",
+  email: "test@test.com",
+  password,
+});
 
 const movies = [
   {
@@ -20,7 +37,7 @@ const movies = [
     genres: ["Fantasy", "Action"],
     production_countries: ["USA"],
     release_date: "2002-05-01",
-    runtime: 121
+    runtime: 121,
   },
   {
     tmdb_id: 672,
@@ -36,7 +53,7 @@ const movies = [
     genres: ["Adventure", "Fantasy", "Family"],
     production_countries: ["Germany", "United Kingdom", "USA"],
     release_date: "2002-11-1",
-    runtime: 161
+    runtime: 161,
   },
   {
     tmdb_id:675,
@@ -52,29 +69,32 @@ const movies = [
     "genres": ["Adventure", "Fantasy", "Family"],
     "production_countries": ["Germany", "United Kingdom", "USA"],
     "release_date": "2007-06-28",
-    "runtime":138
+    "runtime":138,
+  },
+];
+
+(async () => {
+  try {
+
+    await mongoose.connect(mongoUri, mongoOptions);
+    
+    // Reset db
+    await Movie.deleteMany();
+    await User.deleteMany();
+
+    // Create Movies documents
+    await Movie.create(movies);
+    console.log( "Movies successfully created!")
+
+    // Create user
+    await User.create(user);
+    console.log( "User successfully created!" )
+    process.exit(0);
+
+  } catch (err) {
+    console.log('Error while seeding db...');
+    console.trace(err);
+    process.exit(1);
   }
-]
-
-let password = "password";
-
-let user = new User({
-  name: "test",
-  email: "test@test.com"
-});
-
-
-Movie.deleteMany()
-.then( _ => User.deleteMany())
-.then( _ => Movie.create(movies))
-.then( newMovies => {
-  console.log(`Created ${newMovies.runtime} movies`)
-  console.log( "Success")
-})
-.then( _ => User.register(user, password) )
-.then( userDoc => {
-  console.log( "Success, user created" )
-})
-.then( _ => mongoose.connection.close() )
-.catch( err => { throw err } );
-
+  
+})();
