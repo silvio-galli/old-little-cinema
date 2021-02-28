@@ -28,7 +28,7 @@ Install all the dependencies:
 
 ```bash
 npm install
-``` 
+```
 
 Then, in order to run the application, you need to have two terminal windows opened (one for the backend and one for the frontend).
 On one run this command:
